@@ -9,9 +9,9 @@ export default function Home() {
   return (
     <>
       <div className="flex h-screen justify-center items-center">
-      </div>
-      <div className="absolute top-0 right-0">
-        <UserButton />
+        <div className="text-center">
+          This is the index Page
+        </div>
       </div>
     </>
   )
