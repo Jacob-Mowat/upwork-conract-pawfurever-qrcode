@@ -27,7 +27,7 @@ export default function RootLayout({
             </div>
 
             <div className="grow text-center text-2xl">
-              Paw Fur Ever - Dog QR Tagger
+              PawFurEver - QR
             </div>
             <div className="flex-none px-8">
               <UserButton />
