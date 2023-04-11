@@ -1,9 +1,9 @@
 import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from './page.module.css'
-import { UserButton, UserProfile } from '@clerk/nextjs/app-beta/client'
 
-const inter = Inter({ subsets: ['latin'] })
+// TODO: check if this is a better way to import fonts
+// import { Josefin_Sans } from 'next/font/google'
+
+import styles from './page.module.css';
 
 export default function Home() {
   return (

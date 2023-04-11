@@ -11,8 +11,15 @@ module.exports = {
   theme: {
     extend: {
       colors: { 
-        'primary': "#FFFFFF",
-        'secondary': "#f0e2fc"
+        'dark-purple': "#1F164D",
+        'purple': "#7E5F9B",
+        'light-purple': "#BEA1DA",
+        'lightest-purple': "#F0E2FC",
+        'cream': "#FFF7EC",
+      },
+      fontFamily: {
+        'playfair': ['Playfair Display', 'serif'],
+        'josefin': ['Josefin Sans', 'sans-serif'],
       }
     },
   },

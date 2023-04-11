@@ -20,8 +20,8 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body>
-          <div className="flex flex-row w-full h-16 bg-primary items-center border-b-2">
+        <body className="body-font font-playfair bg-cream">
+          <div className="flex flex-row w-full h-16 bg-cream items-center border-b-2 border-lightest-purple">
             <div className="flex-none px-8">
               <img src="https://cdn.shopify.com/s/files/1/0584/8714/4505/files/PawFurEver-03_125x.png?v=1650435807" width="64" height="64" alt="PawFurEver" />
             </div>
