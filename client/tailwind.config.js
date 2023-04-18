@@ -22,9 +22,14 @@ module.exports = {
         'josefin': ['Josefin Sans', 'sans-serif'],
       }
     },
+    fontSize: {
+      baseCustom: ['18px', '18px'],
+      headingCustom: ['40px', '40spx']
+    }
   },
   plugins: [
     require('@tailwindcss/forms'),
+    require('flowbite/plugin')
   ],
 }
 

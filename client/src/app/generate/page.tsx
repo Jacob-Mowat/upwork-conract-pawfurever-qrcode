@@ -87,7 +87,7 @@ export default function Home() {
 
                 svgElement.innerHTML = `
                     <g transform="translate(0, -3.14)">${QRCodeHTML}</g>
-                    <rect class="setup-key" x="0" y="${(qrCodeHeight/(qrCodeHeight+(qrCodeSetupKeyHeight)))*100}%" width="100%" height="${(qrCodeSetupKeyHeight/(qrCodeHeight+qrCodeSetupKeyHeight))*100}%" fill="#BEA1DA"/>
+                    <rect class="setup-key" x="0" y="${(qrCodeHeight/(qrCodeHeight+(qrCodeSetupKeyHeight)))*100}%" width="100%" height="${(qrCodeSetupKeyHeight/(qrCodeHeight+qrCodeSetupKeyHeight))*100}%" fill="#FFFFFF"/>
                     <text class="setup-key-font" x='50%' y='${(qrCodeHeight/(qrCodeHeight+(qrCodeSetupKeyHeight/2)))*100}%' dominant-baseline='middle' text-anchor='middle' font-weight="bolder" font-size='3px' font-family="Arial" fill="black">${(await tagResponse.body.tags[i].setup_key as string).toUpperCase()}</text>
                 `;
 
@@ -170,7 +170,7 @@ export default function Home() {
                                     width: qrCodeHeight,
                                     color: {
                                     dark: '#000000',
-                                    light: '#BEA1DA',
+                                    light: '#FFFFFF',
                                     },
                                 }}
                             />)}

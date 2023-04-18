@@ -27,4 +27,24 @@ export async function POST(request: Request) {
         }
     });
 }
+
+export async function GET(request: Request) {
+    const  { searchParams } = new URL(request.url);
+    const token = searchParams.get('token');
+
+    const tag = await prisma.tags.findUnique({
+        where: {
+            TAG_TOKEN: token as string
+        }
+    });
+
+    return NextResponse.json({
+        status:200,
+        body: {
+            tag: tag
+        }
+    });
+}
+
+
   

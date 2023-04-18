@@ -2,6 +2,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import JSZip from "jszip";
+const svgFlatten = require('svg-flatten');
 
 import fs from 'fs';
 
@@ -15,16 +16,17 @@ export async function POST(request: Request) {
 
     // Create a zip file
     const zip = new JSZip();
-    
-    // Make sure folder exists on filesystem with name `./uploads/${uuid}`
-    fs.mkdirSync(`./uploads/${uuid}`, { recursive: true }); 
-
-    // Add new folder to zip file
-    var uploadsFolder = zip.folder(`./uploads/${uuid}`);
 
     for (let i = 0; i < svg_list.length; i++) {
-        // Save svg data to `./uploads/${uuid}/${svg_list[i].name}.svg`
-        uploadsFolder?.file(`qr-code (${svg_list[i].name}).svg`, svg_list[i].data);
+        const svg = svg_list[i].data;
+        console.log(svg);
+
+        // Flatten svg data
+        const flattenedSvg = svgFlatten(svg).pathify().transform().value();
+        console.log(flattenedSvg);
+
+        // Save svg data to `${svg_list[i].name}.svg`
+        zip.file(`qr-code (${svg_list[i].name}).svg`, flattenedSvg);
     }
 
     // Create a zip file    
