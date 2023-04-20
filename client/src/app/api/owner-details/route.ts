@@ -22,19 +22,19 @@ export async function GET(request: Request) {
 };
 
 export async function POST(request: Request) {
-    const { ownerDetails } = await request.json();
+    const { firstname, lastname, phone_number, addressline1, addressline2, zipcode, ownerID } = await request.json();
 
     const newOwnerDetails = await prisma.owner_details.create({
         data: {
-            owner_firstname: ownerDetails.owner_firstname,
-            owner_lastname: ownerDetails.owner_lastname,
-            owner_phone_number: ownerDetails.owner_phone_number,
-            owner_address_line1: ownerDetails.owner_address_line1,
-            owner_address_line2: ownerDetails.owner_address_line2,
-            owner_address_zip: ownerDetails.owner_address_zip,
+            owner_firstname: firstname,
+            owner_lastname: lastname,
+            owner_phone_number: phone_number,
+            owner_address_line1: addressline1,
+            owner_address_line2: addressline2,
+            owner_address_zip: zipcode,
             owner: {
                 connect: {
-                    id: ownerDetails.owner.id
+                    id: ownerID
                 }
             }
         }

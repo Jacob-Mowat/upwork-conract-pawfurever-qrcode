@@ -161,9 +161,12 @@ export default function Home() {
                         <div>
                             <SignedIn>
                                 {owner.owner_details_id != null ? (
-                                    <TagSetupKeyView tag={tag} />
+                                    <TagSetupKeyView tag={tag} owner={owner} />
                                 ) : (
-                                    <OwnerAddDetailsView owner={owner} />
+                                    <OwnerAddDetailsView
+                                        owner={owner}
+                                        tag={tag}
+                                    />
                                 )}
                             </SignedIn>
                             <SignedOut>
