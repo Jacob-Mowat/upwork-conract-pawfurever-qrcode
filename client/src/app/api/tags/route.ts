@@ -20,6 +20,8 @@ export async function POST(request: Request) {
         tags = [...tags, tag];
     }
 
+    await prisma.$disconnect();
+
     return NextResponse.json({
         status:200,
         body: {
@@ -37,6 +39,8 @@ export async function GET(request: Request) {
             TAG_TOKEN: token as string
         }
     });
+
+    await prisma.$disconnect();
 
     return NextResponse.json({
         status:200,
