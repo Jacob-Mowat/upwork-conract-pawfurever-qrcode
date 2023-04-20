@@ -31,43 +31,43 @@ export default function OwnerAddDetailsView({
 
                 <input
                     type="text"
-                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)] text-center font-josefin text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                    placeholder="AAA-0000"
+                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)] font-josefin text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                    placeholder="Firstname"
                     pattern="[A-Za-z]{4}-[0-9]{3}"
                     onChange={(e) => setPhoneNumber(e.target.value)}
                 />
                 <input
                     type="text"
-                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)] text-center font-josefin text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                    placeholder="AAA-0000"
+                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)] font-josefin text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                    placeholder="Lastname"
                     pattern="[A-Za-z]{4}-[0-9]{3}"
                     onChange={(e) => setPhoneNumber(e.target.value)}
                 />
                 <input
                     type="text"
-                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)] text-center font-josefin text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                    placeholder="AAA-0000"
+                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)] font-josefin text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                    placeholder="Phone number"
                     pattern="[A-Za-z]{4}-[0-9]{3}"
                     onChange={(e) => setPhoneNumber(e.target.value)}
                 />
                 <input
                     type="text"
-                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)] text-center font-josefin text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                    placeholder="AAA-0000"
+                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)] font-josefin text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                    placeholder="Address line 1"
                     pattern="[A-Za-z]{4}-[0-9]{3}"
                     onChange={(e) => setPhoneNumber(e.target.value)}
                 />
                 <input
                     type="text"
-                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)] text-center font-josefin text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                    placeholder="AAA-0000"
+                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)] font-josefin text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                    placeholder="Address line 2"
                     pattern="[A-Za-z]{4}-[0-9]{3}"
                     onChange={(e) => setPhoneNumber(e.target.value)}
                 />
                 <input
                     type="text"
-                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)] text-center font-josefin text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                    placeholder="AAA-0000"
+                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)] font-josefin text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                    placeholder="Zipcode"
                     pattern="[A-Za-z]{4}-[0-9]{3}"
                     onChange={(e) => setPhoneNumber(e.target.value)}
                 />
