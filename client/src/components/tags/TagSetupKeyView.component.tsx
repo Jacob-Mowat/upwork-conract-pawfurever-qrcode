@@ -26,7 +26,7 @@ export default function TagSetupKeyView({ tag, owner }: TagSetupKeyViewProps) {
 
     const registerTag = async () => {
         const registerRequest = await fetch(
-            `/api/register-tag/?token=${tag.TAG_TOKEN}`,
+            `/api/register-tag/?token=${tag.TAG_TOKEN}&ownerID=${owner.id}`,
             {
                 method: "GET",
                 headers: {
