@@ -153,7 +153,13 @@ export default function Home() {
             <div className="text-center">
                 {token !== "" ? (
                     tag.registered ? (
-                        <TagView tag={tag} />
+                        <>
+                            {tag.tag_details_id != null ? (
+                                <TagView tag={tag} />
+                            ) : (
+                                <TagAddDetailsView tag={tag} />
+                            )}
+                        </>
                     ) : (
                         <div>
                             <SignedIn>
