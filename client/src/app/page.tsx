@@ -26,7 +26,8 @@ export default function Home() {
         created_at: "",
         TAG_TOKEN: "",
         setup_key: "",
-        owner_id: 0,
+        owner_id: null,
+        owner_details_id: null,
     });
 
     const [owner, setOwner] = useState<OwnerType>({

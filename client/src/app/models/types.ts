@@ -4,7 +4,7 @@ export interface TagType {
     created_at: String;
     TAG_TOKEN: String;
     setup_key: String;
-    owner_id: Number;
+    owner_id: String;
     tag_details_id: String;
 };
 
