@@ -143,11 +143,8 @@ export default function Home() {
         fetchData();
     }, [token, user, loadingOwnerData]);
 
-    if (isLoading) {
-        return <LoadingSpinner />;
-    }
-
-    if (loadingOwnerData) {
+    if (token && isLoading) {
+        console.log("Loading");
         return <LoadingSpinner />;
     }
 
@@ -160,13 +157,22 @@ export default function Home() {
                     ) : (
                         <div>
                             <SignedIn>
-                                {owner.owner_details_id != null ? (
-                                    <TagSetupKeyView tag={tag} owner={owner} />
+                                {loadingOwnerData ? (
+                                    <LoadingSpinner />
                                 ) : (
-                                    <OwnerAddDetailsView
-                                        owner={owner}
-                                        tag={tag}
-                                    />
+                                    <>
+                                        {owner.owner_details_id != null ? (
+                                            <TagSetupKeyView
+                                                tag={tag}
+                                                owner={owner}
+                                            />
+                                        ) : (
+                                            <OwnerAddDetailsView
+                                                owner={owner}
+                                                tag={tag}
+                                            />
+                                        )}
+                                    </>
                                 )}
                             </SignedIn>
                             <SignedOut>
