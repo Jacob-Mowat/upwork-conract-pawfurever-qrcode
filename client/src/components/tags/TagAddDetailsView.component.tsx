@@ -34,10 +34,10 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
             return;
         }
 
-        if (petPhotoFile == null) {
-            setErrors(["Pet photo is empty"]);
-            return;
-        }
+        // if (petPhotoFile == null) {
+        //     setErrors(["Pet photo is empty"]);
+        //     return;
+        // }
 
         if (!useOwnerDetails) {
             if (ownersName == "") {
@@ -60,6 +60,8 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                 return;
             }
         }
+
+        console.log(errors);
 
         submitForm();
     };
@@ -89,7 +91,9 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
         });
 
         if (response.status == 200) {
-            router.push("/tags");
+            console.log("Tag details added successfully");
+            console.log(response);
+            router.push("/?token=" + tag.TAG_TOKEN);
         } else {
             setErrors(["Something went wrong"]);
         }
@@ -175,11 +179,17 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                     disabled={useOwnerDetails}
                 />
 
+                {errors.map((error) => (
+                    <div className="text-red-500" key={error}>
+                        {error}
+                    </div>
+                ))}
+
                 <button
                     className="bottom-[36px] w-[100%] bg-dark-purple text-cream h-[48px]"
                     onClick={(e) => verifyForm(e)}
                 >
-                    CONTINUE
+                    ADD TAG
                 </button>
             </div>
         </>

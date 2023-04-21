@@ -60,7 +60,7 @@ export default function TagSetupKeyView({ tag, owner }: TagSetupKeyViewProps) {
                         <input
                             type="text"
                             className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)] text-center  text-base text-[rgba(0,0,0,0.75)]-400"
-                            placeholder="AAA-0000"
+                            placeholder="AAAA-AAA"
                             pattern="[A-Za-z]{3}-[0-9]{4}"
                             onChange={(e) => setSetupKey(e.target.value)}
                         />
