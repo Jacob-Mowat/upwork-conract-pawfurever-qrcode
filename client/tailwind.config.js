@@ -24,7 +24,9 @@ module.exports = {
     },
     fontSize: {
       baseCustom: ['18px', '18px'],
-      headingCustom: ['40px', '40spx']
+      headingCustom: ['40px', '40px'],
+      welcomeCustom: ['24px', '24px'],
+      dogName: ['48px', '48px'],
     }
   },
   plugins: [

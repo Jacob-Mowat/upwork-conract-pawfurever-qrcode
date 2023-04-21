@@ -158,7 +158,21 @@ export default function Home() {
                             {tag.tag_details_id != null ? (
                                 <TagView tag={tag} />
                             ) : (
-                                <TagAddDetailsView tag={tag} />
+                                <>
+                                    <SignedIn>
+                                        {owner.owner_details_id != null ? (
+                                            <TagAddDetailsView tag={tag} />
+                                        ) : (
+                                            <OwnerAddDetailsView
+                                                owner={owner}
+                                                tag={tag}
+                                            />
+                                        )}
+                                    </SignedIn>
+                                    <SignedOut>
+                                        <RedirectToSignIn />
+                                    </SignedOut>
+                                </>
                             )}
                         </>
                     ) : (

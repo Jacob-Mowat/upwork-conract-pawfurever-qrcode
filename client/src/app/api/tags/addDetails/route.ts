@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     const tag_details = await prisma.tag_details.create({
         data: {
             pets_name: pet_name,
-            pets_photo_url: "https://i.imgur.com/8Q5ZQ0x.png",
+            pets_photo_url: "https://cdn.shopify.com/s/files/1/0071/8946/3091/files/adolescent-dog-with-stick.jpg?v=1654258371",
             pets_information: extra_information,
             uses_owners_information: use_owner_details,
             tag_owners_name: use_owner_details ? `${owner_details?.owner_firstname} ${owner_details?.owner_lastname}` : owners_name,
@@ -74,9 +74,6 @@ export async function POST(request: Request) {
 
 };
 
-export async function GET(request: Request) {
-    // TODO: implement retrieving a tag's tag_details using its tag_details_id
-};
 
 
   
