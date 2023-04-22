@@ -64,6 +64,8 @@ export async function POST(request: Request) {
         }
     });
 
+    await prisma.$disconnect();
+
     // respond with the tag_details_id
     return NextResponse.json({ 
         status: 200,

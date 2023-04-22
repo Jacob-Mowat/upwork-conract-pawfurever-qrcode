@@ -20,6 +20,7 @@ export async function POST(request: Request) {
         tags = [...tags, tag];
     }
 
+    // Disconnect from the database
     await prisma.$disconnect();
 
     return NextResponse.json({
@@ -40,6 +41,7 @@ export async function GET(request: Request) {
         }
     });
 
+    // Disconnect from the database
     await prisma.$disconnect();
 
     return NextResponse.json({

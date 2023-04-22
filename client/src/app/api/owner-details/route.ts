@@ -7,18 +7,45 @@ export async function GET(request: Request) {
     const  { searchParams } = new URL(request.url);
     const ownerID = searchParams.get('ownerID');
 
-    // const ownerDetails = prisma.owner_details.findUnique(
-    //     where: { owner: ownerID };
-    // );
+    const owner = await prisma.owners.findUnique({
+        where: { id: parseInt(ownerID as string) },
+    });
 
-    await prisma.$disconnect();
+    if (owner == null) {
+        await prisma.$disconnect();
 
-    // return NextResponse.json({
-    //     status:200,
-    //     body: {
-    //         ownerDetails: ownerDetails
-    //     }
-    // });
+        return NextResponse.json({
+            status: 500,
+            body: {
+                error: "No owner found for this user!"
+            }
+        });
+    } else { 
+        if (owner.owner_details_id == null) {
+            await prisma.$disconnect();
+    
+            return NextResponse.json({
+                status: 500,
+                body: {
+                    error: "No owner details found for this owner!"
+                }
+            });
+        } else {
+            const ownerDetails = await prisma.owner_details.findUnique({
+                where: { id: owner.owner_details_id }
+            });
+
+            // Disconnect from the database
+            await prisma.$disconnect();
+
+            return NextResponse.json({
+                status:200,
+                body: {
+                    ownerDetails: ownerDetails
+                }
+            });
+        }
+    }
 };
 
 export async function POST(request: Request) {
@@ -40,6 +67,19 @@ export async function POST(request: Request) {
         }
     });
 
+    if (newOwnerDetails == null) {
+        // Disconnect from the database
+        await prisma.$disconnect();
+
+        return NextResponse.json({
+            status: 500,
+            body: {
+                error: "Failed to create new owner details!"
+            }
+        });
+    }
+
+    // Disconnect from the database
     await prisma.$disconnect();
 
     return NextResponse.json({

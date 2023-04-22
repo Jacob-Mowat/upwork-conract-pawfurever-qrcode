@@ -34,6 +34,9 @@ export async function GET(request: Request) {
         }
     });
 
+    // Disconnect from the database
+    await prisma.$disconnect();
+
     return NextResponse.json({
         status:200,
         body: {

@@ -3,16 +3,31 @@ import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import { RedirectToSignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import { LoadingSpinner } from "../LoadingSpinner.component";
+import {
+    OwnerDetailsType,
+    OwnerType,
+    TagDetailsType,
+    TagType,
+} from "@/src/app/models/types";
 
 interface TagViewProps {
     tag: any;
+}
+
+interface ExpectedDataType {
+    body: {
+        tag: TagType;
+        owner: OwnerType;
+        owner_details: OwnerDetailsType;
+        tag_details: TagDetailsType;
+    };
 }
 
 export default function TagView({ tag }: TagViewProps) {
     const user = useUser();
 
     const [loadingData, setLoadingData] = useState(true);
-    const [data, setData] = useState(null);
+    const [data, setData] = useState<ExpectedDataType>(null);
 
     useEffect(() => {
         if (loadingData) {
@@ -66,10 +81,13 @@ export default function TagView({ tag }: TagViewProps) {
                             <p className="mb-[25px]">
                                 please return me to them :)
                             </p>
+                            {data.body.tag_details.pets_information}
                             <p>{data.body.tag_details.tag_address_line1}</p>
                             <p>{data.body.tag_details.tag_address_line2}</p>
-                            <p>{data.body.tag_details.tag_address_zip}</p>
-                            <span></span>
+                            <p className="mb-[25px]">
+                                {data.body.tag_details.tag_address_zip}
+                            </p>
+                            <p>{data.body.tag_details.tag_phone_number}</p>
                             <span></span>
                         </div>
                     </div>

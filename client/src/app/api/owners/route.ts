@@ -16,6 +16,7 @@ export async function POST(request: Request) {
 
         console.log(`Creating new user with user_id: ${owner.user_id}`);
 
+        // Disconnect from the database
         await prisma.$disconnect();
 
         return NextResponse.json({
@@ -24,6 +25,7 @@ export async function POST(request: Request) {
         });
 
     } catch (error) {
+        // Disconnect from the database
         await prisma.$disconnect();
 
         return NextResponse.json({
@@ -55,9 +57,10 @@ export async function GET(request: Request) {
         }
     });
 
-    if (!owner) {
-        await prisma.$disconnect();
+    // Disconnect from the database
+    await prisma.$disconnect();
 
+    if (!owner) {
         return NextResponse.json({
             status: 500,
             body: {
@@ -66,9 +69,6 @@ export async function GET(request: Request) {
         })
     } else {
         console.log(`Found user with user_id: ${owner.user_id}`);
-
-        await prisma.$disconnect();
-
         return NextResponse.json({
             status: 200, 
             body: {

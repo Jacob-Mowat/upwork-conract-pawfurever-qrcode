@@ -1,4 +1,3 @@
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import JSZip from "jszip";
@@ -33,6 +32,9 @@ export async function POST(request: Request) {
     const zipFile = await zip.generateAsync({type:"nodebuffer"}).then(function(content) {
         fs.writeFileSync(`./uploads/${uuid}.zip`, content);
     });
+
+    // Disconnect from the database
+    await prisma.$disconnect();
 
     return NextResponse.json({
         status:200,
