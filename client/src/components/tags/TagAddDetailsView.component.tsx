@@ -115,6 +115,7 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                     className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                     placeholder="Pet name"
                     onChange={(e) => setPetName(e.target.value)}
+                    required={true}
                 />
                 <div className="text-left mb-[25px]">
                     <span>Upload a photo of your pet</span>
@@ -139,6 +140,7 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                         name="use_owner_information"
                         defaultChecked={useOwnerDetails}
                         onChange={(e) => setUseOwnerDetails(e.target.checked)}
+                        required={true}
                     />
                     <span> Use owner information</span>
                 </div>
@@ -149,6 +151,7 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                     placeholder="Owners name"
                     onChange={(e) => setOwnersName(e.target.value)}
                     disabled={useOwnerDetails}
+                    required={!useOwnerDetails}
                 />
                 <input
                     type="text"
@@ -156,6 +159,15 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                     placeholder="Phone number"
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     disabled={useOwnerDetails}
+                    required={!useOwnerDetails}
+                />
+                <input
+                    type="text"
+                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                    placeholder="Phone number 2 (optiional)"
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    disabled={useOwnerDetails}
+                    required={false}
                 />
                 <input
                     type="text"
@@ -163,6 +175,7 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                     placeholder="Address line 1"
                     onChange={(e) => setAddressline1(e.target.value)}
                     disabled={useOwnerDetails}
+                    required={!useOwnerDetails}
                 />
                 <input
                     type="text"
@@ -170,6 +183,7 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                     placeholder="Address line 2"
                     onChange={(e) => setAddressline2(e.target.value)}
                     disabled={useOwnerDetails}
+                    required={false}
                 />
                 <input
                     type="text"
@@ -177,6 +191,7 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                     placeholder="Zip / Postcode"
                     onChange={(e) => setZipcode(e.target.value)}
                     disabled={useOwnerDetails}
+                    required={!useOwnerDetails}
                 />
 
                 {errors.map((error) => (
