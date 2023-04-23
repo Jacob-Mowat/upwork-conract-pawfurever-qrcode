@@ -1,9 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import JSZip from "jszip";
-const svgFlatten = require('svg-flatten');
-
 import fs from 'fs';
+import { s3Client } from "@/lib/s3bucket";
+
+const svgFlatten = require('svg-flatten');
 
 BigInt.prototype.toJSON = function() { return this.toString() };
 
@@ -29,18 +30,45 @@ export async function POST(request: Request) {
     }
 
     // Create a zip file    
-    const zipFile = await zip.generateAsync({type:"nodebuffer"}).then(function(content) {
-        fs.writeFileSync(`./uploads/${uuid}.zip`, content);
+    const zipFile: any = await zip.generateAsync({type:"nodebuffer"}).then(async function(content) {
+        // fs.writeFileSync(`./uploads/${uuid}.zip`, content);
+
+        try {
+            // Upload to S3
+            const uploadParams = {
+                Bucket: "ar-t-cacher-app-s3",
+                Key: `PawFurEver/${uuid}.zip`,
+                ACL: "public-read",
+                Body: content
+            };
+
+            // Send the upload to S3
+            const response = await s3Client.upload(uploadParams).promise();
+
+            console.log(response);
+
+            return {
+                status:200,
+                body: {
+                    zip_file_url: response.Location,
+                    zip_file_name: `${uuid}.zip`
+                }
+            };
+        } catch (error) {
+            console.log(error);
+
+            return {
+                status:500,
+                body: {
+                    error: error
+                }
+            };
+        }
     });
 
     // Disconnect from the database
     await prisma.$disconnect();
 
-    return NextResponse.json({
-        status:200,
-        body: {
-            zip_file: zipFile
-        }
-    });
+    return NextResponse.json(zipFile);
 }
   

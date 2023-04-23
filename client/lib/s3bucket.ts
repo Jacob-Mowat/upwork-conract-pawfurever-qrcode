@@ -1,10 +1,16 @@
-import { S3Client } from "@aws-sdk/client-s3";
+import AWS, { Credentials } from "aws-sdk";
+import S3 from "aws-sdk/clients/s3";
+import { config } from "dotenv";
 
-export const s3Client = new S3Client({
-    region: "eu-central-1",
-    credentials: {
+config();
+
+export const s3Client = new S3({
+    region: process.env.AWS_REGION,
+    endpoint: process.env.AWS_ENDPOINT,
+    sslEnabled: true,
+    s3ForcePathStyle: false,
+    credentials: new Credentials({
         accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || ""
-    },
-    endpoint: process.env.AWS_ENDPOINT || "https://s3.eu-central-1.amazonaws.com"
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
+    }),
 });

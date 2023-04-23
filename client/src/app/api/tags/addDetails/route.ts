@@ -64,6 +64,7 @@ export async function POST(request: Request) {
         }
     });
 
+    // Disconnect from the database
     await prisma.$disconnect();
 
     // respond with the tag_details_id
