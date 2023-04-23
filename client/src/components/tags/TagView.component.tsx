@@ -60,9 +60,11 @@ export default function TagView({ tag }: TagViewProps) {
             ) : (
                 <div className="flex justify-center items-center">
                     <div className="text-center">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src={data.body.tag_details.pets_photo_url}
+                            src={data.body.tag_details.pets_photo_url as string}
                             width="100%"
+                            alt="Pet Photo"
                         />
                         <div className="mt-[25px]">
                             <h1 className="text-welcomeCustom">
