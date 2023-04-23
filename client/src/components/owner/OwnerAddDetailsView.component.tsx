@@ -18,6 +18,7 @@ export default function OwnerAddDetailsView({
     const [firstname, setFirstname] = useState<string>("");
     const [lastname, setLastname] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
+    const [phoneNumber2, setPhoneNumber2] = useState<string>("");
     const [addressline1, setAddressline1] = useState<string>("");
     const [addressline2, setAddressline2] = useState<string>("");
     const [zipcode, setZipcode] = useState<string>("");
@@ -54,6 +55,7 @@ export default function OwnerAddDetailsView({
             firstname: firstname,
             lastname: lastname,
             phone_number: phoneNumber,
+            phone_number2: phoneNumber2,
             addressline1: addressline1,
             addressline2: addressline2,
             zipcode: zipcode,
@@ -92,36 +94,49 @@ export default function OwnerAddDetailsView({
                     className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                     placeholder="Firstname"
                     onChange={(e) => setFirstname(e.target.value)}
+                    required={true}
                 />
                 <input
                     type="text"
                     className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                     placeholder="Lastname"
                     onChange={(e) => setLastname(e.target.value)}
+                    required={true}
                 />
                 <input
                     type="text"
                     className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                     placeholder="Phone number"
                     onChange={(e) => setPhoneNumber(e.target.value)}
+                    required={true}
+                />
+                <input
+                    type="text"
+                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                    placeholder="Phone number 2 (optional)"
+                    onChange={(e) => setPhoneNumber2(e.target.value)}
+                    required={false}
                 />
                 <input
                     type="text"
                     className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                     placeholder="Address line 1"
                     onChange={(e) => setAddressline1(e.target.value)}
+                    required={true}
                 />
                 <input
                     type="text"
                     className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                    placeholder="Address line 2"
+                    placeholder="Address line 2 (optional)"
                     onChange={(e) => setAddressline2(e.target.value)}
+                    required={false}
                 />
                 <input
                     type="text"
                     className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                     placeholder="Zipcode"
                     onChange={(e) => setZipcode(e.target.value)}
+                    required={true}
                 />
 
                 <button
