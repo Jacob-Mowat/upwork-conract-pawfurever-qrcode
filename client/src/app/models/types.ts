@@ -14,6 +14,7 @@ export interface TagDetailsType {
     pets_information: String;
     pets_name: String;
     pets_photo_url: String;
+    tag_owners_name: String;
     tag_address_line1: String;
     tag_address_line2: String;
     tag_address_zip: String;
