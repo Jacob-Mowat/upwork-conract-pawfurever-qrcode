@@ -13,6 +13,7 @@ import OwnerAddDetailsView from "../components/owner/OwnerAddDetailsView.compone
 
 import { OwnerType, TagType } from "./models/types";
 import { LoadingSpinner } from "../components/LoadingSpinner.component";
+import { OwnedTagsListView } from "../components/tags/OwnedTagsListView.component";
 
 export default function Home() {
     // States
@@ -210,6 +211,7 @@ export default function Home() {
                                 list of the users owned tags
                             </span>
                             {owner && <TagsListView tags={owner?.tags} />}
+                            <OwnedTagsListView uID={user.user?.id || ""} />
                         </SignedIn>
                         <SignedOut>
                             <span>
