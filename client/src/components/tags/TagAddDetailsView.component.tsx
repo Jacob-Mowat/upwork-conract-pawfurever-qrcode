@@ -6,6 +6,8 @@ import { FileUploader } from "react-drag-drop-files";
 import { useRouter } from "next/navigation";
 import { OwnerDetailsType, OwnerType, TagType } from "@/src/app/models/types";
 import { LoadingSpinner } from "../LoadingSpinner.component";
+// import heic2any from "heic2any";
+import { s3Client } from "@/lib/s3bucket";
 
 const getOwnerDetails = async (oID: string) => {
     const request = await fetch(`/api/owner-details/?ownerID=${oID}`, {
@@ -28,8 +30,10 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
     const [loadingData, setLoadingData] = useState(true);
     const [ownerDetails, setOwnerDetails] = useState<OwnerDetailsType>();
 
+    const [petPhotoFile, setPetPhotoFile] = useState<File>();
+
     const [petName, setPetName] = useState<string>("");
-    const [petPhotoFile, setPetPhotoFile] = useState<File | null>(null);
+    const [petPhotoUrl, setPetPhotoUrl] = useState<string>("");
     const [extraInformation, setExtraInformation] = useState<string>("");
     const [useOwnerDetails, setUseOwnerDetails] = useState<boolean>(false);
 
@@ -44,6 +48,8 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
 
     const user = useUser();
     const router = useRouter();
+
+    const fileTypes = ["JPG", "PNG", "GIF"];
 
     useEffect(() => {
         if (loadingData) {
@@ -64,6 +70,53 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
         //     setLoadingData(true);
         // };
     }, [loadingData, tag]);
+
+    const uploadPhoto = async (file: File) => {
+        console.log(file);
+
+        // const formData = new FormData();
+
+        // // Check if file is HEIC format
+        // if (file.type === "image/heic") {
+        //     // Convert HEIC to JPEG
+        //     const jpegFile = await heic2any({
+        //         blob: file,
+        //         toType: "image/jpeg",
+        //     });
+        //     if (Array.isArray(jpegFile)) {
+        //         // If jpegFile is an array, append each Blob object to formData
+        //         jpegFile.forEach((blob, index) => {
+        //             formData.append(
+        //                 `image${index}`,
+        //                 blob,
+        //                 `image${index}.jpeg`
+        //             );
+        //         });
+        //     } else {
+        //         // If jpegFile is a single Blob object, append it to formData
+        //         formData.append("image", jpegFile, "image.jpeg");
+        //     }
+        // } else {
+        //     // Add file to formData as is
+        //     formData.append("image", file);
+        // }
+
+        // Upload to S3
+        const uploadParams = {
+            Bucket: "ar-t-cacher-app-s3",
+            Key: `PawFurEver/tag/${tag.TAG_TOKEN}/${file.name}{f}`,
+            ACL: "public-read",
+            Body: file as File,
+        };
+
+        // Send the upload to S3
+        const response = await s3Client.upload(uploadParams).promise();
+
+        setPetPhotoUrl(response.Location);
+        console.log(response.Location);
+
+        return;
+    };
 
     const verifyForm = (e: any) => {
         e.preventDefault();
@@ -108,7 +161,7 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
     const submitForm = async () => {
         const tagDetails = {
             pet_name: petName,
-            pet_photo: petPhotoFile,
+            pets_photo: petPhotoUrl,
             extra_information: extraInformation,
             use_owner_details: useOwnerDetails,
             owners_name: ownersName,
@@ -138,6 +191,28 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
         }
     };
 
+    const handleUseOwnerDetails = (e: any) => {
+        setUseOwnerDetails(e.target.checked);
+
+        if (e.target.checked && ownerDetails != null) {
+            setOwnersName(
+                `${ownerDetails.owner_firstname as string} ${
+                    ownerDetails.owner_lastname as string
+                }`
+            );
+
+            setPhoneNumber(ownerDetails.owner_phone_number as string);
+
+            setPhoneNumber2(ownerDetails.owner_phone_number2 as string);
+
+            setAddressline1(ownerDetails.owner_address_line1 as string);
+
+            setAddressline2(ownerDetails.owner_address_line2 as string);
+
+            setZipcode(ownerDetails.owner_address_zip as string);
+        }
+    };
+
     if (!user) {
         return <RedirectToSignIn />;
     }
@@ -164,9 +239,9 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                     <span>Upload a photo of your pet</span>
                     <FileUploader
                         className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                        onDrop={(files: any) => {
-                            console.log(files);
-                        }}
+                        name="file"
+                        handleChange={(file: any) => uploadPhoto(file)}
+                        types={fileTypes}
                     />
                 </div>
 
@@ -182,7 +257,7 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                         className="rounded-[50%]"
                         name="use_owner_information"
                         defaultChecked={useOwnerDetails}
-                        onChange={(e) => setUseOwnerDetails(e.target.checked)}
+                        onChange={(e) => handleUseOwnerDetails(e)}
                         required={true}
                     />
                     <span> Use owner information</span>
@@ -197,11 +272,6 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                             : "Owners name"
                     }
                     onChange={(e) => setOwnersName(e.target.value)}
-                    value={
-                        useOwnerDetails
-                            ? `${ownerDetails.owner_firstname} ${ownerDetails.owner_lastname}`
-                            : ownersName
-                    }
                     disabled={useOwnerDetails}
                     required={!useOwnerDetails}
                 />
@@ -214,11 +284,6 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                             : "Phone number"
                     }
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    value={
-                        useOwnerDetails
-                            ? (ownerDetails.owner_phone_number as string)
-                            : phoneNumber
-                    }
                     disabled={useOwnerDetails}
                     required={!useOwnerDetails}
                 />
@@ -231,11 +296,6 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                             : "Phone number 2 (optional)"
                     }
                     onChange={(e) => setPhoneNumber2(e.target.value)}
-                    value={
-                        useOwnerDetails
-                            ? (ownerDetails.owner_phone_number2 as string)
-                            : phoneNumber2
-                    }
                     disabled={useOwnerDetails}
                     required={false}
                 />
@@ -248,11 +308,6 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                             : "Address line 1"
                     }
                     onChange={(e) => setAddressline1(e.target.value)}
-                    value={
-                        useOwnerDetails
-                            ? (ownerDetails.owner_address_line1 as string)
-                            : addressline1
-                    }
                     disabled={useOwnerDetails}
                     required={!useOwnerDetails}
                 />
@@ -265,11 +320,6 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                             : "Address line 2 (optional)"
                     }
                     onChange={(e) => setAddressline2(e.target.value)}
-                    value={
-                        useOwnerDetails
-                            ? (ownerDetails.owner_address_line2 as string)
-                            : addressline2
-                    }
                     disabled={useOwnerDetails}
                     required={false}
                 />
@@ -282,11 +332,6 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                             : "Zip / Postcode"
                     }
                     onChange={(e) => setZipcode(e.target.value)}
-                    value={
-                        useOwnerDetails
-                            ? (ownerDetails.owner_address_zip as string)
-                            : zipcode
-                    }
                     disabled={useOwnerDetails}
                     required={!useOwnerDetails}
                 />

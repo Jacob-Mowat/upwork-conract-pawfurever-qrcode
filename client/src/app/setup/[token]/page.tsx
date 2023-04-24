@@ -2,16 +2,12 @@
 
 import { LoadingSpinner } from "@/src/components/LoadingSpinner.component";
 import { useEffect, useState } from "react";
-import {
-    OwnerDetailsType,
-    OwnerType,
-    TagDetailsType,
-    TagType,
-} from "../../models/types";
+import { OwnerType, TagType } from "../../models/types";
 import { Navbar } from "@/src/components/NavBar.component";
 import { RedirectToSignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import TagSetupKeyView from "@/src/components/tags/TagSetupKeyView.component";
 import OwnerAddDetailsView from "@/src/components/owner/OwnerAddDetailsView.component";
+import TagAddDetailsView from "@/src/components/tags/TagAddDetailsView.component";
 
 export default function SetupView({ params }: { params: { token: string } }) {
     const [owner, setOwner] = useState<OwnerType>();
@@ -120,16 +116,22 @@ export default function SetupView({ params }: { params: { token: string } }) {
                         ) : (
                             <>
                                 <SignedIn>
-                                    {owner.owner_details_id != null ? (
-                                        <TagSetupKeyView
-                                            tag={tag}
-                                            owner={owner}
-                                        />
+                                    {tag.registered ? (
+                                        <TagAddDetailsView tag={tag} />
                                     ) : (
-                                        <OwnerAddDetailsView
-                                            owner={owner}
-                                            tag={tag}
-                                        />
+                                        <>
+                                            {owner.owner_details_id != null ? (
+                                                <TagSetupKeyView
+                                                    tag={tag}
+                                                    owner={owner}
+                                                />
+                                            ) : (
+                                                <OwnerAddDetailsView
+                                                    owner={owner}
+                                                    tag={tag}
+                                                />
+                                            )}
+                                        </>
                                     )}
                                 </SignedIn>
                                 <SignedOut>

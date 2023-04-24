@@ -10,12 +10,10 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <ClerkProvider>
-            <html lang="en">
-                <body className={josefin.className + " bg-cream"}>
-                    {children}
-                </body>
-            </html>
-        </ClerkProvider>
+        <html lang="en">
+            <body className={josefin.className + " bg-cream"}>
+                <ClerkProvider>{children}</ClerkProvider>
+            </body>
+        </html>
     );
 }

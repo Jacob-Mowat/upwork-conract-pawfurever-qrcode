@@ -13,6 +13,7 @@ import { setHttpClientAndAgentOptions } from "next/dist/server/config";
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { setTimeout } from "timers";
+import { Navbar } from "@/src/components/NavBar.component";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -183,6 +184,7 @@ export default function Home() {
     return (
         <>
             <SignedIn>
+                <Navbar />
                 <div className="flex h-screen justify-center py-12 sm:flex-col md:flex-col">
                     <div className="isolate bg-cream px-6 py-24 sm:py-32 lg:px-8">
                         <div className="mx-auto max-w-2xl text-center">
@@ -255,7 +257,7 @@ export default function Home() {
                             {renderQRCode && (
                                 <SVG
                                     text={
-                                        "https://qr.pawfurever.com/?token=" +
+                                        "http://192.168.0.54:3000/view/" +
                                         generatedTagToken
                                     }
                                     options={{

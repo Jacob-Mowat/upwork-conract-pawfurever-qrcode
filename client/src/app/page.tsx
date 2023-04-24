@@ -18,8 +18,8 @@ import { Navbar } from "../components/NavBar.component";
 
 export default function Home() {
     // States
-    const [isLoading, setIsLoading] = useState<Boolean>(true);
-    const [loadingOwnerData, setLoadingOwnerData] = useState<Boolean>(true);
+    const [isLoading, setIsLoading] = useState<Boolean>(false);
+    const [loadingOwnerData, setLoadingOwnerData] = useState<Boolean>(false);
     const [ownerDetails, setOwnerDetails] = useState();
 
     const [tag, setTag] = useState<TagType>();
@@ -170,94 +170,89 @@ export default function Home() {
         fetchData();
     }, [token, user, loadingOwnerData, isLoading, tag]);
 
-    if (token && isLoading && loadingOwnerData) {
-        console.log("Loading");
-        return <LoadingSpinner />;
-    }
-
     return (
         <>
             <Navbar />
             <div className="flex h-[calc(100vh-64px)] overflow-auto justify-center items-center">
                 <div className="text-center">
-                    {token !== "" ? (
-                        tag?.registered ? (
-                            <>
-                                {tag?.tag_details_id != null ? (
-                                    <TagView tag={tag} />
-                                ) : (
-                                    <>
-                                        <SignedIn>
-                                            {owner?.owner_details_id != null ? (
-                                                <TagAddDetailsView tag={tag} />
-                                            ) : (
-                                                <OwnerAddDetailsView
-                                                    owner={owner}
-                                                    tag={tag}
-                                                />
-                                            )}
-                                        </SignedIn>
-                                        <SignedOut>
-                                            <RedirectToSignIn />
-                                        </SignedOut>
-                                    </>
-                                )}
-                            </>
-                        ) : (
-                            <div>
-                                <SignedIn>
-                                    {loadingOwnerData ? (
-                                        <LoadingSpinner />
-                                    ) : (
-                                        <>
-                                            {owner.owner_details_id != null ? (
-                                                <TagSetupKeyView
-                                                    tag={tag}
-                                                    owner={owner}
-                                                />
-                                            ) : (
-                                                <OwnerAddDetailsView
-                                                    owner={owner}
-                                                    tag={tag}
-                                                />
-                                            )}
-                                        </>
-                                    )}
-                                </SignedIn>
-                                <SignedOut>
-                                    <span>User not signed in</span>
-                                    <RedirectToSignIn />
-                                </SignedOut>
+                    <div>
+                        <SignedIn>
+                            <span>
+                                No token supplied, user is signed in, Display a
+                                list of the users owned tags
+                            </span>
+                            {owner && <TagsListView tags={owner?.tags} />}
+                            {owner && <OwnedTagsListView owner={owner} />}
+                        </SignedIn>
+                        <SignedOut>
+                            <span>
+                                User isn't signed in, and token not supplied
+                            </span>
+                            <div className="flex flex-col items-center">
+                                <h1 className="font-">
+                                    Scan a QR Tag to get started.
+                                </h1>
+                                <img
+                                    src="/qr-tag-example.svg"
+                                    className="w-1/2 h-1/2"
+                                />
                             </div>
-                        )
-                    ) : (
-                        <div>
-                            <SignedIn>
-                                <span>
-                                    No token supplied, user is signed in,
-                                    Display a list of the users owned tags
-                                </span>
-                                {owner && <TagsListView tags={owner?.tags} />}
-                                {owner && <OwnedTagsListView owner={owner} />}
-                            </SignedIn>
-                            <SignedOut>
-                                <span>
-                                    User isn't signed in, and token not supplied
-                                </span>
-                                <div className="flex flex-col items-center">
-                                    <h1 className="font-">
-                                        Scan a QR Tag to get started.
-                                    </h1>
-                                    <img
-                                        src="/qr-tag-example.svg"
-                                        className="w-1/2 h-1/2"
-                                    />
-                                </div>
-                            </SignedOut>
-                        </div>
-                    )}
+                        </SignedOut>
+                    </div>
                 </div>
             </div>
         </>
     );
 }
+
+// {token !== "" ? (
+//     tag?.registered ? (
+//         <>
+//             {tag?.tag_details_id != null ? (
+//                 <TagView tag={tag} />
+//             ) : (
+//                 <>
+//                     <SignedIn>
+//                         {owner?.owner_details_id != null ? (
+//                             <TagAddDetailsView tag={tag} />
+//                         ) : (
+//                             <OwnerAddDetailsView
+//                                 owner={owner}
+//                                 tag={tag}
+//                             />
+//                         )}
+//                     </SignedIn>
+//                     <SignedOut>
+//                         <RedirectToSignIn />
+//                     </SignedOut>
+//                 </>
+//             )}
+//         </>
+//     ) : (
+//         <div>
+//             <SignedIn>
+//                 {loadingOwnerData ? (
+//                     <LoadingSpinner />
+//                 ) : (
+//                     <>
+//                         {owner.owner_details_id != null ? (
+//                             <TagSetupKeyView
+//                                 tag={tag}
+//                                 owner={owner}
+//                             />
+//                         ) : (
+//                             <OwnerAddDetailsView
+//                                 owner={owner}
+//                                 tag={tag}
+//                             />
+//                         )}
+//                     </>
+//                 )}
+//             </SignedIn>
+//             <SignedOut>
+//                 <span>User not signed in</span>
+//                 <RedirectToSignIn />
+//             </SignedOut>
+//         </div>
+//     )
+// ) : (

@@ -2,7 +2,7 @@ import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export const Navbar = () => {
     return (
-        <div className="flex fixed w-screen h-16 bg-cream items-center justify-between border-b-2 border-lightest-purple">
+        <div className="flex w-screen h-16 bg-cream items-center justify-between border-b-2 border-lightest-purple">
             <div className="flex flex-1 justify-center mr-auto"></div>
             <div className="">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
