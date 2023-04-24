@@ -9,7 +9,6 @@ import {
     TagType,
 } from "../../models/types";
 import { Navbar } from "@/src/components/NavBar.component";
-import { useRouter } from "next/navigation";
 
 interface TagViewProps {
     tag: any;
@@ -22,32 +21,12 @@ interface ExpectedDataType {
     tag_details: TagDetailsType;
 }
 
-export default function ViewPage({ params }: { params: { token: string } }) {
+export default function SetupView({ params }: { params: { token: string } }) {
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState<ExpectedDataType>();
 
-    const router = useRouter();
-
     useEffect(() => {
         if (isLoading) {
-            const checkIfRegistered = async (token: string) => {
-                const request = await fetch(
-                    `/api/isTokenRegistered?token=${token}`,
-                    {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
-
-                const response = await request.json();
-
-                console.log(response);
-
-                return response;
-            };
-
             const getViewData = async (token: string) => {
                 const request = await fetch(`/api/tags/view/?token=${token}`, {
                     method: "GET",
@@ -63,20 +42,12 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                 return response;
             };
 
-            checkIfRegistered(params.token).then((data) => {
-                if (data.body.tag.registered) {
-                    console.log("Token is registered, proceeding to view");
-                } else {
-                    router.push(`/setup/${params.token}`);
-                }
-            });
-
             getViewData(params.token).then((data) => {
                 setIsLoading(false);
                 setData(data.body);
             });
         }
-    }, [isLoading, params, router]);
+    }, [isLoading, params]);
 
     if (isLoading && data == null) {
         return <LoadingSpinner />;
