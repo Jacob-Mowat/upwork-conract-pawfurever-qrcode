@@ -1,15 +1,33 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import { RedirectToSignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import { FileUploader } from "react-drag-drop-files";
 import { useRouter } from "next/navigation";
+import { OwnerDetailsType, OwnerType, TagType } from "@/src/app/models/types";
+import { LoadingSpinner } from "../LoadingSpinner.component";
+
+const getOwnerDetails = async (oID: string) => {
+    const request = await fetch(`/api/owner-details/?ownerID=${oID}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    const response = await request.json();
+
+    return response;
+};
 
 interface TagAddDetailsViewProps {
-    tag: any;
+    tag: TagType;
 }
 
 export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
+    const [loadingData, setLoadingData] = useState(true);
+    const [ownerDetails, setOwnerDetails] = useState<OwnerDetailsType>();
+
     const [petName, setPetName] = useState<string>("");
     const [petPhotoFile, setPetPhotoFile] = useState<File | null>(null);
     const [extraInformation, setExtraInformation] = useState<string>("");
@@ -17,6 +35,7 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
 
     const [ownersName, setOwnersName] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
+    const [phoneNumber2, setPhoneNumber2] = useState<string>("");
     const [addressline1, setAddressline1] = useState<string>("");
     const [addressline2, setAddressline2] = useState<string>("");
     const [zipcode, setZipcode] = useState<string>("");
@@ -25,6 +44,26 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
 
     const user = useUser();
     const router = useRouter();
+
+    useEffect(() => {
+        if (loadingData) {
+            if (!tag.owner_id) {
+                return;
+            }
+
+            console.log(tag.owner_id as string);
+
+            getOwnerDetails(tag.owner_id as string).then((data) => {
+                setLoadingData(false);
+                setOwnerDetails(data.body.ownerDetails);
+                console.log(data.body.ownerDetails);
+            });
+        }
+
+        // return () => {
+        //     setLoadingData(true);
+        // };
+    }, [loadingData, tag]);
 
     const verifyForm = (e: any) => {
         e.preventDefault();
@@ -103,6 +142,10 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
         return <RedirectToSignIn />;
     }
 
+    if (loadingData || ownerDetails == null) {
+        return <LoadingSpinner />;
+    }
+
     return (
         <>
             <div className="flex flex-col">
@@ -148,48 +191,102 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
                 <input
                     type="text"
                     className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                    placeholder="Owners name"
+                    placeholder={
+                        useOwnerDetails
+                            ? `${ownerDetails.owner_firstname} ${ownerDetails.owner_lastname}`
+                            : "Owners name"
+                    }
                     onChange={(e) => setOwnersName(e.target.value)}
+                    value={
+                        useOwnerDetails
+                            ? `${ownerDetails.owner_firstname} ${ownerDetails.owner_lastname}`
+                            : ownersName
+                    }
                     disabled={useOwnerDetails}
                     required={!useOwnerDetails}
                 />
                 <input
                     type="text"
                     className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                    placeholder="Phone number"
+                    placeholder={
+                        useOwnerDetails
+                            ? (ownerDetails.owner_phone_number as string)
+                            : "Phone number"
+                    }
                     onChange={(e) => setPhoneNumber(e.target.value)}
+                    value={
+                        useOwnerDetails
+                            ? (ownerDetails.owner_phone_number as string)
+                            : phoneNumber
+                    }
                     disabled={useOwnerDetails}
                     required={!useOwnerDetails}
                 />
                 <input
                     type="text"
                     className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                    placeholder="Phone number 2 (optiional)"
-                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder={
+                        useOwnerDetails
+                            ? (ownerDetails.owner_phone_number2 as string)
+                            : "Phone number 2 (optional)"
+                    }
+                    onChange={(e) => setPhoneNumber2(e.target.value)}
+                    value={
+                        useOwnerDetails
+                            ? (ownerDetails.owner_phone_number2 as string)
+                            : phoneNumber2
+                    }
                     disabled={useOwnerDetails}
                     required={false}
                 />
                 <input
                     type="text"
                     className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                    placeholder="Address line 1"
+                    placeholder={
+                        useOwnerDetails
+                            ? (ownerDetails.owner_address_line1 as string)
+                            : "Address line 1"
+                    }
                     onChange={(e) => setAddressline1(e.target.value)}
+                    value={
+                        useOwnerDetails
+                            ? (ownerDetails.owner_address_line1 as string)
+                            : addressline1
+                    }
                     disabled={useOwnerDetails}
                     required={!useOwnerDetails}
                 />
                 <input
                     type="text"
                     className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                    placeholder="Address line 2"
+                    placeholder={
+                        useOwnerDetails
+                            ? (ownerDetails.owner_address_line2 as string)
+                            : "Address line 2 (optional)"
+                    }
                     onChange={(e) => setAddressline2(e.target.value)}
+                    value={
+                        useOwnerDetails
+                            ? (ownerDetails.owner_address_line2 as string)
+                            : addressline2
+                    }
                     disabled={useOwnerDetails}
                     required={false}
                 />
                 <input
                     type="text"
                     className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                    placeholder="Zip / Postcode"
+                    placeholder={
+                        useOwnerDetails
+                            ? (ownerDetails.owner_address_zip as string)
+                            : "Zip / Postcode"
+                    }
                     onChange={(e) => setZipcode(e.target.value)}
+                    value={
+                        useOwnerDetails
+                            ? (ownerDetails.owner_address_zip as string)
+                            : zipcode
+                    }
                     disabled={useOwnerDetails}
                     required={!useOwnerDetails}
                 />

@@ -7,44 +7,55 @@ export async function GET(request: Request) {
     const  { searchParams } = new URL(request.url);
     const ownerID = searchParams.get('ownerID');
 
-    const owner = await prisma.owners.findUnique({
-        where: { id: parseInt(ownerID as string) },
-    });
+    try {
+        const owner = await prisma.owners.findUnique({
+            where: { id: parseInt(ownerID as string) },
+        });
 
-    if (owner == null) {
+        if (owner == null) {
+            await prisma.$disconnect();
+
+            return NextResponse.json({
+                status: 500,
+                body: {
+                    error: "No owner found for this user!"
+                }
+            });
+        } else { 
+            if (owner.owner_details_id == null) {
+                await prisma.$disconnect();
+        
+                return NextResponse.json({
+                    status: 500,
+                    body: {
+                        error: "No owner details found for this owner!"
+                    }
+                });
+            } else {
+                const ownerDetails = await prisma.owner_details.findUnique({
+                    where: { id: owner.owner_details_id }
+                });
+
+                // Disconnect from the database
+                await prisma.$disconnect();
+
+                return NextResponse.json({
+                    status:200,
+                    body: {
+                        ownerDetails: ownerDetails
+                    }
+                });
+            }
+        }
+    } catch (error) {
         await prisma.$disconnect();
 
         return NextResponse.json({
             status: 500,
             body: {
-                error: "No owner found for this user!"
+                error: error
             }
         });
-    } else { 
-        if (owner.owner_details_id == null) {
-            await prisma.$disconnect();
-    
-            return NextResponse.json({
-                status: 500,
-                body: {
-                    error: "No owner details found for this owner!"
-                }
-            });
-        } else {
-            const ownerDetails = await prisma.owner_details.findUnique({
-                where: { id: owner.owner_details_id }
-            });
-
-            // Disconnect from the database
-            await prisma.$disconnect();
-
-            return NextResponse.json({
-                status:200,
-                body: {
-                    ownerDetails: ownerDetails
-                }
-            });
-        }
     }
 };
 

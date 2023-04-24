@@ -4,12 +4,23 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
     const  { searchParams } = new URL(request.url);
-    const tagID = searchParams.get('tagID');
+    const token = searchParams.get('token');
+
+    if (token == "") {
+        await prisma.$disconnect();
+
+        return NextResponse.json({
+            status: 500,
+            body: {
+                error: "No token was supplied!"
+            }
+        });
+    }
 
     // Get our tag from the tags table using the token
     const tag = await prisma.tags.findUnique({
         where: {
-            id: parseInt(tagID?.toString() ?? "0")
+            TAG_TOKEN: token as string
         }
     });
 

@@ -19,6 +19,7 @@ export interface TagDetailsType {
     tag_address_line2: String;
     tag_address_zip: String;
     tag_phone_number: String;
+    tag_phone_number2: String;
     uses_owners_information: Boolean;
 };
 
@@ -34,7 +35,10 @@ export interface OwnerType {
 export interface OwnerDetailsType {
     id: String;
     created_at: String;
+    owner_firstname: String;
+    owner_lastname: String;
     owner_phone_number: String;
+    owner_phone_number2: String;
     owner_address_line1: String;
     owner_address_line2: String;    
     owner_address_zip: String;

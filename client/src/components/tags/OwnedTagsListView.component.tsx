@@ -1,10 +1,10 @@
-import { TagDetailsType, TagType } from "@/src/app/models/types";
+import { OwnerType, TagDetailsType, TagType } from "@/src/app/models/types";
 import { Key, useEffect, useState } from "react";
 import { LoadingSpinner } from "../LoadingSpinner.component";
 import { OwnedTagsListItem } from "./OwnedTagsListItem.component";
 
 export interface OwnedTagsListViewProps {
-    uID: string;
+    owner: OwnerType;
 }
 
 const getOwnedTags = async (uID: string) => {
@@ -25,7 +25,7 @@ const getOwnedTags = async (uID: string) => {
     };
 };
 
-export const OwnedTagsListView = ({ uID }: OwnedTagsListViewProps) => {
+export const OwnedTagsListView = ({ owner }: OwnedTagsListViewProps) => {
     const [loadingData, setLoadingData] = useState(true);
     const [data, setData] = useState<{
         tags: TagType[];
@@ -34,7 +34,11 @@ export const OwnedTagsListView = ({ uID }: OwnedTagsListViewProps) => {
 
     useEffect(() => {
         if (loadingData) {
-            getOwnedTags(uID).then((data) => {
+            if (owner.user_id == null) {
+                return;
+            }
+
+            getOwnedTags(owner.user_id as string).then((data) => {
                 setLoadingData(false);
                 setData(data);
                 console.log(data);
@@ -44,7 +48,7 @@ export const OwnedTagsListView = ({ uID }: OwnedTagsListViewProps) => {
         // return () => {
         //     setLoadingData(true);
         // };
-    }, [loadingData, uID]);
+    }, [loadingData, owner]);
 
     if (loadingData) {
         return <LoadingSpinner />;
@@ -62,13 +66,17 @@ export const OwnedTagsListView = ({ uID }: OwnedTagsListViewProps) => {
                     ) : (
                         <>
                             {data.tags.map((tag, i) => {
-                                return (
-                                    <OwnedTagsListItem
-                                        tag={tag}
-                                        key={tag.id as Key}
-                                        tag_details={data.tag_details[i]}
-                                    />
-                                );
+                                if (data.tag_details[i] == null) {
+                                    return null;
+                                } else {
+                                    return (
+                                        <OwnedTagsListItem
+                                            tag={tag}
+                                            key={tag.id as Key}
+                                            tag_details={data.tag_details[i]}
+                                        />
+                                    );
+                                }
                             })}
                         </>
                     )}

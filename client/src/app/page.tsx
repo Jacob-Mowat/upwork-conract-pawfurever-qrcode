@@ -14,6 +14,7 @@ import OwnerAddDetailsView from "../components/owner/OwnerAddDetailsView.compone
 import { OwnerType, TagType } from "./models/types";
 import { LoadingSpinner } from "../components/LoadingSpinner.component";
 import { OwnedTagsListView } from "../components/tags/OwnedTagsListView.component";
+import { Navbar } from "../components/NavBar.component";
 
 export default function Home() {
     // States
@@ -21,24 +22,8 @@ export default function Home() {
     const [loadingOwnerData, setLoadingOwnerData] = useState<Boolean>(true);
     const [ownerDetails, setOwnerDetails] = useState();
 
-    const [tag, setTag] = useState<TagType>({
-        id: "",
-        registered: false,
-        created_at: "",
-        TAG_TOKEN: "",
-        setup_key: "",
-        owner_id: null,
-        owner_details_id: null,
-    });
-
-    const [owner, setOwner] = useState<OwnerType>({
-        id: "",
-        created_at: "",
-        user_id: "String",
-        admin_flag: false,
-        owner_details_id: "",
-        tags: [],
-    });
+    const [tag, setTag] = useState<TagType>();
+    const [owner, setOwner] = useState<OwnerType>();
 
     const params = useSearchParams();
     const user = useUser();
@@ -59,7 +44,10 @@ export default function Home() {
     };
 
     const getOrCreateOwner = async (userID: string) => {
-        if (userID == "") return null;
+        if (userID == "") {
+            console.log("No user ID provided");
+            return null;
+        }
 
         // Check API for owner with a user_id: userID
         const findOwnerRequest = await fetch(`/api/owners/?uID=${userID}`, {
@@ -102,6 +90,24 @@ export default function Home() {
         return null;
     };
 
+    const getOwnerById = async (ownerID: string) => {
+        const ownerData = await fetch(`/api/owners/?ownerID=${ownerID}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        const ownerDataResponse = await ownerData.json();
+
+        if (ownerDataResponse.body.status == 200) {
+            return await ownerDataResponse.body.owner;
+        } else {
+            console.log(await ownerDataResponse.body.error);
+            return null;
+        }
+    };
+
     const getOwnerDetails = async (ownerID: string) => {
         if (ownerID == "") return null;
 
@@ -120,14 +126,14 @@ export default function Home() {
 
     useEffect(() => {
         async function fetchData() {
-            if (token) {
+            if (token && isLoading) {
                 const tagData = await getTag(token);
                 setTag(tagData.body.tag);
                 setIsLoading(false);
             }
 
-            if (user.isSignedIn) {
-                if (loadingOwnerData) {
+            if (loadingOwnerData) {
+                if (user.isSignedIn) {
                     const foundOwner = await getOrCreateOwner(user.user.id);
                     console.log(foundOwner);
 
@@ -138,98 +144,120 @@ export default function Home() {
 
                     setLoadingOwnerData(false);
                     setOwner(foundOwner);
+                } else {
+                    if (isLoading) {
+                        return;
+                    } else {
+                        const foundOwner = await getOwnerById(
+                            tag.owner_id as string
+                        );
+                        console.log(foundOwner);
+
+                        if (!foundOwner) {
+                            console.log(
+                                "Issue occurred getting/creating Owner"
+                            );
+                            return;
+                        }
+
+                        setLoadingOwnerData(false);
+                        setOwner(foundOwner);
+                    }
                 }
             }
         }
 
         fetchData();
-    }, [token, user, loadingOwnerData]);
+    }, [token, user, loadingOwnerData, isLoading, tag]);
 
-    if (token && isLoading) {
+    if (token && isLoading && loadingOwnerData) {
         console.log("Loading");
         return <LoadingSpinner />;
     }
 
     return (
-        <div className="flex h-[calc(100vh-64px)] overflow-auto justify-center items-center">
-            <div className="text-center">
-                {token !== "" ? (
-                    tag.registered ? (
-                        <>
-                            {tag.tag_details_id != null ? (
-                                <TagView tag={tag} />
-                            ) : (
-                                <>
-                                    <SignedIn>
-                                        {owner.owner_details_id != null ? (
-                                            <TagAddDetailsView tag={tag} />
-                                        ) : (
-                                            <OwnerAddDetailsView
-                                                owner={owner}
-                                                tag={tag}
-                                            />
-                                        )}
-                                    </SignedIn>
-                                    <SignedOut>
-                                        <RedirectToSignIn />
-                                    </SignedOut>
-                                </>
-                            )}
-                        </>
+        <>
+            <Navbar />
+            <div className="flex h-[calc(100vh-64px)] overflow-auto justify-center items-center">
+                <div className="text-center">
+                    {token !== "" ? (
+                        tag?.registered ? (
+                            <>
+                                {tag?.tag_details_id != null ? (
+                                    <TagView tag={tag} />
+                                ) : (
+                                    <>
+                                        <SignedIn>
+                                            {owner?.owner_details_id != null ? (
+                                                <TagAddDetailsView tag={tag} />
+                                            ) : (
+                                                <OwnerAddDetailsView
+                                                    owner={owner}
+                                                    tag={tag}
+                                                />
+                                            )}
+                                        </SignedIn>
+                                        <SignedOut>
+                                            <RedirectToSignIn />
+                                        </SignedOut>
+                                    </>
+                                )}
+                            </>
+                        ) : (
+                            <div>
+                                <SignedIn>
+                                    {loadingOwnerData ? (
+                                        <LoadingSpinner />
+                                    ) : (
+                                        <>
+                                            {owner.owner_details_id != null ? (
+                                                <TagSetupKeyView
+                                                    tag={tag}
+                                                    owner={owner}
+                                                />
+                                            ) : (
+                                                <OwnerAddDetailsView
+                                                    owner={owner}
+                                                    tag={tag}
+                                                />
+                                            )}
+                                        </>
+                                    )}
+                                </SignedIn>
+                                <SignedOut>
+                                    <span>User not signed in</span>
+                                    <RedirectToSignIn />
+                                </SignedOut>
+                            </div>
+                        )
                     ) : (
                         <div>
                             <SignedIn>
-                                {loadingOwnerData ? (
-                                    <LoadingSpinner />
-                                ) : (
-                                    <>
-                                        {owner.owner_details_id != null ? (
-                                            <TagSetupKeyView
-                                                tag={tag}
-                                                owner={owner}
-                                            />
-                                        ) : (
-                                            <OwnerAddDetailsView
-                                                owner={owner}
-                                                tag={tag}
-                                            />
-                                        )}
-                                    </>
-                                )}
+                                <span>
+                                    No token supplied, user is signed in,
+                                    Display a list of the users owned tags
+                                </span>
+                                {owner && <TagsListView tags={owner?.tags} />}
+                                {owner && <OwnedTagsListView owner={owner} />}
                             </SignedIn>
                             <SignedOut>
-                                <span>User not signed in</span>
-                                <RedirectToSignIn />
+                                <span>
+                                    User isn't signed in, and token not supplied
+                                </span>
+                                <div className="flex flex-col items-center">
+                                    <h1 className="font-">
+                                        Scan a QR Tag to get started.
+                                    </h1>
+                                    <img
+                                        src="/qr-tag-example.svg"
+                                        className="w-1/2 h-1/2"
+                                    />
+                                </div>
                             </SignedOut>
                         </div>
-                    )
-                ) : (
-                    <div>
-                        <SignedIn>
-                            <span>
-                                No token supplied, user is signed in, Display a
-                                list of the users owned tags
-                            </span>
-                            {owner && <TagsListView tags={owner?.tags} />}
-                            <OwnedTagsListView uID={user.user?.id || ""} />
-                        </SignedIn>
-                        <SignedOut>
-                            <span>
-                                User isn't signed in, and token not supplied
-                            </span>
-                            <div className="flex flex-col items-center">
-                                <h1 className="font-">
-                                    Scan a QR Tag to get started.
-                                </h1>
-                                <img
-                                    src="/qr-tag-example.svg"
-                                    className="w-1/2 h-1/2"
-                                />
-                            </div>
-                        </SignedOut>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     );
 }
