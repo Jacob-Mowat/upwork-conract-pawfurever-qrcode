@@ -132,7 +132,7 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
         if (response.status == 200) {
             console.log("Tag details added successfully");
             console.log(response);
-            router.push("/?token=" + tag.TAG_TOKEN);
+            router.push(`/view/${tag.TAG_TOKEN}`);
         } else {
             setErrors(["Something went wrong"]);
         }

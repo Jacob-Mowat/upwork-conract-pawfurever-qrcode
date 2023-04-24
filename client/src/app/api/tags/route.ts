@@ -46,7 +46,7 @@ export async function GET(request: Request) {
         await prisma.$disconnect();
     
         return NextResponse.json({
-            status:200,
+            status: 200,
             body: {
                 tag: tag
             }

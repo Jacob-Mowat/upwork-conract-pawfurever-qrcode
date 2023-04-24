@@ -9,80 +9,134 @@ import {
     TagType,
 } from "../../models/types";
 import { Navbar } from "@/src/components/NavBar.component";
-
-interface TagViewProps {
-    tag: any;
-}
-
-interface ExpectedDataType {
-    tag: TagType;
-    owner: OwnerType;
-    owner_details: OwnerDetailsType;
-    tag_details: TagDetailsType;
-}
+import { RedirectToSignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
+import TagSetupKeyView from "@/src/components/tags/TagSetupKeyView.component";
+import OwnerAddDetailsView from "@/src/components/owner/OwnerAddDetailsView.component";
 
 export default function SetupView({ params }: { params: { token: string } }) {
-    const [isLoading, setIsLoading] = useState(true);
-    const [data, setData] = useState<ExpectedDataType>();
+    const [owner, setOwner] = useState<OwnerType>();
+    const [tag, setTag] = useState<TagType>();
+
+    const clerkAuth = useUser();
 
     useEffect(() => {
-        if (isLoading) {
-            const getViewData = async (token: string) => {
-                const request = await fetch(`/api/tags/view/?token=${token}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
-
-                const response = await request.json();
-
-                console.log(response);
-
-                return response;
-            };
-
-            getViewData(params.token).then((data) => {
-                setIsLoading(false);
-                setData(data.body);
+        const checkOwnerExistsAndRetrieve = async (user_id: string) => {
+            const request = await fetch(`/api/owners/byUserId?uID=${user_id}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
-        }
-    }, [isLoading, params]);
 
-    if (isLoading && data == null) {
-        return <LoadingSpinner />;
+            const response = await request.json();
+
+            console.log(response);
+
+            return response;
+        };
+
+        const createNewOwner = async (user_id: string) => {
+            const request = await fetch(`/api/owners/create`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    user_id: user_id,
+                }),
+            });
+
+            const response = await request.json();
+
+            console.log(response);
+
+            return response;
+        };
+
+        const getTagData = async (token: string) => {
+            const request = await fetch(`/api/tags?token=${token}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const response = await request.json();
+
+            console.log(response);
+
+            return response;
+        };
+
+        if (clerkAuth.user) {
+            if (!owner) {
+                checkOwnerExistsAndRetrieve(clerkAuth.user.id).then((data) => {
+                    if (
+                        data.status === 500 &&
+                        data.body.error === "No Owner found"
+                    ) {
+                        // Send request to create owner
+                        createNewOwner(clerkAuth.user.id).then((data) => {
+                            if (data.status === 200) {
+                                setOwner(data.body.owner);
+                            } else {
+                                return;
+                            }
+                        });
+                    } else {
+                        setOwner(data.body.owner);
+                    }
+                });
+            } else {
+                console.log("Owner is set");
+            }
+        }
+
+        if (!tag) {
+            getTagData(params.token).then((data) => {
+                if (data.status === 200) {
+                    setTag(data.body.tag);
+                } else {
+                    return;
+                }
+            });
+        } else {
+            console.log("Tag is set");
+        }
+    }, [clerkAuth, owner, params, tag]);
+
+    if (!clerkAuth.isSignedIn) {
+        return <RedirectToSignIn />;
     }
 
     return (
         <>
             <Navbar />
-            <div className="flex justify-center items-center">
+            <div className="flex h-[calc(100vh-64px)] overflow-auto justify-center items-center">
                 <div className="text-center">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                        src={data?.tag_details.pets_photo_url as string}
-                        width="100%"
-                        alt="Pet Photo"
-                    />
-                    <div className="mt-[25px]">
-                        <h1 className="text-welcomeCustom">Hi! my name is,</h1>
-                        <h2 className="text-dogName mb-[25px]">
-                            {data?.tag_details.pets_name}
-                        </h2>
-                        <p>Thank you for finding me!</p>
-                        <p className="mb-[25px]">
-                            My owners name is,{" "}
-                            <span>{data?.tag_details.tag_owners_name}</span>
-                        </p>
-                        <p className="mb-[25px]">please return me to them :)</p>
-                        {data?.tag_details.pets_information}
-                        <p>{data?.tag_details.tag_address_line1}</p>
-                        <p>{data?.tag_details.tag_address_line2}</p>
-                        <p className="mb-[25px]">
-                            {data?.tag_details.tag_address_zip}
-                        </p>
-                        <p>{data?.tag_details.tag_phone_number}</p>
-                        <span></span>
+                    <div>
+                        {owner == null || tag == null ? (
+                            <LoadingSpinner />
+                        ) : (
+                            <>
+                                <SignedIn>
+                                    {owner.owner_details_id != null ? (
+                                        <TagSetupKeyView
+                                            tag={tag}
+                                            owner={owner}
+                                        />
+                                    ) : (
+                                        <OwnerAddDetailsView
+                                            owner={owner}
+                                            tag={tag}
+                                        />
+                                    )}
+                                </SignedIn>
+                                <SignedOut>
+                                    <RedirectToSignIn />
+                                </SignedOut>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

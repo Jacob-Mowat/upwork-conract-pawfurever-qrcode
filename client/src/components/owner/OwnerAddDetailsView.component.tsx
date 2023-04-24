@@ -76,7 +76,7 @@ export default function OwnerAddDetailsView({
 
         if (ownerDetailsResponse.status == 200) {
             console.log("Owner details added");
-            router.push(`/?token=${tag.TAG_TOKEN}`);
+            router.push(`/setup/${tag.TAG_TOKEN}`);
         } else {
             console.log("Owner details not added");
         }
