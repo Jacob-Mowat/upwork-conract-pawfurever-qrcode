@@ -98,10 +98,10 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                         <div className="overflow-x-hidden">
                             <div className="absolute border border-t-cream bottom-0 mt-[25px] ml-[-50%] h-[55%] w-[200%] rounded-t-[100%] bg-gradient-to-b from-cream via-cream to-cream">
                                 <div className="mt-[50px] text-center text-2xl">
-                                    <h1 className="text-welcomeCustom">
+                                    <div className="text-welcomeCustom font-thin">
                                         Hi! my name is,
-                                    </h1>
-                                    <h2 className="text-dogName mb-[25px]">
+                                    </div>
+                                    <h2 className="text-dogName mb-[25px] font-thin">
                                         {data?.tag_details.pets_name}
                                     </h2>
                                     <p>Thank you for finding me!</p>
@@ -112,18 +112,18 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         </span>
                                     </p>
                                     <p className="mb-[25px]">
-                                        please return me to them :)
-                                    </p>
-                                    <p className="mb-[25px]">
                                         {data?.tag_details.pets_information}
                                     </p>
                                     <p>{data?.tag_details.tag_address_line1}</p>
                                     <p>{data?.tag_details.tag_address_line2}</p>
-                                    <p className="mb-[25px]">
+                                    <div className="mb-[25px] font-light text-2xl">
                                         {data?.tag_details.tag_address_zip}
-                                    </p>
+                                    </div>
                                     <p>{data?.tag_details.tag_phone_number}</p>
-                                    <span></span>
+                                    <div className="mt-[25px] font-light text-sm">
+                                        Owner? click here to login and edit your
+                                        tag :)
+                                    </div>
                                 </div>
                             </div>
                         </div>

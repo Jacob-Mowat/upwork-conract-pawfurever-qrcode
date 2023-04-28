@@ -218,7 +218,7 @@ export default function TagAddDetailsView({ tag }: TagAddDetailsViewProps) {
     }
 
     if (loadingData || ownerDetails == null) {
-        return <LoadingSpinner />;
+        return <LoadingSpinner display_text="Loading Owner Details..." />;
     }
 
     return (

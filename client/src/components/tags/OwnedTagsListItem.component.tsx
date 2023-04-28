@@ -16,7 +16,7 @@ export const OwnedTagsListItem = ({
             <h1
                 className="hover:bg-purple"
                 onClick={(e) => {
-                    router.push(`/?token=${tag.TAG_TOKEN}`);
+                    router.push(`/view/${tag.TAG_TOKEN}`);
                 }}
             >
                 {tag_details.pets_name}

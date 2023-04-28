@@ -2,20 +2,36 @@
 
 import { LoadingSpinner } from "@/src/components/LoadingSpinner.component";
 import { useEffect, useState } from "react";
-import { OwnerType, TagType } from "../../models/types";
+import {
+    OwnerDetailsType,
+    OwnerType,
+    TagDetailsType,
+    TagType,
+} from "../../models/types";
 import { Navbar } from "@/src/components/NavBar.component";
-import { RedirectToSignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
-import TagSetupKeyView from "@/src/components/tags/TagSetupKeyView.component";
-import OwnerAddDetailsView from "@/src/components/owner/OwnerAddDetailsView.component";
-import TagAddDetailsView from "@/src/components/tags/TagAddDetailsView.component";
 import { useRouter } from "next/navigation";
+import { RedirectToSignIn, useUser } from "@clerk/nextjs";
 
-export default function SetupView({ params }: { params: { token: string } }) {
+interface TagViewProps {
+    tag: any;
+}
+
+interface ExpectedDataType {
+    tag: TagType;
+    owner: OwnerType;
+    owner_details: OwnerDetailsType;
+    tag_details: TagDetailsType;
+}
+
+export default function ViewPage({ params }: { params: { token: string } }) {
     const [owner, setOwner] = useState<OwnerType>();
     const [tag, setTag] = useState<TagType>();
 
-    const clerkAuth = useUser();
+    const [setupKey, setSetupKey] = useState<string>("");
+    const [showError, setShowError] = useState<boolean>(false);
+
     const router = useRouter();
+    const clerkAuth = useUser();
 
     useEffect(() => {
         const checkOwnerExistsAndRetrieve = async (user_id: string) => {
@@ -88,12 +104,8 @@ export default function SetupView({ params }: { params: { token: string } }) {
             } else {
                 if (owner.owner_details_id != null) {
                     // show tag setup key view
-                    router.push(`/verify-setup-key/${params.token}`);
                 } else {
                     // show owner add details view
-                    router.push(
-                        `/create/owner_details/${params.token}/${owner.id}`
-                    );
                 }
 
                 console.log("Owner is set");
@@ -119,28 +131,88 @@ export default function SetupView({ params }: { params: { token: string } }) {
         }
     }, [clerkAuth, owner, params, router, tag]);
 
+    const verifySetupKey = (e: any) => {
+        e.preventDefault();
+
+        if (setupKey === tag?.setup_key) {
+            registerTag();
+        } else {
+            console.log("Setup key does not match!");
+            setShowError(true);
+        }
+    };
+
+    const registerTag = async () => {
+        const registerRequest = await fetch(
+            `/api/register-tag?token=${tag?.TAG_TOKEN}&ownerID=${owner?.id}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        const registerResponse = await registerRequest.json();
+
+        if (registerResponse.status === 200) {
+            console.log("Redirecting back to tag setup page");
+            // router.push(`/setup/${tag.TAG_TOKEN}`);
+            const callback = `/setup/${tag?.TAG_TOKEN}`;
+            router.refresh();
+            router.replace(callback);
+        } else {
+            console.log("Error registering tag");
+        }
+    };
+
     if (!clerkAuth.isSignedIn) {
         return <RedirectToSignIn />;
+    }
+
+    if (!owner || !tag) {
+        return <LoadingSpinner display_text="Loading Owner & Tag data..." />;
     }
 
     return (
         <>
             <Navbar />
+
             <div className="flex h-[calc(100vh-64px)] overflow-auto justify-center items-center">
                 <div className="text-center">
-                    <div>
-                        {owner == null || tag == null ? (
-                            <LoadingSpinner display_text="Loading Owner & Tag data..." />
-                        ) : (
-                            <>
-                                <SignedIn>
-                                    <LoadingSpinner display_text="Checking data..." />
-                                </SignedIn>
-                                <SignedOut>
-                                    <RedirectToSignIn />
-                                </SignedOut>
-                            </>
+                    <div className="flex justify-center items-center">
+                        <div className="absolute top-[96px]">
+                            <h1 className="text-headingCustom underline  text-black-400 text-center">
+                                Verify QR
+                            </h1>
+                        </div>
+                        <div className="flex flex-col justify-center items-center">
+                            <span className="text-black-300  text-baseCustom p-[16px]">
+                                Please enter the setup key shown below your QR
+                                tag
+                            </span>
+                            <input
+                                type="text"
+                                className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)] text-center  text-base text-[rgba(0,0,0,0.75)]-400"
+                                placeholder="AAAA-###"
+                                pattern="[A-Za-z]{4}-[0-9]{3}"
+                                onChange={(e) => setSetupKey(e.target.value)}
+                            />
+                        </div>
+                        {/* Show error if showError is true */}
+                        {showError && (
+                            <div className="absolute bottom-[96px]">
+                                <span className="text-red-400 text-baseCustom">
+                                    Setup key does not match!
+                                </span>
+                            </div>
                         )}
+                        <button
+                            className="absolute bottom-[36px] w-[calc(100%-72px)] bg-dark-purple text-cream h-[48px]"
+                            onClick={(e) => verifySetupKey(e)}
+                        >
+                            CONTINUE
+                        </button>
                     </div>
                 </div>
             </div>

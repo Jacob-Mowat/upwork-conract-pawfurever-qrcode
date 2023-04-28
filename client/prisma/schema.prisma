@@ -41,7 +41,7 @@ model tags {
 
   registered Boolean @default(false)
   TAG_TOKEN  String  @unique(map: "tag_token") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  setup_key  String  @unique(map: "tag_setup_key") @default(dbgenerated("concat(concat(upper(LEFT(REGEXP_REPLACE(md5(random()::text),'[[:digit:]]','','g'), 4)), '-'), concat(concat(floor(random() * (9-0+1) + 0)::int, floor(random() * (9-0+1) + 0)::int), floor(random() * (9-0+1) + 0)::int))")) @db.VarChar(13)
+  setup_key  String  @unique(map: "tag_setup_key") @default(dbgenerated("concat(concat(upper(LEFT(REGEXP_REPLACE(md5(random()::text),'[[:digit:]]','','g'), 3)), '-'), concat(concat(concat(floor(random() * (9-0+1) + 0)::int, floor(random() * (9-0+1) + 0)::int), floor(random() * (9-0+1) + 0)::int)),floor(random() * (9-0+1) + 0)::int)")) @db.VarChar(13)
 
   owner_id       Int?
   owner          owners?      @relation(fields: [owner_id], references: [id], onDelete: Cascade, map: "owner_fk")
