@@ -6,7 +6,11 @@ import { s3Client } from "@/lib/s3bucket";
 
 const svgFlatten = require('svg-flatten');
 
-BigInt.prototype.toJSON = function() { return this.toString() };
+const BigIntProto = BigInt.prototype as any;
+BigIntProto.toJSON = function () {
+    // return Number(this);
+    return this.toString();
+};
 
 export async function POST(request: Request) {
     const { uuid, svg_list } = await request.json();

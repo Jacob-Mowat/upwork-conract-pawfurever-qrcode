@@ -2,7 +2,11 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-BigInt.prototype.toJSON = function() { return this.toString() };
+const BigIntProto = BigInt.prototype as any;
+BigIntProto.toJSON = function () {
+    // return Number(this);
+    return this.toString();
+};
 
 export async function POST(request: Request) {
     const { 
@@ -11,6 +15,7 @@ export async function POST(request: Request) {
         extra_information,
         use_owner_details,
         owners_name,
+        email,
         phone_number,
         addressline1,
         addressline2,
@@ -47,6 +52,7 @@ export async function POST(request: Request) {
             pets_information: extra_information,
             uses_owners_information: use_owner_details,
             tag_owners_name: use_owner_details ? `${owner_details?.owner_firstname} ${owner_details?.owner_lastname}` : owners_name,
+            tag_email: use_owner_details ? owner_details?.owner_email : email,
             tag_phone_number: use_owner_details ? owner_details?.owner_phone_number : phone_number,
             tag_address_line1: use_owner_details ? owner_details?.owner_address_line1 : addressline1,
             tag_address_line2: use_owner_details ? owner_details?.owner_address_line2 : addressline2,

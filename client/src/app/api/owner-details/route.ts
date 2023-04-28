@@ -1,7 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-BigInt.prototype.toJSON = function() { return this.toString() };
+const BigIntProto = BigInt.prototype as any;
+BigIntProto.toJSON = function () {
+    // return Number(this);
+    return this.toString();
+};
 
 export async function GET(request: Request) {
     const  { searchParams } = new URL(request.url);
@@ -60,12 +64,13 @@ export async function GET(request: Request) {
 };
 
 export async function POST(request: Request) {
-    const { firstname, lastname, phone_number, addressline1, addressline2, zipcode, ownerID } = await request.json();
+    const { firstname, lastname, phone_number, email, addressline1, addressline2, zipcode, ownerID } = await request.json();
 
     const newOwnerDetails = await prisma.owner_details.create({
         data: {
             owner_firstname: firstname,
             owner_lastname: lastname,
+            owner_email: email,
             owner_phone_number: phone_number,
             owner_address_line1: addressline1,
             owner_address_line2: addressline2,

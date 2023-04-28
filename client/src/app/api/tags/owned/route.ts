@@ -2,7 +2,11 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-BigInt.prototype.toJSON = function() { return this.toString() };
+const BigIntProto = BigInt.prototype as any;
+BigIntProto.toJSON = function () {
+    // return Number(this);
+    return this.toString();
+};
 
 export async function GET(request: Request) {
     const  { searchParams } = new URL(request.url);
@@ -32,7 +36,7 @@ export async function GET(request: Request) {
         }
     });
 
-    const tagDetailsIDs: number[] = tags.filter(tag => tag.tag_details_id).map(tag => tag.tag_details_id);
+    const tagDetailsIDs: number[] = tags.filter(tag => tag.tag_details_id).map(tag => tag.tag_details_id!);
 
     // Get all the tag_details for the tags
     const tag_details = await prisma.tag_details.findMany({

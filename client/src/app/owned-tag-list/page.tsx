@@ -66,7 +66,7 @@ export default function CreateOwnerDetailsPage() {
 
     return (
         <>
-            <Navbar />
+            <Navbar page="mytags" />
             <div className="flex h-[calc(100vh-64px)] overflow-auto justify-center items-center">
                 <div className="text-center">
                     <div className="flex flex-col justify-center items-center">

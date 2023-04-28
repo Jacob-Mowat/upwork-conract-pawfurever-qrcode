@@ -10,6 +10,8 @@ import {
 } from "../../models/types";
 import { Navbar } from "@/src/components/NavBar.component";
 import { useRouter } from "next/navigation";
+import { SideBar } from "@/src/components/SideBar.component";
+import { MailtrapClient } from "mailtrap";
 
 interface TagViewProps {
     tag: any;
@@ -77,12 +79,37 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                     router.push(`/setup/${params.token}`);
                 }
             });
+        } else {
+            console.log("Data has been loaded");
+
+            const { MailtrapClient } = require("mailtrap");
+
+            const ENDPOINT = "https://send.api.mailtrap.io/";
+            const SENDER_EMAIL = "no-reply@qr.mowat.dev";
+
+            // Send email to owner to notify them the tag has been viewed/scanned.
+            const client = new MailtrapClient({
+                endpoint: ENDPOINT,
+                token: process.env.NEXT_PUBLIC_MAILTRAP_API_TOKEN as string,
+            });
+
+            const sender = { name: "Mailtrap Test", email: SENDER_EMAIL };
+
+            client
+                .send({
+                    from: sender,
+                    to: [{ email: data?.tag_details.tag_email as string }],
+                    subject: "Hello from Mailtrap!",
+                    text: "Welcome to Mailtrap Sending!",
+                })
+                .then(console.log, console.error);
         }
-    }, [isLoading, params, router]);
+    }, [data?.tag_details.tag_email, isLoading, params, router]);
 
     return (
         <>
             <Navbar />
+            <SideBar />
             {isLoading && data == null ? (
                 <LoadingSpinner />
             ) : (

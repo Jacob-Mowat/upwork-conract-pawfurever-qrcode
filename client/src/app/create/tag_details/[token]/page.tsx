@@ -43,6 +43,7 @@ export default function CreateTagDetailsPage({
     const [useOwnerDetails, setUseOwnerDetails] = useState<boolean>(false);
 
     const [ownersName, setOwnersName] = useState<string>("");
+    const [ownersEmail, setOwnersEmail] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [phoneNumber2, setPhoneNumber2] = useState<string>("");
     const [addressline1, setAddressline1] = useState<string>("");
@@ -164,6 +165,18 @@ export default function CreateTagDetailsPage({
                 return;
             }
 
+            if (ownersEmail == "") {
+                setErrors(["Owners email is empty"]);
+                return;
+            }
+
+            // check email is valid using regex
+            const emailRegex = /\S+@\S+\.\S+/;
+            if (!emailRegex.test(ownersEmail)) {
+                setErrors(["Owners email is invalid"]);
+                return;
+            }
+
             if (phoneNumber == "") {
                 setErrors(["Phone number is empty"]);
                 return;
@@ -194,6 +207,7 @@ export default function CreateTagDetailsPage({
             extra_information: extraInformation,
             use_owner_details: useOwnerDetails,
             owners_name: ownersName,
+            email: ownersEmail,
             phone_number: phoneNumber,
             addressline1: addressline1,
             addressline2: addressline2,
@@ -230,6 +244,8 @@ export default function CreateTagDetailsPage({
                 }`
             );
 
+            setOwnersEmail(ownerDetails.owner_email as string);
+
             setPhoneNumber(ownerDetails.owner_phone_number as string);
 
             setPhoneNumber2(ownerDetails.owner_phone_number2 as string);
@@ -263,9 +279,14 @@ export default function CreateTagDetailsPage({
             <Navbar />
             <div className="flex h-[calc(100vh-64px)] overflow-auto justify-center items-center">
                 <div className="flex flex-col">
-                    <h1 className="top-0 text-headingCustom underline text-black text-center mb-[25px]">
+                    {/* <h1 className="top-0 text-headingCustom underline text-black text-center mb-[25px]">
                         Add Tag Details
-                    </h1>
+                    </h1> */}
+                    <div className="flex-0 w-full top-[96px] text-center">
+                        <h1 className="text-headingCustom underline  text-black-400">
+                            Add Tag Details
+                        </h1>
+                    </div>
 
                     <input
                         type="text"
@@ -311,6 +332,18 @@ export default function CreateTagDetailsPage({
                                 : "Owners name"
                         }
                         onChange={(e) => setOwnersName(e.target.value)}
+                        disabled={useOwnerDetails}
+                        required={!useOwnerDetails}
+                    />
+                    <input
+                        type="text"
+                        className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        placeholder={
+                            useOwnerDetails
+                                ? (ownerDetails?.owner_email as string)
+                                : "Owners email"
+                        }
+                        onChange={(e) => setOwnersEmail(e.target.value)}
                         disabled={useOwnerDetails}
                         required={!useOwnerDetails}
                     />

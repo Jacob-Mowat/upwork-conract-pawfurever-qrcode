@@ -26,6 +26,7 @@ model owner_details {
 
   owner_firstname     String  @db.VarChar(255)
   owner_lastname      String  @db.VarChar(255)
+  owner_email         String  @unique @db.VarChar(255)
   owner_phone_number  String  @db.VarChar(255)
   owner_phone_number2 String? @db.VarChar(255)
   owner_address_line1 String  @db.VarChar(255)
@@ -59,6 +60,7 @@ model tag_details {
   uses_owners_information Boolean @default(false)
 
   tag_owners_name   String? @db.VarChar(255)
+  tag_email         String? @db.VarChar(255)
   tag_phone_number  String? @db.VarChar(255)
   tag_phone_number2 String? @db.VarChar(255)
   tag_address_line1 String? @db.VarChar(255)

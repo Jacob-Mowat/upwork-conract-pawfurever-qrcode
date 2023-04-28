@@ -97,7 +97,7 @@ export default function Home() {
                 // Increase height of QR Code
                 svgElement.setAttribute(
                     "height",
-                    qrCodeHeight + qrCodeSetupKeyHeight
+                    `${qrCodeHeight + qrCodeSetupKeyHeight}`
                 );
                 // svgElement.setAttribute("viewBox", `0 0 35 39`);
                 // svgElement.height = qrCodeHeight+qrCodeSetupKeyHeight;

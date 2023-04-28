@@ -17,11 +17,14 @@ export default function CreateOwnerDetailsPage({
 }) {
     const [firstname, setFirstname] = useState<string>("");
     const [lastname, setLastname] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [phoneNumber2, setPhoneNumber2] = useState<string>("");
     const [addressline1, setAddressline1] = useState<string>("");
     const [addressline2, setAddressline2] = useState<string>("");
     const [zipcode, setZipcode] = useState<string>("");
+
+    const [errors, setErrors] = useState<string[]>([]);
 
     const router = useRouter();
 
@@ -29,18 +32,29 @@ export default function CreateOwnerDetailsPage({
         e.preventDefault();
         console.log("Form submitted");
 
+        if (email == "") {
+            errors.push("Email is empty");
+            return;
+        }
+
+        // check email is valid format
+        if (!email.includes("@")) {
+            errors.push("Email is not valid");
+            return;
+        }
+
         if (phoneNumber == "") {
-            console.log("Phone number is empty");
+            errors.push("Phone number is empty");
             return;
         }
 
         if (addressline1 == "") {
-            console.log("Addressline 1 is empty");
+            errors.push("Addressline 1 is empty");
             return;
         }
 
         if (zipcode == "") {
-            console.log("Zipcode is empty");
+            errors.push("Zipcode is empty");
             return;
         }
 
@@ -53,6 +67,7 @@ export default function CreateOwnerDetailsPage({
         const ownerDetails = {
             firstname: firstname,
             lastname: lastname,
+            email: email,
             phone_number: phoneNumber,
             phone_number2: phoneNumber2,
             addressline1: addressline1,
@@ -103,6 +118,13 @@ export default function CreateOwnerDetailsPage({
                             className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                             placeholder="Lastname"
                             onChange={(e) => setLastname(e.target.value)}
+                            required={true}
+                        />
+                        <input
+                            type="text"
+                            className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                            placeholder="Email"
+                            onChange={(e) => setEmail(e.target.value)}
                             required={true}
                         />
                         <input

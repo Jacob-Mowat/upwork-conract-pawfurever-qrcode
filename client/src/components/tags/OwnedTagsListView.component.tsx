@@ -56,32 +56,7 @@ export const OwnedTagsListView = ({ owner }: OwnedTagsListViewProps) => {
 
     return (
         <div>
-            <div className="flex flex-col items-center justify-center">
-                <h1 className="text-3xl font-bold">Owned Tags</h1>
-                <div className="flex flex-col items-center justify-center">
-                    {data.tags.length == 0 ? (
-                        <h1 className="text-2xl font-bold">
-                            You dont own any tags!
-                        </h1>
-                    ) : (
-                        <>
-                            {data.tags.map((tag, i) => {
-                                if (data.tag_details[i] == null) {
-                                    return null;
-                                } else {
-                                    return (
-                                        <OwnedTagsListItem
-                                            tag={tag}
-                                            key={tag.id as Key}
-                                            tag_details={data.tag_details[i]}
-                                        />
-                                    );
-                                }
-                            })}
-                        </>
-                    )}
-                </div>
-            </div>
+            <div className="flex flex-col items-center justify-center"></div>
         </div>
     );
 };

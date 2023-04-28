@@ -2,7 +2,11 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-BigInt.prototype.toJSON = function() { return this.toString() };
+const BigIntProto = BigInt.prototype as any;
+BigIntProto.toJSON = function () {
+    // return Number(this);
+    return this.toString();
+};
 
 export async function POST(request: Request) {
     const { 
