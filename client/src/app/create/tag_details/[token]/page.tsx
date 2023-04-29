@@ -415,7 +415,7 @@ export default function CreateTagDetailsPage({
                     ))}
 
                     <button
-                        className="bottom-[36px] w-[100%] bg-dark-purple text-cream h-[48px]"
+                        className="bottom-[36px] w-[100%] bg-dark-purple mb-[25px] text-cream h-[48px]"
                         onClick={(e) => verifyForm(e)}
                     >
                         ADD TAG
