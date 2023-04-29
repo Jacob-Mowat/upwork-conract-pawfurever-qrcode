@@ -54,7 +54,12 @@ export const Navbar = ({ page }: NavbarProps) => {
                             className="align-middle"
                         />
                     </Link>
-                    <UserButton />
+                    <SignedIn>
+                        <UserButton />
+                    </SignedIn>
+                    <SignedOut>
+                        <SignInButton />
+                    </SignedOut>
                     <div
                         className={isHidden ? "hidden w-full" : "w-full"}
                         id="navbar-hamburger"

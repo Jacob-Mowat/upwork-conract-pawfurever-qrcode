@@ -200,7 +200,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         </Link>
                                     </div> */}
 
-                                    <div className="bottom-[25px] left-0 mt-[25px] font-light text-sm place-self-center">
+                                    <div className="mb-[50px] left-0 mt-[25px] font-light text-sm place-self-center">
                                         <Link
                                             href={`/edit/${params.token}`}
                                             className="hover:bg-lightest-purple underline"
