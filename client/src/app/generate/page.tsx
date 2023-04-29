@@ -184,7 +184,7 @@ export default function Home() {
     return (
         <>
             <SignedIn>
-                <Navbar />
+                <Navbar page="generate" />
                 <div className="flex h-screen justify-center py-12 sm:flex-col md:flex-col">
                     <div className="isolate bg-cream px-6 py-24 sm:py-32 lg:px-8">
                         <div className="mx-auto max-w-2xl text-center">
