@@ -37,6 +37,8 @@ export default function Home() {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
+        setGeneratingTags(true);
+
         // Get a uuid for this set of tags
         const uuid = uuidv4();
 
@@ -180,6 +182,11 @@ export default function Home() {
 
             // // Set the image data to the zip file
             // setImageData(await zipResponse.body.zip_file);
+
+            setGeneratingTags(false);
+        } else {
+            alert("Error generating QR Code");
+            setGeneratingTags(false);
         }
     };
 
