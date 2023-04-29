@@ -282,7 +282,7 @@ export default function CreateTagDetailsPage({
                     {/* <h1 className="top-0 text-headingCustom underline text-black text-center mb-[25px]">
                         Add Tag Details
                     </h1> */}
-                    <div className="flex-0 w-full top-[96px] text-center">
+                    <div className="flex-0 w-full top-[96px] text-center mb-[25px] mt-[25px]">
                         <h1 className="text-2xl underline text-black-400">
                             Add Tag Details
                         </h1>
