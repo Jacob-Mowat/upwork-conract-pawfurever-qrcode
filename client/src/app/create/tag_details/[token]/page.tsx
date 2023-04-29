@@ -277,7 +277,7 @@ export default function CreateTagDetailsPage({
     return (
         <>
             <Navbar />
-            <div className="flex h-[calc(100vh-64px)] overflow-auto justify-center items-center">
+            <div className="flex overflow-auto justify-center items-center">
                 <div className="flex flex-col">
                     {/* <h1 className="top-0 text-headingCustom underline text-black text-center mb-[25px]">
                         Add Tag Details

@@ -14,11 +14,13 @@ import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { setTimeout } from "timers";
 import { Navbar } from "@/src/components/NavBar.component";
+import { LoadingSpinner } from "@/src/components/LoadingSpinner.component";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
     const [numOfTokensToGenerate, setNumOfTokensToGenerate] = useState(1);
+    const [generatingTags, setGeneratingTags] = useState(false);
     const [isGenerated, setIsGenerated] = useState(false);
     const [imageData, setImageData] = useState("");
     const [generatedTagToken, setGeneratedTagToken] = useState("");
@@ -180,6 +182,15 @@ export default function Home() {
             // setImageData(await zipResponse.body.zip_file);
         }
     };
+
+    if (generatingTags) {
+        return (
+            <>
+                <Navbar page="generate" />
+                <LoadingSpinner display_text="Generating QR Codes" />
+            </>
+        );
+    }
 
     return (
         <>

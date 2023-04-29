@@ -182,7 +182,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                 <div className="text-center">
                     <div className="flex justify-center items-center">
                         <div className="absolute top-[96px]">
-                            <h1 className="text-headingCustom underline  text-black-400 text-center">
+                            <h1 className="text-2xl underline text-black-400 text-center">
                                 Verify QR
                             </h1>
                         </div>
