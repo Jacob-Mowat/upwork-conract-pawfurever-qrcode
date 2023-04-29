@@ -1,20 +1,14 @@
 "use client";
-
-import { LoadingSpinner } from "@/src/components/LoadingSpinner.component";
 import { useEffect, useState } from "react";
-import { OwnerDetailsType, TagType } from "../../../models/types";
-import { Navbar } from "@/src/components/NavBar.component";
-import TagAddDetailsView from "@/src/components/tags/TagAddDetailsView.component";
+import { OwnerDetailsType, OwnerType, TagType } from "../../models/types";
 import { RedirectToSignIn, useUser } from "@clerk/nextjs";
+import { LoadingSpinner } from "@/src/components/LoadingSpinner.component";
+import { Navbar } from "@/src/components/NavBar.component";
+import { FileUploader } from "react-drag-drop-files";
 import { useRouter } from "next/navigation";
 import { s3Client } from "@/lib/s3bucket";
-import { FileUploader } from "react-drag-drop-files";
 
-export default function CreateTagDetailsPage({
-    params,
-}: {
-    params: { token: string };
-}) {
+export default function EditTagPage({ params }: { params: { token: string } }) {
     const [tag, setTag] = useState<TagType>();
 
     const [loadingData, setLoadingData] = useState(false);
@@ -277,14 +271,14 @@ export default function CreateTagDetailsPage({
     return (
         <>
             <Navbar />
-            <div className="flex h-[calc(100vh-64px)] overflow-auto justify-center items-center">
+            <div className="flex overflow-auto justify-center items-center">
                 <div className="flex flex-col">
                     {/* <h1 className="top-0 text-headingCustom underline text-black text-center mb-[25px]">
                         Add Tag Details
                     </h1> */}
-                    <div className="flex-0 w-full top-[96px] text-center">
-                        <h1 className="text-headingCustom underline  text-black-400">
-                            Add Tag Details
+                    <div className="flex-0 w-full top-[96px] text-center my-[25px]">
+                        <h1 className="text-2xl underline  text-black-400">
+                            Edit Tag Details
                         </h1>
                     </div>
 
@@ -415,7 +409,7 @@ export default function CreateTagDetailsPage({
                     ))}
 
                     <button
-                        className="bottom-[36px] w-[100%] bg-dark-purple text-cream h-[48px]"
+                        className="bottom-[36px] w-[100%] mb-[25px] bg-dark-purple text-cream h-[48px]"
                         onClick={(e) => verifyForm(e)}
                     >
                         ADD TAG

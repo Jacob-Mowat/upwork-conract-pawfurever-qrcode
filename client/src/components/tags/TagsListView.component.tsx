@@ -4,7 +4,7 @@ import styles from "./page.module.css";
 import { RedirectToSignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import TagAddDetailsView from "./TagAddDetailsView.component";
-import { TagType } from "../app/models/types";
+import { TagType } from "../../app/models/types";
 
 interface TagsListViewProps {
     tags: any;

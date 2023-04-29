@@ -11,7 +11,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className={josefin.className + " bg-cream"}>
+            <body className={josefin.className + " bg-cream overflow-x-hidden"}>
                 <ClerkProvider>{children}</ClerkProvider>
             </body>
         </html>

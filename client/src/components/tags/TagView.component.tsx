@@ -27,7 +27,7 @@ export default function TagView({ tag }: TagViewProps) {
     const user = useUser();
 
     const [loadingData, setLoadingData] = useState(true);
-    const [data, setData] = useState<ExpectedDataType>(null);
+    const [data, setData] = useState<ExpectedDataType>();
 
     useEffect(() => {
         if (loadingData) {

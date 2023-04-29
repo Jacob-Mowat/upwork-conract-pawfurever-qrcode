@@ -2,7 +2,7 @@
 
 import { LoadingSpinner } from "@/src/components/LoadingSpinner.component";
 import { Key, useEffect, useState } from "react";
-import { OwnerDetailsType, TagType } from "../../../models/types";
+import { OwnerDetailsType, TagType } from "../models/types";
 import { Navbar } from "@/src/components/NavBar.component";
 import TagAddDetailsView from "@/src/components/tags/TagAddDetailsView.component";
 import { RedirectToSignIn, useUser } from "@clerk/nextjs";
@@ -53,11 +53,11 @@ export default function CreateOwnerDetailsPage() {
     }, [loadingData, user]);
 
     if (loadingData) {
-        return <LoadingSpinner />;
+        return <LoadingSpinner display_text="Loading your Tags..." />;
     }
 
     if (!data.tags) {
-        return <LoadingSpinner display_text="Loading Tags..." />;
+        return <LoadingSpinner display_text="Loading your Tags..." />;
     }
 
     if (!user) {
@@ -67,35 +67,45 @@ export default function CreateOwnerDetailsPage() {
     return (
         <>
             <Navbar page="mytags" />
-            <div className="flex h-[calc(100vh-64px)] overflow-auto justify-center items-center">
-                <div className="text-center">
-                    <div className="flex flex-col justify-center items-center">
-                        <h1 className="text-3xl font-bold">Owned Tags</h1>
-                        <div className="flex flex-col items-center justify-center">
-                            {data.tags.length == 0 ? (
-                                <h1 className="text-2xl font-bold">
-                                    You dont own any tags!
-                                </h1>
-                            ) : (
-                                <>
-                                    {data.tags.map((tag, i) => {
-                                        if (data.tag_details[i] == null) {
-                                            return null;
-                                        } else {
-                                            return (
-                                                <OwnedTagsListItem
-                                                    tag={tag}
-                                                    key={tag.id as Key}
-                                                    tag_details={
-                                                        data.tag_details[i]
-                                                    }
-                                                />
-                                            );
-                                        }
-                                    })}
-                                </>
-                            )}
-                        </div>
+            <div className="flex overflow-auto justify-center items-center">
+                <div className="flex flex-col w-full justify-center items-center p-4">
+                    <div className="text-center p-4">
+                        <h1 className="text-headingCustom underline text-black-400 text-center">
+                            Your Tags
+                        </h1>
+                    </div>
+                    <div className="flex w-[100%] flex-col items-center justify-center">
+                        {data.tags.length == 0 ? (
+                            <h1 className="text-2xl font-bold">
+                                You dont own any tags!
+                            </h1>
+                        ) : (
+                            <>
+                                {data.tags.map((tag, i) => {
+                                    if (
+                                        data.tag_details.filter(
+                                            (td) => td.id === tag.tag_details_id
+                                        )[0] == null
+                                    ) {
+                                        return null;
+                                    } else {
+                                        return (
+                                            <OwnedTagsListItem
+                                                tag={tag}
+                                                key={tag.id as Key}
+                                                tag_details={
+                                                    data.tag_details.filter(
+                                                        (td) =>
+                                                            td.id ===
+                                                            tag.tag_details_id
+                                                    )[0]
+                                                }
+                                            />
+                                        );
+                                    }
+                                })}
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

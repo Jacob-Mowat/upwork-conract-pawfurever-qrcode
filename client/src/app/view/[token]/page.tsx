@@ -12,6 +12,8 @@ import { Navbar } from "@/src/components/NavBar.component";
 import { useRouter } from "next/navigation";
 import { SideBar } from "@/src/components/SideBar.component";
 import { MailtrapClient } from "mailtrap";
+import Link from "next/link";
+import { BsFillTelephoneFill } from "react-icons/bs";
 
 interface TagViewProps {
     tag: any;
@@ -111,45 +113,101 @@ export default function ViewPage({ params }: { params: { token: string } }) {
             <Navbar />
             <SideBar />
             {isLoading && data == null ? (
-                <LoadingSpinner />
+                <LoadingSpinner display_text="Loading Tag..." />
             ) : (
                 <div className="flex justify-center items-center">
-                    <div className="text-center">
+                    <div className="justify-center items-center">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src={data?.tag_details.pets_photo_url as string}
+                            src={
+                                (data?.tag_details.pets_photo_url as string) ||
+                                "https://media.istockphoto.com/id/1222357475/vector/image-preview-icon-picture-placeholder-for-website-or-ui-ux-design-vector-illustration.jpg?s=612x612&w=0&k=20&c=KuCo-dRBYV7nz2gbk4J9w1WtTAgpTdznHu55W9FjimE="
+                            }
                             alt="Pet Photo"
                             height="60%"
                         />
 
                         <div className="overflow-x-hidden">
-                            <div className="absolute border border-t-cream bottom-0 mt-[25px] ml-[-50%] h-[55%] w-[200%] rounded-t-[100%] bg-gradient-to-b from-cream via-cream to-cream">
-                                <div className="mt-[50px] text-center text-2xl">
-                                    <div className="text-welcomeCustom font-thin">
+                            <div className="absolute bottom-0 mt-[25px] ml-[-50%] h-[55%] w-[200%] rounded-t-[50%] bg-gradient-to-b from-cream via-cream to-cream">
+                                <div className="mt-[30px] md:mt-[50px] text-center">
+                                    <div className="text-xl md:text-welcomeCustom font-thin ">
                                         Hi! my name is,
                                     </div>
-                                    <h2 className="text-dogName mb-[25px] font-thin">
+                                    <div className="text-4xl mb-[15px] font-thin">
                                         {data?.tag_details.pets_name}
-                                    </h2>
-                                    <p>Thank you for finding me!</p>
-                                    <p className="mb-[25px]">
-                                        My owners name is,{" "}
-                                        <span>
-                                            {data?.tag_details.tag_owners_name}
-                                        </span>
-                                    </p>
-                                    <p className="mb-[25px]">
-                                        {data?.tag_details.pets_information}
-                                    </p>
-                                    <p>{data?.tag_details.tag_address_line1}</p>
-                                    <p>{data?.tag_details.tag_address_line2}</p>
-                                    <div className="mb-[25px] font-light text-2xl">
+                                    </div>
+                                    <div className="text-xl mb-[25px] w-[40%] translate-x-[75%]">
+                                        Thank you for finding me! <br />
+                                        My owner is:
+                                    </div>
+                                    <div className="mb-[25px] text-center">
+                                        {data?.tag_details.tag_owners_name}
+                                        <br />
+                                        {data?.tag_details.tag_address_line1}
+                                        <br />
+                                        {data?.tag_details.tag_address_line2}
+                                        <br />
                                         {data?.tag_details.tag_address_zip}
                                     </div>
-                                    <p>{data?.tag_details.tag_phone_number}</p>
-                                    <div className="mt-[25px] font-light text-sm">
-                                        Owner? click here to login and edit your
-                                        tag :)
+
+                                    <div>
+                                        Main phone number:{" "}
+                                        <a
+                                            href={`tel:${data?.tag_details.tag_phone_number}`}
+                                            className="underline hover:bg-lightest-purple hover:text-purple"
+                                        >
+                                            {data?.tag_details.tag_phone_number}{" "}
+                                            <BsFillTelephoneFill />
+                                        </a>
+                                    </div>
+                                    {data?.tag_details.tag_phone_number2 && (
+                                        <div>
+                                            Second phone number:{" "}
+                                            <a
+                                                href={`tel:${data?.tag_details.tag_phone_number2}`}
+                                                className="underline"
+                                            >
+                                                {
+                                                    data?.tag_details
+                                                        .tag_phone_number2
+                                                }
+                                            </a>
+                                        </div>
+                                    )}
+
+                                    {data?.tag_details.pets_information && (
+                                        <div className="mt-[25px] mb-[25px]">
+                                            <div className="text-xl mb-[15px] font-thin">
+                                                Extra information:
+                                            </div>
+                                            <div className="text-md mb-[15px] font-thin">
+                                                {
+                                                    data?.tag_details
+                                                        .pets_information
+                                                }
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* <div className="mt-[25px]">
+                                        <Link
+                                            href={`/edit/${params.token}`}
+                                            className="hover:bg-lightest-purple hover:text-purple underline"
+                                        >
+                                            <button className="bg-purple px-16 py-4 text-2xl">
+                                                Call Owner
+                                            </button>
+                                        </Link>
+                                    </div> */}
+
+                                    <div className="bottom-[25px] left-0 mt-[25px] font-light text-sm place-self-center">
+                                        <Link
+                                            href={`/edit/${params.token}`}
+                                            className="hover:bg-lightest-purple underline"
+                                        >
+                                            Owner? click here to login and edit
+                                            your tag :)
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

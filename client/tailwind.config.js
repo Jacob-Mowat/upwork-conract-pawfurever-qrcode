@@ -23,12 +23,12 @@ module.exports = {
         'josefin': ['Josefin Sans', 'sans-serif'],
       }
     },
-    fontSize: {
-      baseCustom: ['18px', '18px'],
-      headingCustom: ['40px', '40px'],
-      welcomeCustom: ['24px', '24px'],
-      dogName: ['48px', '48px'],
-    }
+    // fontSize: {
+    //   baseCustom: ['18px', '18px'],
+    //   headingCustom: ['40px', '40px'],
+    //   welcomeCustom: ['24px', '24px'],
+    //   dogName: ['36px', '36px'],
+    // }
   },
   plugins: [
     require('@tailwindcss/forms'),
