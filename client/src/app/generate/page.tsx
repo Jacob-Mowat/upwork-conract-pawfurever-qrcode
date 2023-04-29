@@ -257,7 +257,7 @@ export default function Home() {
                             {renderQRCode && (
                                 <SVG
                                     text={
-                                        "http://192.168.0.54:3000/view/" +
+                                        "https://qr.mowat.dev/view/" +
                                         generatedTagToken
                                     }
                                     options={{
