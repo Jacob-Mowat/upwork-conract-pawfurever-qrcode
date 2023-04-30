@@ -15,6 +15,7 @@ import { v4 as uuidv4 } from "uuid";
 import { setTimeout } from "timers";
 import { Navbar } from "@/src/components/NavBar.component";
 import { LoadingSpinner } from "@/src/components/LoadingSpinner.component";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function Home() {
     const [imageData, setImageData] = useState("");
     const [generatedTagToken, setGeneratedTagToken] = useState("");
     const [renderQRCode, setRenderQRCode] = useState(false);
+    const [showDownloadButton, setShowDownloadButton] = useState(false);
 
     const [downloadURL, setDownloadURL] = useState("");
     const [downloadFileName, setDownloadFileName] = useState("");
@@ -33,6 +35,29 @@ export default function Home() {
     const qrCodeSetupKeyHeight = 50;
 
     const { SVG } = useQRCode();
+
+    useEffect(() => {
+        const checkIsAdmin = async () => {
+            const request = await fetch("/api/users/isAdmin", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const response = await request.json();
+
+            console.log(response);
+
+            if (response.status === 200) {
+                console.log("User is admin");
+            } else {
+                console.log("User is not admin");
+            }
+        };
+
+        // checkIsAdmin();
+    }, []);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -183,6 +208,7 @@ export default function Home() {
             // // Set the image data to the zip file
             // setImageData(await zipResponse.body.zip_file);
 
+            setShowDownloadButton(true);
             setGeneratingTags(false);
         } else {
             alert("Error generating QR Code");
@@ -195,7 +221,76 @@ export default function Home() {
             <>
                 <Navbar page="generate" />
                 <LoadingSpinner display_text="Generating QR Codes" />
+                <div className="isolate bg-cream px-6 py-24 sm:py-32 lg:px-8 invisible">
+                    <div
+                        id="qr-canvas-container"
+                        className="border-2 border-lightest-purple"
+                    >
+                        {renderQRCode && (
+                            <SVG
+                                text={
+                                    "https://qr.mowat.dev/view/" +
+                                    generatedTagToken
+                                }
+                                options={{
+                                    level: "H",
+                                    margin: 3,
+                                    scale: 5,
+                                    width: qrCodeHeight,
+                                    color: {
+                                        dark: "#000000",
+                                        light: "#FFFFFF",
+                                    },
+                                }}
+                            />
+                        )}
+                    </div>
+                </div>
             </>
+        );
+    }
+
+    if (!generatingTags && showDownloadButton) {
+        return (
+            <SignedIn>
+                <Navbar page="generate" />
+                <div className="flex h-screen w-[80%] justify-center py-12 sm:flex-col md:flex-col">
+                    <div className="isolate bg-cream px-6 py-24 sm:py-32 lg:px-8">
+                        <div className="mx-auto max-w-2xl text-center">
+                            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                                Finished
+                            </h2>
+                            <p className="mt-2 text-lg leading-8 text-gray-600">
+                                Your {numOfTokensToGenerate} QR Codes have been
+                                generated. Click the button below to download
+                                them.
+                            </p>
+                            <p className="mt-2 text-lg leading-8 text-gray-600">
+                                This download link is also saved in{" "}
+                                <Link href="/dashboard" className="text-purple">
+                                    Generated QR Tags
+                                </Link>
+                            </p>
+                        </div>
+                        <div className="mx-auto max-w-2xl text-center py-4 mt-10">
+                            {isGenerated && (
+                                <>
+                                    <a
+                                        href={downloadURL}
+                                        download={downloadFileName}
+                                        className="block w-full px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm bg-dark-purple hover:purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f0e2fc]-600"
+                                        onClick={(e) => {
+                                            setShowDownloadButton(false);
+                                        }}
+                                    >
+                                        Download QR Codes
+                                    </a>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </SignedIn>
         );
     }
 
@@ -247,50 +342,11 @@ export default function Home() {
                                     type="submit"
                                     className="block w-full bg-dark-purple hover:purple disabled:cream px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-[#f2e5fe] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f0e2fc]-600"
                                     onClick={(e) => handleSubmit(e)}
-                                    disabled={isGenerated}
                                 >
                                     Generate QR Code
                                 </button>
                             </div>
-                            <div className="mx-auto max-w-2xl text-center py-4">
-                                {isGenerated && (
-                                    <>
-                                        <a
-                                            href={downloadURL}
-                                            download={downloadFileName}
-                                            className="block w-full px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm bg-dark-purple hover:purple focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f0e2fc]-600"
-                                        >
-                                            Download QR Codes
-                                        </a>
-                                    </>
-                                )}
-                            </div>
                         </form>
-                    </div>
-                    <div className="isolate bg-cream px-6 py-24 sm:py-32 lg:px-8 invisible">
-                        <div
-                            id="qr-canvas-container"
-                            className="border-2 border-lightest-purple"
-                        >
-                            {renderQRCode && (
-                                <SVG
-                                    text={
-                                        "https://qr.mowat.dev/view/" +
-                                        generatedTagToken
-                                    }
-                                    options={{
-                                        level: "H",
-                                        margin: 3,
-                                        scale: 5,
-                                        width: qrCodeHeight,
-                                        color: {
-                                            dark: "#000000",
-                                            light: "#FFFFFF",
-                                        },
-                                    }}
-                                />
-                            )}
-                        </div>
                     </div>
                 </div>
             </SignedIn>

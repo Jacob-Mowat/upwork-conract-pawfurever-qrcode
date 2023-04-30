@@ -51,6 +51,15 @@ export async function POST(request: Request) {
 
             console.log(response);
 
+            // register the download url in the database
+            const save_url = await prisma.zip_download_urls.create({
+                data: {
+                    zip_file_url: response.Location,
+                    zip_file_name: `${uuid}.zip`,
+                    num_of_tags: svg_list.length
+                }
+            });
+
             return {
                 status:200,
                 body: {

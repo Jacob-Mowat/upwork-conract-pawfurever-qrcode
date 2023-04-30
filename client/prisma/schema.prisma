@@ -44,10 +44,12 @@ model tags {
   TAG_TOKEN  String  @unique(map: "tag_token") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   setup_key  String  @unique(map: "tag_setup_key") @default(dbgenerated("concat(concat(upper(LEFT(REGEXP_REPLACE(md5(random()::text),'[[:digit:]]','','g'), 3)), '-'), concat(concat(concat(floor(random() * (9-0+1) + 0)::int, floor(random() * (9-0+1) + 0)::int), floor(random() * (9-0+1) + 0)::int)),floor(random() * (9-0+1) + 0)::int)")) @db.VarChar(13)
 
-  owner_id       Int?
-  owner          owners?      @relation(fields: [owner_id], references: [id], onDelete: Cascade, map: "owner_fk")
-  tag_details_id Int?         @unique(map: "tag_details_id")
-  tag_details    tag_details? @relation(fields: [tag_details_id], references: [id], onDelete: Cascade, map: "tag_details_fk")
+  owner_id            Int?
+  owner               owners?            @relation(fields: [owner_id], references: [id], onDelete: Cascade, map: "owner_fk")
+  tag_details_id      Int?               @unique(map: "tag_details_id")
+  tag_details         tag_details?       @relation(fields: [tag_details_id], references: [id], onDelete: Cascade, map: "tag_details_fk")
+  zip_download_urls   zip_download_urls? @relation(fields: [zip_download_urlsId], references: [id])
+  zip_download_urlsId Int?
 }
 
 model tag_details {
@@ -68,6 +70,17 @@ model tag_details {
   tag_address_zip   String? @db.VarChar(255)
 
   tag tags?
+}
+
+model zip_download_urls {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now()) @db.Timestamp(6)
+
+  zip_file_name String @db.VarChar(255)
+  zip_file_url  String @db.VarChar(255)
+  num_of_tags   Int    @default(1)
+
+  tags tags[]
 }
 
 // LEFT(md5(random()::text), 3)

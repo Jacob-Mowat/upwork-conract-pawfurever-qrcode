@@ -46,3 +46,13 @@ export interface OwnerDetailsType {
     owner_address_zip: String;
     owner: OwnerType;
 }
+
+export interface ZipDownloadUrlsType {
+    id: String;
+    created_at: String;
+    zip_file_name: String;
+    zip_file_url: String;
+    num_of_tags: Number;
+
+    // tags: TagType[];
+}
