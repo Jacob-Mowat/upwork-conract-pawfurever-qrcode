@@ -13,7 +13,7 @@ export const OwnedTagsListItem = ({
 }: OwnedTagsListItemProps) => {
     const router = useRouter();
     return (
-        <div className="flex flex-col md:flex-row w-full relative bg-cream border border-lightest-purple p-2 my-1">
+        <div className="flex flex-col md:flex-row w-full md:w-[85%] lg:w-[65%] relative bg-cream border border-lightest-purple p-2 my-1">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
                 src={
@@ -24,11 +24,11 @@ export const OwnedTagsListItem = ({
                 className="p-2 w-[200px] h-[200px] md:w-[175px] md:h-[175px] lg:w-[250px] lg:h-[250px] place-self-center overflow-hidden rounded-full border-2 border-spacing-0 border-dashed border-lightest-purple"
             />
 
-            <div className="p-2">
-                <h1 className="text-welcomeCustom text-center">
+            <div className="p-2 flex flex-col md:ml-8 md:align-middle">
+                <h1 className="text-3xl text-center md:text-left md:align-middle">
                     {tag_details.pets_name}
                 </h1>
-                <p className="">
+                <p className="text-lg md:align-middle">
                     {tag_details.tag_address_line1}
                     <br />
                     {tag_details.tag_address_line2}
@@ -42,13 +42,13 @@ export const OwnedTagsListItem = ({
                     className="underline p-2 hover:bg-lightest-purple"
                     href={`/view/${tag.TAG_TOKEN}`}
                 >
-                    <span>View</span>
+                    <span className="text-2xl">View</span>
                 </Link>
                 <Link
                     className="underline p-2 hover:bg-lightest-purple"
                     href={`/edit/${tag.TAG_TOKEN}`}
                 >
-                    <span>Edit</span>
+                    <span className="text-2xl">Edit</span>
                 </Link>
             </div>
         </div>

@@ -70,7 +70,7 @@ export default function CreateOwnerDetailsPage() {
             <div className="flex overflow-auto justify-center items-center">
                 <div className="flex flex-col w-full justify-center items-center p-4">
                     <div className="text-center p-4">
-                        <h1 className="text-headingCustom underline text-black-400 text-center">
+                        <h1 className="text-4xl underline text-black-400 text-center">
                             Your Tags
                         </h1>
                     </div>
