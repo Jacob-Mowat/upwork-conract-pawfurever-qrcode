@@ -41,9 +41,12 @@ export const Navbar = ({ page }: NavbarProps) => {
                 if (response.status === 200) {
                     console.log("User is admin");
                     setIsAdmin(true);
-                } else {
-                    console.log("User is not admin");
+                } else if (response.status === 404) {
+                    console.log("User doesn't exist");
                     setCreateNewOwner(true);
+                } else if (response.status === 403) {
+                    console.log("User is not admin");
+                    setIsAdmin(false);
                 }
             };
 

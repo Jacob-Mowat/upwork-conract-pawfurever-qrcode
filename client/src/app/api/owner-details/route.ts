@@ -78,7 +78,7 @@ export async function POST(request: Request) {
             owner_address_zip: zipcode,
             owner: {
                 connect: {
-                    id: ownerID
+                    id: parseInt(ownerID)
                 }
             }
         }
