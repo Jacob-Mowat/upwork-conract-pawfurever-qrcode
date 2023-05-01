@@ -149,30 +149,35 @@ export const Navbar = ({ page }: NavbarProps) => {
                                         My Tags
                                     </a>
                                 </li>
-                                <li>
-                                    <a
-                                        href="/generate"
-                                        className={
-                                            page === "generate"
-                                                ? "block py-2 pl-3 pr-4 text-black bg-lightest-purple rounded dark:bg-blue-600"
-                                                : "block py-2 pl-3 pr-4 text-black rounded dark:bg-blue-600"
-                                        }
-                                    >
-                                        Generate New QR Tags
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="/generated-tag-list"
-                                        className={
-                                            page === "generated-tags-list"
-                                                ? "block py-2 pl-3 pr-4 text-black bg-lightest-purple rounded dark:bg-blue-600"
-                                                : "block py-2 pl-3 pr-4 text-black rounded dark:bg-blue-600"
-                                        }
-                                    >
-                                        Download QR Tags
-                                    </a>
-                                </li>
+                                {isAdmin && (
+                                    <>
+                                        <li>
+                                            <a
+                                                href="/generate"
+                                                className={
+                                                    page === "generate"
+                                                        ? "block py-2 pl-3 pr-4 text-black bg-lightest-purple rounded dark:bg-blue-600"
+                                                        : "block py-2 pl-3 pr-4 text-black rounded dark:bg-blue-600"
+                                                }
+                                            >
+                                                Generate New QR Tags
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="/generated-tag-list"
+                                                className={
+                                                    page ===
+                                                    "generated-tags-list"
+                                                        ? "block py-2 pl-3 pr-4 text-black bg-lightest-purple rounded dark:bg-blue-600"
+                                                        : "block py-2 pl-3 pr-4 text-black rounded dark:bg-blue-600"
+                                                }
+                                            >
+                                                Download QR Tags
+                                            </a>
+                                        </li>
+                                    </>
+                                )}
                             </SignedIn>
                         </ul>
                     </div>
