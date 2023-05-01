@@ -64,7 +64,7 @@ export async function GET(request: Request) {
 };
 
 export async function POST(request: Request) {
-    const { firstname, lastname, phone_number, email, addressline1, addressline2, zipcode, ownerID } = await request.json();
+    const { firstname, lastname, phone_number, phone_number2, email, addressline1, addressline2, zipcode, ownerID } = await request.json();
 
     const newOwnerDetails = await prisma.owner_details.create({
         data: {
@@ -72,6 +72,7 @@ export async function POST(request: Request) {
             owner_lastname: lastname,
             owner_email: email,
             owner_phone_number: phone_number,
+            owner_phone_number2: phone_number2,
             owner_address_line1: addressline1,
             owner_address_line2: addressline2,
             owner_address_zip: zipcode,
@@ -83,10 +84,10 @@ export async function POST(request: Request) {
         }
     });
 
-    if (newOwnerDetails == null) {
-        // Disconnect from the database
-        await prisma.$disconnect();
+    // Disconnect from the database
+    await prisma.$disconnect();
 
+    if (newOwnerDetails == null) {
         return NextResponse.json({
             status: 500,
             body: {
@@ -94,9 +95,6 @@ export async function POST(request: Request) {
             }
         });
     }
-
-    // Disconnect from the database
-    await prisma.$disconnect();
 
     return NextResponse.json({
         status:200,

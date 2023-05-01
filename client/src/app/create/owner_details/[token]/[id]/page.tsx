@@ -99,12 +99,14 @@ export default function CreateOwnerDetailsPage({
     return (
         <>
             <Navbar />
-            <div className="flex h-[calc(100vh-64px)] overflow-auto justify-center items-center">
+            <div className="flex overflow-auto justify-center items-center">
                 <div className="text-center">
                     <div className="flex flex-col justify-center items-center">
-                        <h1 className="top-0 text-headingCustom underline  text-black-400 text-center mb-[25px]">
-                            Account Details
-                        </h1>
+                        <div className="flex-0 w-full top-[96px] text-center mb-[25px] mt-[25px]">
+                            <h1 className="text-2xl underline text-black-400">
+                                Account Details
+                            </h1>
+                        </div>
 
                         <input
                             type="text"
@@ -164,7 +166,7 @@ export default function CreateOwnerDetailsPage({
                         />
 
                         <button
-                            className="bottom-[36px] w-[calc(100%-72px)] bg-dark-purple text-cream h-[48px]"
+                            className="bottom-[36px] w-[100%] bg-dark-purple text-cream h-[48px]"
                             onClick={(e) => verifyForm(e)}
                         >
                             CONTINUE
