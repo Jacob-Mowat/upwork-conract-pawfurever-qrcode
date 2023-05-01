@@ -257,8 +257,8 @@ export default function Home() {
         return (
             <SignedIn>
                 <Navbar page="generate" />
-                <div className="flex h-screen w-[80%] justify-center py-12 sm:flex-col md:flex-col">
-                    <div className="isolate bg-cream px-6 py-24 sm:py-32 lg:px-8">
+                <div className="flex w-[80%] mx-auto justify-center pt-24 sm:flex-col md:flex-col">
+                    <div className="bg-cream ">
                         <div className="mx-auto max-w-2xl text-center">
                             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                                 Finished
@@ -298,6 +298,9 @@ export default function Home() {
     }
 
     if (!verified) {
+        if (!clerkAuth.isSignedIn) {
+            return <RedirectToSignIn />;
+        }
         return <LoadingSpinner display_text="Verifying your account" />;
     }
 
@@ -305,7 +308,7 @@ export default function Home() {
         <>
             <SignedIn>
                 <Navbar page="generate" />
-                <div className="flex h-screen justify-center py-12 sm:flex-col md:flex-col">
+                <div className="flex justify-center py-12 sm:flex-col md:flex-col">
                     <div className="isolate bg-cream px-6 py-24 sm:py-32 lg:px-8">
                         <div className="mx-auto max-w-2xl text-center">
                             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -357,9 +360,6 @@ export default function Home() {
                     </div>
                 </div>
             </SignedIn>
-            <SignedOut>
-                <RedirectToSignIn />
-            </SignedOut>
         </>
     );
 }

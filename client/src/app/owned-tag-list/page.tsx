@@ -56,10 +56,6 @@ export default function CreateOwnerDetailsPage() {
         return <LoadingSpinner display_text="Loading your Tags..." />;
     }
 
-    if (!data.tags) {
-        return <LoadingSpinner display_text="Loading your Tags..." />;
-    }
-
     if (!user) {
         return <RedirectToSignIn />;
     }
@@ -75,7 +71,7 @@ export default function CreateOwnerDetailsPage() {
                         </h1>
                     </div>
                     <div className="flex w-[100%] flex-col items-center justify-center">
-                        {data.tags.length == 0 ? (
+                        {!data.tags || data.tags.length == 0 ? (
                             <h1 className="text-2xl font-bold">
                                 You dont own any tags!
                             </h1>

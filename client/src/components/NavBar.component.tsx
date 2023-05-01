@@ -6,7 +6,7 @@ import {
     useUser,
 } from "@clerk/nextjs";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface NavbarProps {
     page?: string;
@@ -14,8 +14,67 @@ interface NavbarProps {
 
 export const Navbar = ({ page }: NavbarProps) => {
     const [isHidden, setIsHidden] = useState<boolean>(true);
+    const [isAdmin, setIsAdmin] = useState<boolean>(false);
+    const [createNewOwner, setCreateNewOwner] = useState<boolean>(false);
 
-    const { user } = useUser();
+    const clerkAuth = useUser();
+
+    useEffect(() => {
+        if (clerkAuth.isSignedIn) {
+            // Check if owner uID clerkAuth.user.id is a admin
+
+            const checkIsAdmin = async () => {
+                const request = await fetch(
+                    `/api/owners/isAdmin?uID=${clerkAuth.user.id}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+
+                const response = await request.json();
+
+                console.log(response);
+
+                if (response.status === 200) {
+                    console.log("User is admin");
+                    setIsAdmin(true);
+                } else {
+                    console.log("User is not admin");
+                    setCreateNewOwner(true);
+                }
+            };
+
+            const createOwner = async () => {
+                const request = await fetch(`/api/owners/create`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ user_id: clerkAuth.user.id }),
+                });
+
+                const response = await request.json();
+
+                console.log(response);
+
+                if (response.body.status == 200) {
+                    console.log("Owner created");
+                    setCreateNewOwner(false);
+                } else {
+                    console.log("Owner not created");
+                }
+            };
+
+            if (createNewOwner) {
+                createOwner();
+            }
+
+            checkIsAdmin();
+        }
+    }, [clerkAuth, createNewOwner]);
 
     return (
         <>
@@ -67,40 +126,54 @@ export const Navbar = ({ page }: NavbarProps) => {
                         <ul className="flex flex-col font-medium mt-4 rounded-lg bg-cream dark:bg-gray-800 dark:border-gray-700">
                             <li>
                                 <a
-                                    href="/owned-tag-list"
+                                    href="/"
                                     className={
-                                        page === "mytags"
+                                        page === "home"
                                             ? "block py-2 pl-3 pr-4 text-black bg-lightest-purple rounded dark:bg-blue-600"
                                             : "block py-2 pl-3 pr-4 text-black rounded dark:bg-blue-600"
                                     }
                                 >
-                                    My Tags
+                                    Home
                                 </a>
                             </li>
-                            <li>
-                                <a
-                                    href="/generate"
-                                    className={
-                                        page === "generate"
-                                            ? "block py-2 pl-3 pr-4 text-black bg-lightest-purple rounded dark:bg-blue-600"
-                                            : "block py-2 pl-3 pr-4 text-black rounded dark:bg-blue-600"
-                                    }
-                                >
-                                    Generate New QR Tags
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/generated-tag-list"
-                                    className={
-                                        page === "generated-tags-list"
-                                            ? "block py-2 pl-3 pr-4 text-black bg-lightest-purple rounded dark:bg-blue-600"
-                                            : "block py-2 pl-3 pr-4 text-black rounded dark:bg-blue-600"
-                                    }
-                                >
-                                    Download QR Tags
-                                </a>
-                            </li>
+                            <SignedIn>
+                                <li>
+                                    <a
+                                        href="/owned-tag-list"
+                                        className={
+                                            page === "mytags"
+                                                ? "block py-2 pl-3 pr-4 text-black bg-lightest-purple rounded dark:bg-blue-600"
+                                                : "block py-2 pl-3 pr-4 text-black rounded dark:bg-blue-600"
+                                        }
+                                    >
+                                        My Tags
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="/generate"
+                                        className={
+                                            page === "generate"
+                                                ? "block py-2 pl-3 pr-4 text-black bg-lightest-purple rounded dark:bg-blue-600"
+                                                : "block py-2 pl-3 pr-4 text-black rounded dark:bg-blue-600"
+                                        }
+                                    >
+                                        Generate New QR Tags
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="/generated-tag-list"
+                                        className={
+                                            page === "generated-tags-list"
+                                                ? "block py-2 pl-3 pr-4 text-black bg-lightest-purple rounded dark:bg-blue-600"
+                                                : "block py-2 pl-3 pr-4 text-black rounded dark:bg-blue-600"
+                                        }
+                                    >
+                                        Download QR Tags
+                                    </a>
+                                </li>
+                            </SignedIn>
                         </ul>
                     </div>
                 </div>

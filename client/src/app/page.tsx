@@ -65,13 +65,16 @@ export default function Home() {
         } else {
             if (findOwnerResponse.body.error == "No Owner found") {
                 // Create new Owner record
-                const createNewOwnerRequest = await fetch(`/api/owners`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ user_id: userID }),
-                });
+                const createNewOwnerRequest = await fetch(
+                    `/api/owners/create`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ user_id: userID }),
+                    }
+                );
 
                 const createNewOwnerResponse =
                     await createNewOwnerRequest.json();
