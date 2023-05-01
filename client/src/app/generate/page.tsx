@@ -6,6 +6,7 @@ import {
     SignedIn,
     SignedOut,
     RedirectToSignIn,
+    useUser,
 } from "@clerk/nextjs/app-beta/client";
 import { useQRCode } from "next-qrcode";
 import { useState, useEffect } from "react";
@@ -16,6 +17,7 @@ import { setTimeout } from "timers";
 import { Navbar } from "@/src/components/NavBar.component";
 import { LoadingSpinner } from "@/src/components/LoadingSpinner.component";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +29,7 @@ export default function Home() {
     const [generatedTagToken, setGeneratedTagToken] = useState("");
     const [renderQRCode, setRenderQRCode] = useState(false);
     const [showDownloadButton, setShowDownloadButton] = useState(false);
+    const [verified, setVerified] = useState(false);
 
     const [downloadURL, setDownloadURL] = useState("");
     const [downloadFileName, setDownloadFileName] = useState("");
@@ -35,29 +38,38 @@ export default function Home() {
     const qrCodeSetupKeyHeight = 50;
 
     const { SVG } = useQRCode();
+    const clerkAuth = useUser();
+    const router = useRouter();
 
     useEffect(() => {
-        const checkIsAdmin = async () => {
-            const request = await fetch("/api/users/isAdmin", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+        if (clerkAuth.isSignedIn && clerkAuth.user) {
+            const checkIsAdmin = async () => {
+                const request = await fetch(
+                    `/api/owners/isAdmin?uID=${clerkAuth.user.id}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
 
-            const response = await request.json();
+                const response = await request.json();
 
-            console.log(response);
+                console.log(response);
 
-            if (response.status === 200) {
-                console.log("User is admin");
-            } else {
-                console.log("User is not admin");
-            }
-        };
+                if (response.status === 200) {
+                    console.log("User is admin");
+                    setVerified(true);
+                } else {
+                    console.log("User is not admin");
+                    router.push("/unauthorized");
+                }
+            };
 
-        // checkIsAdmin();
-    }, []);
+            checkIsAdmin();
+        }
+    }, [clerkAuth.isSignedIn, clerkAuth.user]);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -212,7 +224,7 @@ export default function Home() {
             <>
                 <Navbar page="generate" />
                 <LoadingSpinner display_text="Generating QR Codes" />
-                <div className="isolate bg-cream px-6 py-24 sm:py-32 lg:px-8">
+                <div className="isolate bg-cream px-6 py-24 sm:py-32 lg:px-8 invisible">
                     <div
                         id="qr-canvas-container"
                         className="border-2 border-lightest-purple"
@@ -283,6 +295,10 @@ export default function Home() {
                 </div>
             </SignedIn>
         );
+    }
+
+    if (!verified) {
+        return <LoadingSpinner display_text="Verifying your account" />;
     }
 
     return (
