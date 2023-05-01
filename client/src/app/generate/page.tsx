@@ -210,6 +210,7 @@ export default function Home() {
 
             setShowDownloadButton(true);
             setGeneratingTags(false);
+            setIsGenerated(true);
         } else {
             alert("Error generating QR Code");
             setGeneratingTags(false);

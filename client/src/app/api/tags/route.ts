@@ -12,17 +12,14 @@ export async function POST(request: Request) {
     const { numOfTagsToGenerate } = await request.json();
 
     var tags: any = [];
-    
-    for (let i = 0; i < numOfTagsToGenerate; i++) {
-        // Create a new tag
-        const tag = await prisma.tags.create({
-            data: {}
-        });
 
-        console.log(tag);
+    // Create numOfTagsToGenerate number of tags and add them to the tags array
 
-        tags = [...tags, tag];
-    }
+    const tagsCreated = await prisma.tags.createMany({
+        data: Array(numOfTagsToGenerate).fill({}).map(() => ({}))
+    });
+
+    console.log(tagsCreated);
 
     // Disconnect from the database
     await prisma.$disconnect();
@@ -30,7 +27,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
         status:200,
         body: {
-            tags: tags
+            tags: tagsCreated
         }
     });
 }
