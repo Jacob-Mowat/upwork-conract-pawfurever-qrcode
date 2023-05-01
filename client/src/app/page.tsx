@@ -176,7 +176,7 @@ export default function Home() {
     return (
         <>
             <Navbar />
-            <div className="flex h-[calc(100vh-64px)] overflow-auto justify-center items-center">
+            <div className="flex h-[calc(100vh-72px)] overflow-auto justify-center items-center">
                 <div className="text-center">
                     <div>
                         <div className="flex flex-col items-center">

@@ -11,7 +11,7 @@ export function LoadingSpinner({ display_text }: LoadingSpinnerProps) {
             >
                 <svg
                     aria-hidden="true"
-                    className="w-8 h-8 mr-2 text-cream animate-spin dark:text-gray-600 fill-blue-600"
+                    className="w-8 h-8 mr-2 text-cream animate-spin dark:text-black fill-light-purple"
                     viewBox="0 0 100 101"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +27,7 @@ export function LoadingSpinner({ display_text }: LoadingSpinnerProps) {
                 </svg>
                 <span className="sr-only">{display_text}</span>
             </div>
-            <h1 className="text-2xl font-bold text-center text-blue-400 absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2 my-12">
+            <h1 className="text-2xl font-bold text-center text-dark-purple absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2 my-12">
                 {display_text}
             </h1>
         </>

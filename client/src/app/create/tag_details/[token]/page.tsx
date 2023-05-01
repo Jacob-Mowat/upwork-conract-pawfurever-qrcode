@@ -291,7 +291,7 @@ export default function CreateTagDetailsPage({
                     <input
                         type="text"
                         className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                        placeholder="Pet name"
+                        placeholder="Pet's Name"
                         onChange={(e) => setPetName(e.target.value)}
                         required={true}
                     />
@@ -307,7 +307,7 @@ export default function CreateTagDetailsPage({
 
                     <textarea
                         className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                        placeholder="Extra information"
+                        placeholder="Extra Information"
                         onChange={(e) => setExtraInformation(e.target.value)}
                     />
 
@@ -320,7 +320,8 @@ export default function CreateTagDetailsPage({
                             onChange={(e) => handleUseOwnerDetails(e)}
                             required={true}
                         />
-                        <span> Use owner information</span>
+                        {/* eslint-disable-next-line react/no-unescaped-entities */}
+                        <span> Use Owner's Information?</span>
                     </div>
 
                     <input
@@ -329,7 +330,7 @@ export default function CreateTagDetailsPage({
                         placeholder={
                             useOwnerDetails
                                 ? `${ownerDetails?.owner_firstname} ${ownerDetails?.owner_lastname}`
-                                : "Owners name"
+                                : "Owner's Name"
                         }
                         onChange={(e) => setOwnersName(e.target.value)}
                         disabled={useOwnerDetails}
@@ -341,7 +342,7 @@ export default function CreateTagDetailsPage({
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_email as string)
-                                : "Owners email"
+                                : "Owner's Email"
                         }
                         onChange={(e) => setOwnersEmail(e.target.value)}
                         disabled={useOwnerDetails}
@@ -353,7 +354,7 @@ export default function CreateTagDetailsPage({
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_phone_number as string)
-                                : "Phone number"
+                                : "Phone Number"
                         }
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         disabled={useOwnerDetails}
@@ -365,7 +366,7 @@ export default function CreateTagDetailsPage({
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_phone_number2 as string)
-                                : "Phone number 2 (optional)"
+                                : "Second Phone Number (optional)"
                         }
                         onChange={(e) => setPhoneNumber2(e.target.value)}
                         disabled={useOwnerDetails}
@@ -377,7 +378,7 @@ export default function CreateTagDetailsPage({
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_address_line1 as string)
-                                : "Address line 1"
+                                : "Address Line 1"
                         }
                         onChange={(e) => setAddressline1(e.target.value)}
                         disabled={useOwnerDetails}
@@ -389,7 +390,7 @@ export default function CreateTagDetailsPage({
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_address_line2 as string)
-                                : "Address line 2 (optional)"
+                                : "Address Line 2 (optional)"
                         }
                         onChange={(e) => setAddressline2(e.target.value)}
                         disabled={useOwnerDetails}

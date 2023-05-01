@@ -111,14 +111,14 @@ export default function CreateOwnerDetailsPage({
                         <input
                             type="text"
                             className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                            placeholder="Firstname"
+                            placeholder="First Name"
                             onChange={(e) => setFirstname(e.target.value)}
                             required={true}
                         />
                         <input
                             type="text"
                             className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                            placeholder="Lastname"
+                            placeholder="Last Name"
                             onChange={(e) => setLastname(e.target.value)}
                             required={true}
                         />
@@ -132,28 +132,28 @@ export default function CreateOwnerDetailsPage({
                         <input
                             type="text"
                             className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                            placeholder="Phone number"
+                            placeholder="Phone Number"
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             required={true}
                         />
                         <input
                             type="text"
                             className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                            placeholder="Phone number 2 (optional)"
+                            placeholder="Second Phone Number (optional)"
                             onChange={(e) => setPhoneNumber2(e.target.value)}
                             required={false}
                         />
                         <input
                             type="text"
                             className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                            placeholder="Address line 1"
+                            placeholder="Address Line 1"
                             onChange={(e) => setAddressline1(e.target.value)}
                             required={true}
                         />
                         <input
                             type="text"
                             className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                            placeholder="Address line 2 (optional)"
+                            placeholder="Address Line 2 (optional)"
                             onChange={(e) => setAddressline2(e.target.value)}
                             required={false}
                         />
