@@ -69,7 +69,7 @@ export default function Home() {
 
             checkIsAdmin();
         }
-    }, [clerkAuth.isSignedIn, clerkAuth.user]);
+    }, [clerkAuth.isSignedIn, clerkAuth.user, router]);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
