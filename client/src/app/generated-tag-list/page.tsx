@@ -7,44 +7,79 @@ import { IconContext } from "react-icons/lib";
 import { ZipDownloadUrlsType } from "../models/types";
 import { SignedIn } from "@clerk/nextjs";
 import { RedirectToSignIn, useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 export default function GeneratedTagListPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [zipDownloadUrls, setZipDownloadUrls] = useState<
         ZipDownloadUrlsType[]
     >([]);
+    const [verified, setVerified] = useState(false);
 
-    const user = useUser();
+    const clerkAuth = useUser();
+    const router = useRouter();
 
     useEffect(() => {
-        if (isLoading) {
-            const getZipDownloadUrls = async () => {
-                const request = await fetch(`/api/tags/zip-download-urls`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
+        if (clerkAuth.isSignedIn && clerkAuth.user) {
+            const checkIsAdmin = async () => {
+                const request = await fetch(
+                    `/api/owners/isAdmin?uID=${clerkAuth.user.id}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
 
                 const response = await request.json();
 
                 console.log(response);
 
-                return await response;
+                if (response.status === 200) {
+                    console.log("User is admin");
+                    setVerified(true);
+                } else {
+                    console.log("User is not admin");
+                    router.push("/unauthorized");
+                }
             };
 
-            getZipDownloadUrls().then((response) => {
-                setZipDownloadUrls(response.body.zip_download_urls);
-                setIsLoading(false);
-            });
+            checkIsAdmin();
         }
-    }, [isLoading]);
+        if (verified) {
+            if (isLoading) {
+                const getZipDownloadUrls = async () => {
+                    const request = await fetch(`/api/tags/zip-download-urls`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    });
+
+                    const response = await request.json();
+
+                    console.log(response);
+
+                    return await response;
+                };
+
+                getZipDownloadUrls().then((response) => {
+                    setZipDownloadUrls(response.body.zip_download_urls);
+                    setIsLoading(false);
+                });
+            }
+        }
+    }, [clerkAuth.isSignedIn, clerkAuth.user, isLoading, router, verified]);
 
     if (isLoading) {
+        if (!verified) {
+            return <LoadingSpinner display_text="Verifying your account" />;
+        }
         return <LoadingSpinner display_text="Loading list..." />;
     }
 
-    if (user.isSignedIn === false) {
+    if (clerkAuth.isSignedIn === false) {
         return <RedirectToSignIn />;
     }
 
