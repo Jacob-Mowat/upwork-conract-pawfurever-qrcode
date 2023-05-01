@@ -14,12 +14,14 @@ export async function POST(request: Request) {
     var tags: any = [];
 
     // Create numOfTagsToGenerate number of tags and add them to the tags array
+    const tagsData = Array.from({length: numOfTagsToGenerate}).map(() => ({}));
+    console.log(tagsData);
 
-    const tagsCreated = await prisma.tags.createMany({
-        data: Array(numOfTagsToGenerate).fill({}).map(() => ({}))
-    });
+    const tagsCreated = await prisma.$transaction(
+        tagsData.map((tag) => prisma.tags.create({ data: tag }))
+    );
 
-    console.log(tagsCreated);
+    console.log("tagsCreated", tagsCreated);
 
     // Disconnect from the database
     await prisma.$disconnect();

@@ -95,25 +95,21 @@ export default function Home() {
 
         const tagResponse = await tagRequest.json();
 
-        console.log(await tagResponse);
+        console.log(tagResponse);
 
         var qrCodeSVGsToSave: any[] = [];
 
         if ((await tagResponse.status) === 200) {
+            console.log(tagResponse.body.tags);
             for (let i = 0; i < tagResponse.body.tags.length; i++) {
-                console.log(
-                    "Tag Token: ",
-                    await tagResponse.body.tags[i].TAG_TOKEN
-                );
-                console.log(
-                    "Setup Key: ",
-                    await tagResponse.body.tags[i].setup_key
-                );
-                setGeneratedTagToken(await tagResponse.body.tags[i].TAG_TOKEN);
+                console.log("Index: ", i);
+                console.log("Tag Token: ", tagResponse.body.tags[i].TAG_TOKEN);
+                console.log("Setup Key: ", tagResponse.body.tags[i].setup_key);
+                setGeneratedTagToken(tagResponse.body.tags[i].TAG_TOKEN);
 
                 setRenderQRCode(true);
 
-                // Wait for the QR Code to render
+                // // Wait for the QR Code to render
                 await new Promise((r) => setTimeout(r, 1000));
 
                 // Get the SVG Element
@@ -158,7 +154,7 @@ export default function Home() {
                 qrCodeSVGsToSave = [
                     ...qrCodeSVGsToSave,
                     {
-                        name: await tagResponse.body.tags[i].TAG_TOKEN,
+                        name: tagResponse.body.tags[i].TAG_TOKEN,
                         data: svgElement.outerHTML,
                     },
                 ];
@@ -166,9 +162,9 @@ export default function Home() {
                 // clear the svg element
                 svgElement.innerHTML = QRCodeHTML;
 
-                setIsGenerated(true);
                 setRenderQRCode(false);
             }
+            setIsGenerated(true);
         } else {
             alert("Error generating QR Code");
         }
@@ -188,22 +184,16 @@ export default function Home() {
 
         console.log(await zipResponse);
 
-        if ((await zipResponse.status) === 200) {
-            console.log(
-                "Zip file generated: ",
-                await zipResponse.body.zip_file
-            );
+        if (zipResponse.status === 200) {
+            console.log("Zip file generated: ", zipResponse.body.zip_file);
 
             // Set the download URL
-            setDownloadURL(await zipResponse.body.zip_file_url);
-            console.log("Download URL: ", await zipResponse.body.zip_file_url);
+            setDownloadURL(zipResponse.body.zip_file_url);
+            console.log("Download URL: ", zipResponse.body.zip_file_url);
 
             // Set the download file name
-            setDownloadFileName(await zipResponse.body.zip_file_name);
-            console.log(
-                "Download file name: ",
-                await zipResponse.body.zip_file_name
-            );
+            setDownloadFileName(zipResponse.body.zip_file_name);
+            console.log("Download file name: ", zipResponse.body.zip_file_name);
 
             // // Set the image data to the zip file
             // setImageData(await zipResponse.body.zip_file);
@@ -222,7 +212,7 @@ export default function Home() {
             <>
                 <Navbar page="generate" />
                 <LoadingSpinner display_text="Generating QR Codes" />
-                <div className="isolate bg-cream px-6 py-24 sm:py-32 lg:px-8 invisible">
+                <div className="isolate bg-cream px-6 py-24 sm:py-32 lg:px-8">
                     <div
                         id="qr-canvas-container"
                         className="border-2 border-lightest-purple"
