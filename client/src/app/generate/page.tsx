@@ -270,7 +270,10 @@ export default function Home() {
                             </p>
                             <p className="mt-2 text-lg leading-8 text-gray-600">
                                 This download link is also saved in{" "}
-                                <Link href="/dashboard" className="text-purple">
+                                <Link
+                                    href="/generated-tag-list"
+                                    className="text-purple"
+                                >
                                     Generated QR Tags
                                 </Link>
                             </p>

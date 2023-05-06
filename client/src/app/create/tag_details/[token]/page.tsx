@@ -290,7 +290,7 @@ export default function CreateTagDetailsPage({
 
                     <input
                         type="text"
-                        className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] rounded-[5px] bg-cream w-[calc(100vw-72px)] text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                         placeholder="Pet's Name"
                         onChange={(e) => setPetName(e.target.value)}
                         required={true}
@@ -306,7 +306,7 @@ export default function CreateTagDetailsPage({
                     </div>
 
                     <textarea
-                        className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1  border-black-[rgba(0,0,0,0.5)] rounded-[5px] bg-cream  w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                         placeholder="Extra Information"
                         onChange={(e) => setExtraInformation(e.target.value)}
                     />
@@ -314,7 +314,7 @@ export default function CreateTagDetailsPage({
                     <div className="text-left mb-[25px]">
                         <input
                             type="checkbox"
-                            className="rounded-[50%]"
+                            className="rounded-[50%] bg-cream mb-[5px]"
                             name="use_owner_information"
                             defaultChecked={useOwnerDetails}
                             onChange={(e) => handleUseOwnerDetails(e)}
@@ -326,7 +326,7 @@ export default function CreateTagDetailsPage({
 
                     <input
                         type="text"
-                        className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] rounded-[5px] bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                         placeholder={
                             useOwnerDetails
                                 ? `${ownerDetails?.owner_firstname} ${ownerDetails?.owner_lastname}`
@@ -338,7 +338,7 @@ export default function CreateTagDetailsPage({
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.50)] rounded-[5px] bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_email as string)
@@ -350,7 +350,7 @@ export default function CreateTagDetailsPage({
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.50)] rounded-[5px] bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_phone_number as string)
@@ -362,7 +362,7 @@ export default function CreateTagDetailsPage({
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.50)] rounded-[5px] bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_phone_number2 as string)
@@ -374,7 +374,7 @@ export default function CreateTagDetailsPage({
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] rounded-[5px] bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_address_line1 as string)
@@ -386,7 +386,7 @@ export default function CreateTagDetailsPage({
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] rounded-[5px] bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_address_line2 as string)
@@ -398,7 +398,7 @@ export default function CreateTagDetailsPage({
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] rounded-[5px] bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_address_zip as string)

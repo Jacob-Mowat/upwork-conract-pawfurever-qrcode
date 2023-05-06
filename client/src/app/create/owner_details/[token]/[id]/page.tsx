@@ -76,6 +76,8 @@ export default function CreateOwnerDetailsPage({
             ownerID: params.id,
         };
 
+        console.log(ownerDetails);
+
         const ownerDetailsRequest = await fetch(`/api/owner-details`, {
             method: "POST",
             headers: {
@@ -100,78 +102,84 @@ export default function CreateOwnerDetailsPage({
         <>
             <Navbar />
             <div className="flex overflow-auto justify-center items-center">
-                <div className="text-center">
-                    <div className="flex flex-col justify-center items-center">
-                        <div className="flex-0 w-full top-[96px] text-center mb-[25px] mt-[25px]">
-                            <h1 className="text-2xl underline text-black-400">
-                                Account Details
-                            </h1>
-                        </div>
-
-                        <input
-                            type="text"
-                            className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                            placeholder="First Name"
-                            onChange={(e) => setFirstname(e.target.value)}
-                            required={true}
-                        />
-                        <input
-                            type="text"
-                            className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                            placeholder="Last Name"
-                            onChange={(e) => setLastname(e.target.value)}
-                            required={true}
-                        />
-                        <input
-                            type="text"
-                            className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                            placeholder="Email"
-                            onChange={(e) => setEmail(e.target.value)}
-                            required={true}
-                        />
-                        <input
-                            type="text"
-                            className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                            placeholder="Phone Number"
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                            required={true}
-                        />
-                        <input
-                            type="text"
-                            className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                            placeholder="Second Phone Number (optional)"
-                            onChange={(e) => setPhoneNumber2(e.target.value)}
-                            required={false}
-                        />
-                        <input
-                            type="text"
-                            className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                            placeholder="Address Line 1"
-                            onChange={(e) => setAddressline1(e.target.value)}
-                            required={true}
-                        />
-                        <input
-                            type="text"
-                            className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                            placeholder="Address Line 2 (optional)"
-                            onChange={(e) => setAddressline2(e.target.value)}
-                            required={false}
-                        />
-                        <input
-                            type="text"
-                            className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
-                            placeholder="Zipcode"
-                            onChange={(e) => setZipcode(e.target.value)}
-                            required={true}
-                        />
-
-                        <button
-                            className="bottom-[36px] w-[100%] bg-dark-purple text-cream h-[48px]"
-                            onClick={(e) => verifyForm(e)}
-                        >
-                            CONTINUE
-                        </button>
+                <div className="flex flex-col justify-center items-center">
+                    <div className="flex-0 w-full top-[96px] text-center mb-[25px] mt-[25px]">
+                        <h1 className="text-2xl underline text-black-400">
+                            Account Details
+                        </h1>
                     </div>
+
+                    <input
+                        type="text"
+                        className="border-1 border-black-300 bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        placeholder="First Name"
+                        onChange={(e) => setFirstname(e.target.value)}
+                        required={true}
+                    />
+                    <input
+                        type="text"
+                        className="border-1 border-black-300 bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        placeholder="Last Name"
+                        onChange={(e) => setLastname(e.target.value)}
+                        required={true}
+                    />
+                    <input
+                        type="text"
+                        className="border-1 border-black-300 bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        placeholder="Email"
+                        onChange={(e) => setEmail(e.target.value)}
+                        required={true}
+                    />
+                    <input
+                        type="text"
+                        className="border-1 border-black-300 bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        placeholder="Phone Number"
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        required={true}
+                    />
+                    <input
+                        type="text"
+                        className="border-1 border-black-300 bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        placeholder="Second Phone Number (optional)"
+                        onChange={(e) => setPhoneNumber2(e.target.value)}
+                        required={false}
+                    />
+                    <input
+                        type="text"
+                        className="border-1 border-black-300 bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        placeholder="Address Line 1"
+                        onChange={(e) => setAddressline1(e.target.value)}
+                        required={true}
+                    />
+                    <input
+                        type="text"
+                        className="border-1 border-black-300 bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        placeholder="Address Line 2 (optional)"
+                        onChange={(e) => setAddressline2(e.target.value)}
+                        required={false}
+                    />
+                    <input
+                        type="text"
+                        className="border-1 border-black-300 bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        placeholder="Zipcode"
+                        onChange={(e) => setZipcode(e.target.value)}
+                        required={true}
+                    />
+
+                    {/* Show errors in red */}
+
+                    {errors.map((error) => (
+                        <p className="text-red-500" key={error}>
+                            {error}
+                        </p>
+                    ))}
+
+                    <button
+                        className="bottom-[36px] w-[100%] bg-dark-purple text-cream h-[48px]"
+                        onClick={(e) => verifyForm(e)}
+                    >
+                        CONTINUE
+                    </button>
                 </div>
             </div>
         </>

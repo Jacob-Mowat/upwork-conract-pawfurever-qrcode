@@ -36,16 +36,16 @@ export const Navbar = ({ page }: NavbarProps) => {
 
                 const response = await request.json();
 
-                console.log(response);
+                // console.log(response);
 
                 if (response.status === 200) {
-                    console.log("User is admin");
+                    // console.log("User is admin");
                     setIsAdmin(true);
                 } else if (response.status === 404) {
-                    console.log("User doesn't exist");
+                    // console.log("User doesn't exist");
                     setCreateNewOwner(true);
                 } else if (response.status === 403) {
-                    console.log("User is not admin");
+                    // console.log("User is not admin");
                     setIsAdmin(false);
                 }
             };
