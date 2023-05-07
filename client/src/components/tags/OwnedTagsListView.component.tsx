@@ -1,4 +1,4 @@
-import { OwnerType, TagDetailsType, TagType } from "@/src/app/models/types";
+import { OwnerType, TagDetailsType, TagType } from "@/src/models/types";
 import { Key, useEffect, useState } from "react";
 import { LoadingSpinner } from "../LoadingSpinner.component";
 import { OwnedTagsListItem } from "./OwnedTagsListItem.component";

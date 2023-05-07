@@ -2,7 +2,7 @@
 
 import { LoadingSpinner } from "@/src/components/LoadingSpinner.component";
 import { useEffect, useState } from "react";
-import { OwnerType, TagType } from "../../models/types";
+import { OwnerType, TagType } from "../../../models/types";
 import { Navbar } from "@/src/components/NavBar.component";
 import { RedirectToSignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import TagSetupKeyView from "@/src/components/tags/TagSetupKeyView.component";

@@ -1,25 +1,19 @@
 "use client";
-import Image from "next/image";
 import { Inter } from "next/font/google";
-import styles from "./page.module.css";
 import {
     SignedIn,
-    SignedOut,
     RedirectToSignIn,
     useUser,
 } from "@clerk/nextjs/app-beta/client";
 import { useQRCode } from "next-qrcode";
 import { useState, useEffect } from "react";
-import { setHttpClientAndAgentOptions } from "next/dist/server/config";
-import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { setTimeout } from "timers";
 import { Navbar } from "@/src/components/NavBar.component";
 import { LoadingSpinner } from "@/src/components/LoadingSpinner.component";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-const inter = Inter({ subsets: ["latin"] });
+import { logdev } from "@/src/helpers/devMethods";
 
 export default function Home() {
     const [numOfTokensToGenerate, setNumOfTokensToGenerate] = useState(1);
@@ -122,14 +116,14 @@ export default function Home() {
                 setRenderQRCode(true);
 
                 // // Wait for the QR Code to render
-                await new Promise((r) => setTimeout(r, 1000));
+                await new Promise((r) => setTimeout(r, 100));
 
                 // Get the SVG Element
                 var svgElement: SVGElement = document.getElementById(
                     "qr-canvas-container"
                 )?.children[0].children[0] as SVGElement;
-                console.log(svgElement);
-                console.log("[BEFORE] SVG Element: ", svgElement.outerHTML);
+                logdev(svgElement);
+                logdev(`[BEFORE] SVG Element: ${svgElement.outerHTML}`);
 
                 // Increase height of QR Code
                 svgElement.setAttribute(
@@ -161,7 +155,7 @@ export default function Home() {
                 ).toUpperCase()}</text>
                 `;
 
-                console.log("[AFTER] SVG Element: ", svgElement.outerHTML);
+                logdev(`[AFTER] SVG Element: ${svgElement.outerHTML}`);
 
                 qrCodeSVGsToSave = [
                     ...qrCodeSVGsToSave,

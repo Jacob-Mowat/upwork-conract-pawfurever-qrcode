@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import TagAddDetailsView from "./TagAddDetailsView.component";
-import { OwnerType, TagType } from "@/src/app/models/types";
+import { OwnerType, TagType } from "@/src/models/types";
 import { useRouter } from "next/navigation";
 
 interface TagSetupKeyViewProps {

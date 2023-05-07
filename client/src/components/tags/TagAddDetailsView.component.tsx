@@ -4,7 +4,7 @@ import styles from "./page.module.css";
 import { RedirectToSignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import { FileUploader } from "react-drag-drop-files";
 import { useRouter } from "next/navigation";
-import { OwnerDetailsType, OwnerType, TagType } from "@/src/app/models/types";
+import { OwnerDetailsType, OwnerType, TagType } from "@/src/models/types";
 import { LoadingSpinner } from "../LoadingSpinner.component";
 // import heic2any from "heic2any";
 import { s3Client } from "@/lib/s3bucket";

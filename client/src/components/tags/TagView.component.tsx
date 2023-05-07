@@ -8,7 +8,7 @@ import {
     OwnerType,
     TagDetailsType,
     TagType,
-} from "@/src/app/models/types";
+} from "@/src/models/types";
 
 interface TagViewProps {
     tag: any;

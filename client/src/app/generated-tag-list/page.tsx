@@ -4,7 +4,7 @@ import { Navbar } from "@/src/components/NavBar.component";
 import { useEffect, useState } from "react";
 import { AiFillFileZip, AiOutlineFileZip } from "react-icons/ai";
 import { IconContext } from "react-icons/lib";
-import { ZipDownloadUrlsType } from "../models/types";
+import { ZipDownloadUrlsType } from "../../models/types";
 import { SignedIn } from "@clerk/nextjs";
 import { RedirectToSignIn, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";

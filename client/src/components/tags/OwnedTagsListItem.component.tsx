@@ -1,4 +1,4 @@
-import { TagDetailsType, TagType } from "@/src/app/models/types";
+import { TagDetailsType, TagType } from "@/src/models/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 

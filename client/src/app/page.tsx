@@ -11,7 +11,7 @@ import TagAddDetailsView from "../components/tags/TagAddDetailsView.component";
 import TagsListView from "../components/tags/TagsListView.component";
 import OwnerAddDetailsView from "../components/owner/OwnerAddDetailsView.component";
 
-import { OwnerType, TagType } from "./models/types";
+import { OwnerType, TagType } from "../models/types";
 import { LoadingSpinner } from "../components/LoadingSpinner.component";
 import { OwnedTagsListView } from "../components/tags/OwnedTagsListView.component";
 import { Navbar } from "../components/NavBar.component";
@@ -175,7 +175,7 @@ export default function Home() {
 
     return (
         <>
-            <Navbar />
+            <Navbar page="home" />
             <div className="flex h-[calc(100vh-72px)] overflow-auto justify-center items-center">
                 <div className="text-center">
                     <div>

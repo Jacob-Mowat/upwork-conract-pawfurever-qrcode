@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { OwnerDetailsType, OwnerType, TagType } from "../../models/types";
+import { OwnerDetailsType, OwnerType, TagType } from "../../../models/types";
 import { RedirectToSignIn, useUser } from "@clerk/nextjs";
 import { LoadingSpinner } from "@/src/components/LoadingSpinner.component";
 import { Navbar } from "@/src/components/NavBar.component";

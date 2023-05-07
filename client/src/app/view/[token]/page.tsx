@@ -7,7 +7,7 @@ import {
     OwnerType,
     TagDetailsType,
     TagType,
-} from "../../models/types";
+} from "../../../models/types";
 import { Navbar } from "@/src/components/NavBar.component";
 import { useRouter } from "next/navigation";
 import { SideBar } from "@/src/components/SideBar.component";
@@ -87,7 +87,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
             const { MailtrapClient } = require("mailtrap");
 
             const ENDPOINT = "https://send.api.mailtrap.io/";
-            const SENDER_EMAIL = "no-reply@qr.mowat.dev";
+            const SENDER_EMAIL = "mailtrap@qr.mowat.dev";
 
             // Send email to owner to notify them the tag has been viewed/scanned.
             const client = new MailtrapClient({

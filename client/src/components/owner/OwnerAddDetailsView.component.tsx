@@ -4,7 +4,7 @@ import styles from "./page.module.css";
 import { RedirectToSignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import TagAddDetailsView from "../tags/TagAddDetailsView.component";
-import { OwnerType, TagType } from "@/src/app/models/types";
+import { OwnerType, TagType } from "@/src/models/types";
 
 interface OwnerAddDetailsViewProps {
     owner: OwnerType;
