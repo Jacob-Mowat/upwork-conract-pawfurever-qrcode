@@ -298,10 +298,13 @@ export default function CreateTagDetailsPage({
           <div className="mb-[25px] text-left">
             <span>Upload a photo of your pet</span>
             <FileUploader
-              className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
+              className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 mb-[25px]  bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
               name="file"
               handleChange={(file: any) => uploadPhoto(file)}
               types={fileTypes}
+              onSizeError={(e: any) => errors.push(e)}
+              maxSize={60}
+              onTypeError={(e: any) => errors.push(e)}
             />
           </div>
 
