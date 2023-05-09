@@ -31,6 +31,18 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
     const [addressline2, setAddressline2] = useState<string>("");
     const [zipcode, setZipcode] = useState<string>("");
 
+    const [addAdditionalDetails, setAddAdditionalDetails] =
+        useState<boolean>(false);
+
+    const [petBio, setPetBio] = useState<string>("");
+    const [petDOB, setPetDOB] = useState<string>("");
+    const [petBreed, setPetBreed] = useState<string>("");
+    const [petGender, setPetGender] = useState<string>("");
+    const [petMicrochipNumber, setPetMicrochipNumber] = useState<string>("");
+    const [petSpayedOrNeutered, setPetSpayedOrNeutered] = useState<string>("");
+    const [petBehaviour, setPetBehaviour] = useState<string>("");
+    const [petAllergies, setPetAllergies] = useState<string>("");
+
     const [errors, setErrors] = useState<string[]>([]);
 
     const user = useUser();
@@ -195,7 +207,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
     };
 
     const submitForm = async () => {
-        const tagDetails = {
+        var tagDetails = {
             pet_name: petName,
             pets_photo: petPhotoUrl,
             extra_information: extraInformation,
@@ -206,8 +218,49 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
             addressline1: addressline1,
             addressline2: addressline2,
             zipcode: zipcode,
+            additional_details: {} as { [key: string]: any },
             tagID: tag?.id,
         };
+
+        if (addAdditionalDetails) {
+            if (petBio != "") {
+                tagDetails.additional_details.pet_bio = petBio;
+            }
+
+            if (petDOB != "") {
+                tagDetails.additional_details.pet_birthday = new Date(
+                    petDOB
+                ).toISOString();
+            }
+
+            if (petBreed != "") {
+                tagDetails.additional_details.pet_breed = petBreed;
+            }
+
+            if (petGender != "") {
+                tagDetails.additional_details.pet_gender = petGender;
+            }
+
+            if (petMicrochipNumber != "") {
+                tagDetails.additional_details.pet_microchip_number =
+                    petMicrochipNumber;
+            }
+
+            if (petSpayedOrNeutered != "") {
+                petSpayedOrNeutered == "yes"
+                    ? (tagDetails.additional_details.pet_spayed_neutered = true)
+                    : (tagDetails.additional_details.pet_spayed_neutered =
+                          false);
+            }
+
+            if (petBehaviour != "") {
+                tagDetails.additional_details.pet_behaviour = petBehaviour;
+            }
+
+            if (petAllergies != "") {
+                tagDetails.additional_details.pet_allergies = petAllergies;
+            }
+        }
 
         console.log(tagDetails);
 
@@ -271,28 +324,28 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
     return (
         <>
             <Navbar />
-            <div className="flex overflow-auto justify-center items-center">
+            <div className="flex items-center justify-center overflow-auto">
                 <div className="flex flex-col">
                     {/* <h1 className="top-0 text-headingCustom underline text-black text-center mb-[25px]">
                         Add Tag Details
                     </h1> */}
-                    <div className="flex-0 w-full top-[96px] text-center mt-[25px]">
-                        <h1 className="text-2xl underline  text-black-400">
+                    <div className="flex-0 top-[96px] mt-[25px] w-full text-center">
+                        <h1 className="text-black-400 text-2xl  underline">
                             Edit Tag Details
                         </h1>
                     </div>
 
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] rounded-[5px] bg-cream w-[calc(100vw-72px)] text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px] mt-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] mt-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                         placeholder="Pet's Name"
                         onChange={(e) => setPetName(e.target.value)}
                         required={true}
                     />
-                    <div className="text-left mb-[25px]">
+                    <div className="mb-[25px] text-left">
                         <span>Upload a photo of your pet</span>
                         <FileUploader
-                            className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                            className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
                             name="file"
                             handleChange={(file: any) => uploadPhoto(file)}
                             types={fileTypes}
@@ -300,15 +353,15 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                     </div>
 
                     <textarea
-                        className="border-1  border-black-[rgba(0,0,0,0.5)] rounded-[5px] bg-cream  w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
                         placeholder="Extra Information"
                         onChange={(e) => setExtraInformation(e.target.value)}
                     />
 
-                    <div className="text-left mb-[25px]">
+                    <div className="mb-[25px] text-left">
                         <input
                             type="checkbox"
-                            className="rounded-[50%] bg-cream mb-[5px]"
+                            className="mb-[5px] rounded-[50%] bg-cream"
                             name="use_owner_information"
                             defaultChecked={useOwnerDetails}
                             onChange={(e) => handleUseOwnerDetails(e)}
@@ -320,7 +373,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
 
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] rounded-[5px] bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
                         placeholder={
                             useOwnerDetails
                                 ? `${ownerDetails?.owner_firstname} ${ownerDetails?.owner_lastname}`
@@ -332,7 +385,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.50)] rounded-[5px] bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.50)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_email as string)
@@ -344,7 +397,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.50)] rounded-[5px] bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.50)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_phone_number as string)
@@ -356,7 +409,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.50)] rounded-[5px] bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.50)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_phone_number2 as string)
@@ -368,7 +421,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] rounded-[5px] bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_address_line1 as string)
@@ -380,7 +433,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] rounded-[5px] bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_address_line2 as string)
@@ -392,7 +445,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] rounded-[5px] bg-cream w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
                         placeholder={
                             useOwnerDetails
                                 ? (ownerDetails?.owner_address_zip as string)
@@ -409,8 +462,104 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                         </div>
                     ))}
 
+                    {/* Toggle button for optional information */}
+                    <div>
+                        <button
+                            className="mb-[25px] h-[48px] w-[100%] bg-dark-purple text-cream"
+                            onClick={(e) =>
+                                setAddAdditionalDetails(!addAdditionalDetails)
+                            }
+                        >
+                            Add Additional Information
+                        </button>
+                    </div>
+
+                    {/* Additional information */}
+                    {addAdditionalDetails && (
+                        <>
+                            <textarea
+                                className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                placeholder="Pet Bio"
+                                onChange={(e) => setPetBio(e.target.value)}
+                            />
+
+                            <input
+                                type="date"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                placeholder="Date of Birth"
+                                onChange={(e) => setPetDOB(e.target.value)}
+                            />
+
+                            <input
+                                type="text"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                placeholder="Pet's Breed"
+                                onChange={(e) => setPetBreed(e.target.value)}
+                            />
+
+                            <div>
+                                {/* Male or Female select */}
+                                <select
+                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                    onChange={(e) =>
+                                        setPetGender(e.target.value)
+                                    }
+                                >
+                                    <option value="" disabled selected />
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+
+                            {/* Pet Microchip number */}
+                            <input
+                                type="text"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                placeholder="Pet's Microchip Number"
+                                onChange={(e) =>
+                                    setPetMicrochipNumber(e.target.value)
+                                }
+                            />
+
+                            {/* Pet is Spayed or Neutered? */}
+                            <div className="flex flex-col">
+                                <div className="mb-[5px] rounded-[50%] bg-cream">
+                                    Is your pet spayed or neutered?
+                                </div>
+                                <select
+                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                    onChange={(e) =>
+                                        setPetSpayedOrNeutered(e.target.value)
+                                    }
+                                >
+                                    <option value="" disabled selected />
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+
+                            {/* Pet Behaviour */}
+                            <textarea
+                                className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                placeholder="Pet Behaviour"
+                                onChange={(e) =>
+                                    setPetBehaviour(e.target.value)
+                                }
+                            />
+
+                            {/* Pet Allergies */}
+                            <textarea
+                                className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                placeholder="Pet Allergies"
+                                onChange={(e) =>
+                                    setPetAllergies(e.target.value)
+                                }
+                            />
+                        </>
+                    )}
+
                     <button
-                        className="bottom-[36px] w-[100%] bg-dark-purple mb-[25px] text-cream h-[48px]"
+                        className="bottom-[36px] mb-[25px] h-[48px] w-[100%] bg-dark-purple text-cream"
                         onClick={(e) => verifyForm(e)}
                     >
                         EDIT TAG
