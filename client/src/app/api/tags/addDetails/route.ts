@@ -8,6 +8,17 @@ BigIntProto.toJSON = function () {
     return this.toString();
 };
 
+interface AdditionalDetailsType {
+        pet_bio: String,
+        pet_birthday: String,
+        pet_breed: String,
+        pet_gender: String,
+        pet_microchip_number: String,
+        pet_spayed_neutered: Boolean,
+        pet_behavior: String,
+        pet_allergies: String
+}
+
 export async function POST(request: Request) {
     const { 
         pet_name,
@@ -20,6 +31,7 @@ export async function POST(request: Request) {
         addressline1,
         addressline2,
         zipcode,
+        additional_details,
         tagID
     } = await request.json();
 
@@ -56,7 +68,16 @@ export async function POST(request: Request) {
             tag_phone_number: use_owner_details ? owner_details?.owner_phone_number : phone_number,
             tag_address_line1: use_owner_details ? owner_details?.owner_address_line1 : addressline1,
             tag_address_line2: use_owner_details ? owner_details?.owner_address_line2 : addressline2,
-            tag_address_zip: use_owner_details ? owner_details?.owner_address_zip : zipcode
+            tag_address_zip: use_owner_details ? owner_details?.owner_address_zip : zipcode,
+
+            pet_bio: (additional_details as AdditionalDetailsType).pet_bio as string,
+            pet_birthday:  (additional_details as AdditionalDetailsType).pet_birthday as string,
+            pet_breed:  (additional_details as AdditionalDetailsType).pet_breed as string,
+            pet_gender: (additional_details as AdditionalDetailsType).pet_gender as string,
+            pet_microchip_number: (additional_details as AdditionalDetailsType).pet_microchip_number as string,
+            pet_spayed_neutered: (additional_details as AdditionalDetailsType).pet_spayed_neutered as boolean,
+            pet_behavior: (additional_details as AdditionalDetailsType).pet_behavior as string,
+            pet_allergies: (additional_details as AdditionalDetailsType).pet_allergies as string
         }
     });
 
