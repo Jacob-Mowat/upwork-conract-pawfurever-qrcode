@@ -69,6 +69,15 @@ model tag_details {
   tag_address_line2 String? @db.VarChar(255)
   tag_address_zip   String? @db.VarChar(255)
 
+  pet_bio              String?   @db.Text()
+  pet_birthday         DateTime? @db.Timestamp(6)
+  pet_breed            String?   @db.VarChar(255)
+  pet_gender           String?   @db.VarChar(255)
+  pet_microchip_number String?   @db.VarChar(255)
+  pet_spayed_neutered  Boolean?  @default(false)
+  pet_behavior         String?   @db.Text()
+  pet_allergies        String?   @db.Text()
+
   tag tags?
 }
 
