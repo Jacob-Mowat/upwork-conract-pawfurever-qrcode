@@ -18,32 +18,40 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
 
     const [creatingTag, setCreatingTag] = useState<boolean>(false);
 
-    const [petPhotoFile, setPetPhotoFile] = useState<File>();
-
-    const [petName, setPetName] = useState<string>("");
-    const [petPhotoUrl, setPetPhotoUrl] = useState<string>("");
-    const [extraInformation, setExtraInformation] = useState<string>("");
-    const [useOwnerDetails, setUseOwnerDetails] = useState<boolean>(false);
-
-    const [ownersName, setOwnersName] = useState<string>("");
-    const [ownersEmail, setOwnersEmail] = useState<string>("");
-    const [phoneNumber, setPhoneNumber] = useState<string>("");
-    const [phoneNumber2, setPhoneNumber2] = useState<string>("");
-    const [addressline1, setAddressline1] = useState<string>("");
-    const [addressline2, setAddressline2] = useState<string>("");
-    const [zipcode, setZipcode] = useState<string>("");
-
-    const [addAdditionalDetails, setAddAdditionalDetails] =
+    const [showParentFields, setShowParentFields] = useState<boolean>(true);
+    const [showAdditionalFields, setShowAdditionalFields] =
         useState<boolean>(false);
 
-    const [petBio, setPetBio] = useState<string>("");
-    const [petDOB, setPetDOB] = useState<string>("");
-    const [petBreed, setPetBreed] = useState<string>("");
-    const [petGender, setPetGender] = useState<string>("");
-    const [petMicrochipNumber, setPetMicrochipNumber] = useState<string>("");
-    const [petSpayedOrNeutered, setPetSpayedOrNeutered] = useState<string>("");
-    const [petBehaviour, setPetBehaviour] = useState<string>("");
-    const [petAllergies, setPetAllergies] = useState<string>("");
+    const [petPhotoFile, setPetPhotoFile] = useState<File>();
+
+    // Pet Information
+    const [name, setName] = useState<string>();
+    const [photoUrl, setPhotoUrl] = useState<string>();
+    const [bio, setBio] = useState<string>();
+    const [birthday, setBirthday] = useState<string>();
+    const [breed, setBreed] = useState<string>();
+    const [gender, setGender] = useState<string>();
+    const [microchipNumber, setMicrochipNumber] = useState<string>();
+    const [spayedOrNeutered, setSpayedOrNeutered] = useState<boolean>();
+    const [behaviour, setBehaviour] = useState<string>();
+    const [allergies, setAllergies] = useState<string>();
+
+    // Parent Information
+    const [useOwnerDetails, setUseOwnerDetails] = useState<boolean>(false);
+    const [parentName, setParentName] = useState<string>();
+    const [parentPhoneNumber, setParentPhoneNumber] = useState<string>();
+    const [parentPhoneNumberAdditional1, setParentPhoneNumberAdditional1] =
+        useState<string>();
+    const [parentPhoneNumberAdditional2, setParentPhoneNumberAdditional2] =
+        useState<string>();
+    const [parentEmail, setParentEmail] = useState<string>();
+    const [parentEmailAdditional, setParentEmailAdditional] =
+        useState<string>();
+    const [parentStreetAddress, setParentStreetAddress] = useState<string>();
+    const [parentApartmentSuite, setParentApartmentSuite] = useState<string>();
+    const [parentCity, setParentCity] = useState<string>();
+    const [parentState, setParentState] = useState<string>();
+    const [parentZipcode, setParentZipcode] = useState<string>();
 
     const [errors, setErrors] = useState<string[]>([]);
 
@@ -91,6 +99,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                     ownedTags.forEach((ownedTag: TagType) => {
                         if (ownedTag.TAG_TOKEN === params.token) {
                             setCheckedIfOwner(true);
+                            return;
                         }
                     });
 
@@ -183,7 +192,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
         // Send the upload to S3
         const response = await s3Client.upload(uploadParams).promise();
 
-        setPetPhotoUrl(response.Location);
+        setPhotoUrl(response.Location);
         console.log(response.Location);
 
         return;
@@ -192,7 +201,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
     const verifyForm = (e: any) => {
         e.preventDefault();
 
-        if (petName == "") {
+        if (name == "") {
             setErrors(["Pet name is empty"]);
             return;
         }
@@ -203,35 +212,25 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
         // }
 
         if (!useOwnerDetails) {
-            if (ownersName == "") {
-                setErrors(["Owners name is empty"]);
+            if (parentName == "") {
+                setErrors(["Parent's name is empty"]);
                 return;
             }
 
-            if (ownersEmail == "") {
-                setErrors(["Owners email is empty"]);
+            if (parentEmail == "") {
+                setErrors(["Parent's email is empty"]);
                 return;
             }
 
             // check email is valid using regex
             const emailRegex = /\S+@\S+\.\S+/;
-            if (!emailRegex.test(ownersEmail)) {
-                setErrors(["Owners email is invalid"]);
+            if (parentEmail != "" && !emailRegex.test(parentEmail as string)) {
+                setErrors(["Parent's email is invalid"]);
                 return;
             }
 
-            if (phoneNumber == "") {
+            if (parentPhoneNumber == "") {
                 setErrors(["Phone number is empty"]);
-                return;
-            }
-
-            if (addressline1 == "") {
-                setErrors(["Addressline 1 is empty"]);
-                return;
-            }
-
-            if (zipcode == "") {
-                setErrors(["Zipcode is empty"]);
                 return;
             }
         }
@@ -244,60 +243,31 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
     };
 
     const submitForm = async () => {
-        var tagDetails = {
-            pet_name: petName,
-            pets_photo: petPhotoUrl,
-            extra_information: extraInformation,
-            use_owner_details: useOwnerDetails,
-            owners_name: ownersName,
-            email: ownersEmail,
-            phone_number: phoneNumber,
-            addressline1: addressline1,
-            addressline2: addressline2,
-            zipcode: zipcode,
-            additional_details: {} as { [key: string]: any },
+        const tagDetails = {
+            name: name,
+            photo_url: photoUrl,
+            bio: bio,
+            birthday: birthday,
+            breed: breed,
+            gender: gender,
+            microchip_number: microchipNumber,
+            neutered_spayed: spayedOrNeutered,
+            behaviour: behaviour,
+            allergies: allergies,
+            uses_owners_information: useOwnerDetails,
+            parent_name: parentName,
+            parent_phone_number: parentPhoneNumber,
+            parent_phone_number_additional_1: parentPhoneNumberAdditional1,
+            parent_phone_number_additional_2: parentPhoneNumberAdditional2,
+            parent_email: parentEmail,
+            parent_email_additional: parentEmailAdditional,
+            parent_street_address: parentStreetAddress,
+            parent_apt_suite_unit: parentApartmentSuite,
+            parent_city: parentCity,
+            parent_state: parentState,
+            parent_zipcode: parentZipcode,
             tagID: tag?.id,
         };
-
-        if (addAdditionalDetails) {
-            if (petBio != "") {
-                tagDetails.additional_details.pet_bio = petBio;
-            }
-
-            if (petDOB != "") {
-                tagDetails.additional_details.pet_birthday = new Date(
-                    petDOB
-                ).toISOString();
-            }
-
-            if (petBreed != "") {
-                tagDetails.additional_details.pet_breed = petBreed;
-            }
-
-            if (petGender != "") {
-                tagDetails.additional_details.pet_gender = petGender;
-            }
-
-            if (petMicrochipNumber != "") {
-                tagDetails.additional_details.pet_microchip_number =
-                    petMicrochipNumber;
-            }
-
-            if (petSpayedOrNeutered != "") {
-                petSpayedOrNeutered == "yes"
-                    ? (tagDetails.additional_details.pet_spayed_neutered = true)
-                    : (tagDetails.additional_details.pet_spayed_neutered =
-                          false);
-            }
-
-            if (petBehaviour != "") {
-                tagDetails.additional_details.pet_behaviour = petBehaviour;
-            }
-
-            if (petAllergies != "") {
-                tagDetails.additional_details.pet_allergies = petAllergies;
-            }
-        }
 
         console.log(tagDetails);
 
@@ -322,23 +292,21 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
         setUseOwnerDetails(e.target.checked);
 
         if (e.target.checked && ownerDetails != null) {
-            setOwnersName(
-                `${ownerDetails.owner_firstname as string} ${
-                    ownerDetails.owner_lastname as string
-                }`
+            setParentName(ownerDetails.name as string);
+            setParentPhoneNumber(ownerDetails.phone_number as string);
+            setParentPhoneNumberAdditional1(
+                ownerDetails.phone_number_additional_1 as string
             );
-
-            setOwnersEmail(ownerDetails.owner_email as string);
-
-            setPhoneNumber(ownerDetails.owner_phone_number as string);
-
-            setPhoneNumber2(ownerDetails.owner_phone_number2 as string);
-
-            setAddressline1(ownerDetails.owner_address_line1 as string);
-
-            setAddressline2(ownerDetails.owner_address_line2 as string);
-
-            setZipcode(ownerDetails.owner_address_zip as string);
+            setParentPhoneNumberAdditional2(
+                ownerDetails.phone_number_additional_2 as string
+            );
+            setParentEmail(ownerDetails.email as string);
+            setParentEmailAdditional(ownerDetails.email_additional as string);
+            setParentStreetAddress(ownerDetails.street_address as string);
+            setParentApartmentSuite(ownerDetails.apt_suite_unit as string);
+            setParentCity(ownerDetails.city as string);
+            setParentState(ownerDetails.state as string);
+            setParentZipcode(ownerDetails.zipcode as string);
         }
     };
 
@@ -371,181 +339,110 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
 
                         <input
                             type="text"
-                            className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] mt-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                            className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                             placeholder="Pet's Name"
-                            onChange={(e) => setPetName(e.target.value)}
+                            onChange={(e) => setName(e.target.value)}
                             required={true}
                         />
-                        <div className="mb-[25px] text-left">
-                            <span>Upload a photo of your pet</span>
+                        <div className="mb-[25px] w-[calc(100vw-72px)]">
+                            <span className="text-left">
+                                Upload a photo of your pet (optional)
+                            </span>
                             <FileUploader
-                                className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
+                                className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 max-width mb-[25px] bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
                                 name="file"
                                 handleChange={(file: any) => uploadPhoto(file)}
                                 types={fileTypes}
+                                onSizeError={(e: any) => errors.push(e)}
+                                maxSize={60}
+                                onTypeError={(e: any) => errors.push(e)}
                             />
                         </div>
 
                         <textarea
                             className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
-                            placeholder="Extra Information"
-                            onChange={(e) =>
-                                setExtraInformation(e.target.value)
-                            }
+                            placeholder="Pet Bio (optional)"
+                            onChange={(e) => setBio(e.target.value)}
                         />
 
-                        <div className="mb-[25px] text-left">
-                            <input
-                                type="checkbox"
-                                className="mb-[5px] rounded-[50%] bg-cream"
-                                name="use_owner_information"
-                                defaultChecked={useOwnerDetails}
-                                onChange={(e) => handleUseOwnerDetails(e)}
-                                required={true}
-                            />
-                            {/* eslint-disable-next-line react/no-unescaped-entities */}
-                            <span> Use Owner's Information?</span>
-                        </div>
-
-                        <input
-                            type="text"
-                            className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
-                            placeholder={
-                                useOwnerDetails
-                                    ? `${ownerDetails?.owner_firstname} ${ownerDetails?.owner_lastname}`
-                                    : "Owner's Name"
+                        {/* Toggle Additional Information fields */}
+                        <div
+                            className="flex w-full flex-row "
+                            onClick={(e) =>
+                                setShowAdditionalFields(!showAdditionalFields)
                             }
-                            onChange={(e) => setOwnersName(e.target.value)}
-                            disabled={useOwnerDetails}
-                            required={!useOwnerDetails}
-                        />
-                        <input
-                            type="text"
-                            className="border-1 border-black-[rgba(0,0,0,0.50)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
-                            placeholder={
-                                useOwnerDetails
-                                    ? (ownerDetails?.owner_email as string)
-                                    : "Owner's Email"
-                            }
-                            onChange={(e) => setOwnersEmail(e.target.value)}
-                            disabled={useOwnerDetails}
-                            required={!useOwnerDetails}
-                        />
-                        <input
-                            type="text"
-                            className="border-1 border-black-[rgba(0,0,0,0.50)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
-                            placeholder={
-                                useOwnerDetails
-                                    ? (ownerDetails?.owner_phone_number as string)
-                                    : "Phone Number"
-                            }
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                            disabled={useOwnerDetails}
-                            required={!useOwnerDetails}
-                        />
-                        <input
-                            type="text"
-                            className="border-1 border-black-[rgba(0,0,0,0.50)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
-                            placeholder={
-                                useOwnerDetails
-                                    ? (ownerDetails?.owner_phone_number2 as string)
-                                    : "Second Phone Number (optional)"
-                            }
-                            onChange={(e) => setPhoneNumber2(e.target.value)}
-                            disabled={useOwnerDetails}
-                            required={false}
-                        />
-                        <input
-                            type="text"
-                            className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
-                            placeholder={
-                                useOwnerDetails
-                                    ? (ownerDetails?.owner_address_line1 as string)
-                                    : "Address Line 1"
-                            }
-                            onChange={(e) => setAddressline1(e.target.value)}
-                            disabled={useOwnerDetails}
-                            required={!useOwnerDetails}
-                        />
-                        <input
-                            type="text"
-                            className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
-                            placeholder={
-                                useOwnerDetails
-                                    ? (ownerDetails?.owner_address_line2 as string)
-                                    : "Address Line 2 (optional)"
-                            }
-                            onChange={(e) => setAddressline2(e.target.value)}
-                            disabled={useOwnerDetails}
-                            required={false}
-                        />
-                        <input
-                            type="text"
-                            className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
-                            placeholder={
-                                useOwnerDetails
-                                    ? (ownerDetails?.owner_address_zip as string)
-                                    : "Zip / Postcode"
-                            }
-                            onChange={(e) => setZipcode(e.target.value)}
-                            disabled={useOwnerDetails}
-                            required={!useOwnerDetails}
-                        />
-
-                        {errors.map((error) => (
-                            <div className="text-red-500" key={error}>
-                                {error}
+                        >
+                            <div className="mb-[25px] grow text-left">
+                                {showAdditionalFields
+                                    ? "Hide Additional Information"
+                                    : "Show Additional Information"}
                             </div>
-                        ))}
-
-                        {/* Toggle button for optional information */}
-                        <div>
-                            <button
-                                className="mb-[25px] h-[48px] w-[100%] bg-dark-purple text-cream"
-                                onClick={(e) =>
-                                    setAddAdditionalDetails(
-                                        !addAdditionalDetails
-                                    )
-                                }
-                            >
-                                Add Additional Information
-                            </button>
+                            <div className="flex-none">
+                                {!showAdditionalFields ? (
+                                    <svg
+                                        fill="currentColor"
+                                        viewBox="0 0 16 16"
+                                        height="1em"
+                                        width="1em"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M7.646 4.646a.5.5 0 01.708 0l6 6a.5.5 0 01-.708.708L8 5.707l-5.646 5.647a.5.5 0 01-.708-.708l6-6z"
+                                        />
+                                    </svg>
+                                ) : (
+                                    <svg
+                                        fill="currentColor"
+                                        viewBox="0 0 16 16"
+                                        height="1em"
+                                        width="1em"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M1.646 4.646a.5.5 0 01.708 0L8 10.293l5.646-5.647a.5.5 0 01.708.708l-6 6a.5.5 0 01-.708 0l-6-6a.5.5 0 010-.708z"
+                                        />
+                                    </svg>
+                                )}
+                            </div>
                         </div>
 
-                        {/* Additional information */}
-                        {addAdditionalDetails && (
+                        {showAdditionalFields ? (
                             <>
-                                <textarea
-                                    className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
-                                    placeholder="Pet Bio"
-                                    onChange={(e) => setPetBio(e.target.value)}
-                                />
-
-                                <input
-                                    type="date"
-                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
-                                    placeholder="Date of Birth"
-                                    onChange={(e) => setPetDOB(e.target.value)}
-                                />
+                                <div className="flex flex-col">
+                                    <div className="mb-[5px] rounded-[50%] bg-cream">
+                                        Pets birthday (optional)
+                                    </div>
+                                    <input
+                                        type="date"
+                                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                        placeholder="Date of Birth (optional)"
+                                        onChange={(e) =>
+                                            setBirthday(e.target.value)
+                                        }
+                                    />
+                                </div>
 
                                 <input
                                     type="text"
                                     className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
-                                    placeholder="Pet's Breed"
-                                    onChange={(e) =>
-                                        setPetBreed(e.target.value)
-                                    }
+                                    placeholder="Pet's Breed (optional)"
+                                    onChange={(e) => setBreed(e.target.value)}
                                 />
 
-                                <div>
-                                    {/* Male or Female select */}
+                                <div className="flex flex-col">
+                                    <div className="mb-[5px] rounded-[50%] bg-cream">
+                                        Gender
+                                    </div>
                                     <select
                                         className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                                         onChange={(e) =>
-                                            setPetGender(e.target.value)
+                                            setGender(e.target.value)
                                         }
+                                        required={false}
                                     >
-                                        <option value="" disabled selected />
+                                        <option value="" selected>
+                                            Select a value (optional)
+                                        </option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                     </select>
@@ -555,9 +452,9 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                 <input
                                     type="text"
                                     className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
-                                    placeholder="Pet's Microchip Number"
+                                    placeholder="Pet's Microchip Number (optional)"
                                     onChange={(e) =>
-                                        setPetMicrochipNumber(e.target.value)
+                                        setMicrochipNumber(e.target.value)
                                     }
                                 />
 
@@ -569,12 +466,17 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     <select
                                         className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                                         onChange={(e) =>
-                                            setPetSpayedOrNeutered(
-                                                e.target.value
+                                            setSpayedOrNeutered(
+                                                e.target.value === "yes"
+                                                    ? true
+                                                    : false
                                             )
                                         }
+                                        required={false}
                                     >
-                                        <option value="" disabled selected />
+                                        <option value="" selected>
+                                            Please select a value (optional)
+                                        </option>
                                         <option value="yes">Yes</option>
                                         <option value="no">No</option>
                                     </select>
@@ -583,22 +485,248 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                 {/* Pet Behaviour */}
                                 <textarea
                                     className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
-                                    placeholder="Pet Behaviour"
+                                    placeholder="Pet Behaviour (optional)"
                                     onChange={(e) =>
-                                        setPetBehaviour(e.target.value)
+                                        setBehaviour(e.target.value)
                                     }
+                                    required={false}
                                 />
 
                                 {/* Pet Allergies */}
                                 <textarea
                                     className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
-                                    placeholder="Pet Allergies"
+                                    placeholder="Pet Allergies (optional)"
                                     onChange={(e) =>
-                                        setPetAllergies(e.target.value)
+                                        setAllergies(e.target.value)
                                     }
+                                    required={false}
                                 />
                             </>
+                        ) : (
+                            <></>
                         )}
+
+                        {/* Toggle Parent Information fields */}
+                        <div
+                            className="flex w-full flex-row "
+                            onClick={(e) =>
+                                setShowParentFields(!showParentFields)
+                            }
+                        >
+                            <div className="mb-[25px] grow text-left">
+                                {showParentFields
+                                    ? "Hide Parent Information"
+                                    : "Show Parent Information"}
+                            </div>
+                            <div className="flex-none">
+                                {!showParentFields ? (
+                                    <svg
+                                        fill="currentColor"
+                                        viewBox="0 0 16 16"
+                                        height="1em"
+                                        width="1em"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M7.646 4.646a.5.5 0 01.708 0l6 6a.5.5 0 01-.708.708L8 5.707l-5.646 5.647a.5.5 0 01-.708-.708l6-6z"
+                                        />
+                                    </svg>
+                                ) : (
+                                    <svg
+                                        fill="currentColor"
+                                        viewBox="0 0 16 16"
+                                        height="1em"
+                                        width="1em"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M1.646 4.646a.5.5 0 01.708 0L8 10.293l5.646-5.647a.5.5 0 01.708.708l-6 6a.5.5 0 01-.708 0l-6-6a.5.5 0 010-.708z"
+                                        />
+                                    </svg>
+                                )}
+                            </div>
+                        </div>
+
+                        {showParentFields ? (
+                            <>
+                                <div className="mb-[25px] text-left">
+                                    <input
+                                        type="checkbox"
+                                        className="mb-[5px] rounded-[50%] bg-cream"
+                                        name="use_owner_information"
+                                        defaultChecked={useOwnerDetails}
+                                        onChange={(e) =>
+                                            handleUseOwnerDetails(e)
+                                        }
+                                        required={true}
+                                    />
+                                    {/* eslint-disable-next-line react/no-unescaped-entities */}
+                                    <span>
+                                        {" "}
+                                        Use my information as the Parent?
+                                    </span>
+                                </div>
+
+                                <input
+                                    type="text"
+                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                    placeholder={
+                                        useOwnerDetails
+                                            ? (ownerDetails?.name as string)
+                                            : "Parent's Name"
+                                    }
+                                    onChange={(e) =>
+                                        setParentName(e.target.value)
+                                    }
+                                    disabled={useOwnerDetails}
+                                    required={!useOwnerDetails}
+                                />
+                                <input
+                                    type="text"
+                                    className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                    placeholder={
+                                        useOwnerDetails
+                                            ? (ownerDetails?.phone_number as string)
+                                            : "Parent's Phone Number"
+                                    }
+                                    onChange={(e) =>
+                                        setParentPhoneNumber(e.target.value)
+                                    }
+                                    disabled={useOwnerDetails}
+                                    required={!useOwnerDetails}
+                                />
+                                <input
+                                    type="text"
+                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                    placeholder={
+                                        useOwnerDetails
+                                            ? (ownerDetails?.phone_number_additional_1 as string)
+                                            : "Parent's Additional Phone Number (optional)"
+                                    }
+                                    onChange={(e) =>
+                                        setParentPhoneNumberAdditional1(
+                                            e.target.value
+                                        )
+                                    }
+                                    required={false}
+                                />
+                                <input
+                                    type="text"
+                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                    placeholder={
+                                        useOwnerDetails
+                                            ? (ownerDetails?.phone_number_additional_2 as string)
+                                            : "Parent's Second Additional Phone Number (optional)"
+                                    }
+                                    onChange={(e) =>
+                                        setParentPhoneNumberAdditional2(
+                                            e.target.value
+                                        )
+                                    }
+                                    required={false}
+                                />
+                                <input
+                                    type="text"
+                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                    placeholder={
+                                        useOwnerDetails
+                                            ? (ownerDetails?.email as string)
+                                            : "Parent's Email"
+                                    }
+                                    onChange={(e) =>
+                                        setParentEmail(e.target.value)
+                                    }
+                                    required={true}
+                                />
+                                <input
+                                    type="text"
+                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                    placeholder={
+                                        useOwnerDetails
+                                            ? (ownerDetails?.email_additional as string)
+                                            : "Parent's Additional Email (optional)"
+                                    }
+                                    onChange={(e) =>
+                                        setParentEmailAdditional(e.target.value)
+                                    }
+                                    required={false}
+                                />
+
+                                <input
+                                    type="text"
+                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                    placeholder={
+                                        useOwnerDetails
+                                            ? (ownerDetails?.street_address as string)
+                                            : "Parent's Street Address (optional)"
+                                    }
+                                    onChange={(e) =>
+                                        setParentStreetAddress(e.target.value)
+                                    }
+                                    required={false}
+                                />
+                                <input
+                                    type="text"
+                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                    placeholder={
+                                        useOwnerDetails
+                                            ? (ownerDetails?.apt_suite_unit as string)
+                                            : "Parent's Apartment, suite, etc. (optional)"
+                                    }
+                                    onChange={(e) =>
+                                        setParentApartmentSuite(e.target.value)
+                                    }
+                                    required={false}
+                                />
+                                <input
+                                    type="text"
+                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                    placeholder={
+                                        useOwnerDetails
+                                            ? (ownerDetails?.city as string)
+                                            : "Parent's City (optional)"
+                                    }
+                                    onChange={(e) =>
+                                        setParentCity(e.target.value)
+                                    }
+                                    required={false}
+                                />
+                                <input
+                                    type="text"
+                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                    placeholder={
+                                        useOwnerDetails
+                                            ? (ownerDetails?.state as string)
+                                            : "Parent's State (optional)"
+                                    }
+                                    onChange={(e) =>
+                                        setParentState(e.target.value)
+                                    }
+                                    required={false}
+                                />
+                                <input
+                                    type="text"
+                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                    placeholder={
+                                        useOwnerDetails
+                                            ? (ownerDetails?.zipcode as string)
+                                            : "Parent's Zip Code (optional)"
+                                    }
+                                    onChange={(e) =>
+                                        setParentZipcode(e.target.value)
+                                    }
+                                    required={false}
+                                />
+                            </>
+                        ) : (
+                            <></>
+                        )}
+
+                        {errors.map((error) => (
+                            <div className="text-red-500" key={error}>
+                                {error}
+                            </div>
+                        ))}
 
                         <button
                             className="bottom-[36px] mb-[25px] h-[48px] w-[100%] bg-dark-purple text-cream"

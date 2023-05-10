@@ -8,30 +8,30 @@ BigIntProto.toJSON = function () {
     return this.toString();
 };
 
-interface AdditionalDetailsType {
-        pet_bio: String,
-        pet_birthday: String,
-        pet_breed: String,
-        pet_gender: String,
-        pet_microchip_number: String,
-        pet_spayed_neutered: Boolean,
-        pet_behavior: String,
-        pet_allergies: String
-}
-
 export async function POST(request: Request) {
     const { 
-        pet_name,
-        pets_photo,
-        extra_information,
-        use_owner_details,
-        owners_name,
-        email,
-        phone_number,
-        addressline1,
-        addressline2,
-        zipcode,
-        additional_details,
+        name,
+        photo_url,
+        bio,
+        birthday,
+        breed,
+        gender,
+        microchip_number,
+        neutered_spayed,
+        behaviour,
+        allergies,
+        uses_owners_information,
+        parent_name,
+        parent_phone_number,
+        parent_phone_number_additional_1,
+        parent_phone_number_additional_2,
+        parent_email,
+        parent_email_additional,
+        parent_street_address,
+        parent_apt_suite_unit,
+        parent_city,
+        parent_state,
+        parent_zipcode,
         tagID
     } = await request.json();
 
@@ -59,25 +59,28 @@ export async function POST(request: Request) {
     // Then create the tag_details 
     const tag_details = await prisma.tag_details.create({
         data: {
-            pets_name: pet_name,
-            pets_photo_url: pets_photo,
-            pets_information: extra_information,
-            uses_owners_information: use_owner_details,
-            tag_owners_name: use_owner_details ? `${owner_details?.owner_firstname} ${owner_details?.owner_lastname}` : owners_name,
-            tag_email: use_owner_details ? owner_details?.owner_email : email,
-            tag_phone_number: use_owner_details ? owner_details?.owner_phone_number : phone_number,
-            tag_address_line1: use_owner_details ? owner_details?.owner_address_line1 : addressline1,
-            tag_address_line2: use_owner_details ? owner_details?.owner_address_line2 : addressline2,
-            tag_address_zip: use_owner_details ? owner_details?.owner_address_zip : zipcode,
-
-            pet_bio: (additional_details as AdditionalDetailsType).pet_bio as string,
-            pet_birthday:  (additional_details as AdditionalDetailsType).pet_birthday as string,
-            pet_breed:  (additional_details as AdditionalDetailsType).pet_breed as string,
-            pet_gender: (additional_details as AdditionalDetailsType).pet_gender as string,
-            pet_microchip_number: (additional_details as AdditionalDetailsType).pet_microchip_number as string,
-            pet_spayed_neutered: (additional_details as AdditionalDetailsType).pet_spayed_neutered as boolean,
-            pet_behavior: (additional_details as AdditionalDetailsType).pet_behavior as string,
-            pet_allergies: (additional_details as AdditionalDetailsType).pet_allergies as string
+            name: name,
+            photo_url: photo_url,
+            bio: bio,
+            birthday: new Date(birthday).toISOString(),
+            breed: breed,
+            gender: gender,
+            microchip_number: microchip_number,
+            neutered_spayed: neutered_spayed,
+            behaviour: behaviour,
+            allergies: allergies,
+            uses_owners_information: uses_owners_information,
+            parent_name: parent_name,
+            parent_phone_number: parent_phone_number,
+            parent_phone_number_additional_1: parent_phone_number_additional_1,
+            parent_phone_number_additional_2: parent_phone_number_additional_2,
+            parent_email: parent_email,
+            parent_email_additional: parent_email_additional,
+            parent_street_address: parent_street_address,
+            parent_apt_suite_unit: parent_apt_suite_unit,
+            parent_city: parent_city,
+            parent_state: parent_state,
+            parent_zipcode: parent_zipcode
         }
     });
 

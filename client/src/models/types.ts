@@ -11,17 +11,32 @@ export interface TagType {
 export interface TagDetailsType {   
     id: String;
     created_at: String;
-    pets_information: String;
-    pets_name: String;
-    pets_photo_url: String;
-    tag_owners_name: String;
-    tag_email: String;
-    tag_address_line1: String;
-    tag_address_line2: String;
-    tag_address_zip: String;
-    tag_phone_number: String;
-    tag_phone_number2: String;
+
+    name: String;
+    photo_url: String;
+    bio: String;
+    birthday: Datetime;
+    breed: String;
+    gender: String;
+    microchip_number: String;
+    neutered_spayed: Boolean;
+    behaviour: String;
+    allergies: String;
+
     uses_owners_information: Boolean;
+    parent_name: String;
+    parent_phone_number: String;
+    parent_phone_number_additional_1: String;
+    parent_phone_number_additional_2: String;
+    parent_email: String;
+    parent_email_additional: String;
+    parent_street_address: String;
+    parent_apt_suite_unit: String;
+    parent_city: String;
+    parent_state: String;
+    parent_zipcode: String;
+
+    tag: TagType;
 };
 
 export interface OwnerType {
@@ -36,14 +51,18 @@ export interface OwnerType {
 export interface OwnerDetailsType {
     id: String;
     created_at: String;
-    owner_firstname: String;
-    owner_lastname: String;
-    owner_email: String;
-    owner_phone_number: String;
-    owner_phone_number2: String;
-    owner_address_line1: String;
-    owner_address_line2: String;    
-    owner_address_zip: String;
+    name: String;
+    phone_number: String;
+    phone_number_additional_1: String;
+    phone_number_additional_2: String;
+    email: String;
+    email_additional: String;
+    street_address: String;
+    apt_suite_unit: String;
+    city: String;
+    state: String;
+    zipcode: String;
+
     owner: OwnerType;
 }
 
