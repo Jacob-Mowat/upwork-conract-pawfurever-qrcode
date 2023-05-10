@@ -64,18 +64,24 @@ export async function GET(request: Request) {
 };
 
 export async function POST(request: Request) {
-    const { firstname, lastname, phone_number, phone_number2, email, addressline1, addressline2, zipcode, ownerID } = await request.json();
+    const {
+        data,
+        ownerID
+    } = await request.json();
 
     const newOwnerDetails = await prisma.owner_details.create({
         data: {
-            owner_firstname: firstname,
-            owner_lastname: lastname,
-            owner_email: email,
-            owner_phone_number: phone_number,
-            owner_phone_number2: phone_number2,
-            owner_address_line1: addressline1,
-            owner_address_line2: addressline2,
-            owner_address_zip: zipcode,
+            name: data.name,
+            phone_number: data.phone_number,
+            phone_number_additional_1: data.phone_number_additional_1,
+            phone_number_additional_2: data.phone_number_additional_2,
+            email: data.email,
+            email_additional: data.email_additional,
+            street_address: data.street_address,
+            apt_suite_unit: data.apt_suite_unit,
+            city: data.city,
+            state: data.state,
+            zipcode: data.zipcode,
             owner: {
                 connect: {
                     id: parseInt(ownerID)
