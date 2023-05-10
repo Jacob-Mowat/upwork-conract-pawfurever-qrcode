@@ -24,14 +24,17 @@ model owner_details {
   id         Int      @id @default(autoincrement())
   created_at DateTime @default(now()) @db.Timestamp(6)
 
-  owner_firstname     String  @db.VarChar(255)
-  owner_lastname      String  @db.VarChar(255)
-  owner_email         String  @unique @db.VarChar(255)
-  owner_phone_number  String  @db.VarChar(255)
-  owner_phone_number2 String? @db.VarChar(255)
-  owner_address_line1 String  @db.VarChar(255)
-  owner_address_line2 String  @db.VarChar(255)
-  owner_address_zip   String  @db.VarChar(255)
+  name                      String  @db.VarChar(255)
+  phone_number              String  @db.VarChar(255)
+  phone_number_additional_1 String? @db.VarChar(255)
+  phone_number_additional_2 String? @db.VarChar(255)
+  email                     String  @db.VarChar(255)
+  email_additional          String? @db.VarChar(255)
+  street_address            String? @db.VarChar(255)
+  apt_suite_unit            String? @db.VarChar(255)
+  city                      String? @db.VarChar(255)
+  state                     String? @db.VarChar(255)
+  zipcode                   String? @db.VarChar(255)
 
   owner owners?
 }
@@ -56,27 +59,29 @@ model tag_details {
   id         Int      @id @default(autoincrement())
   created_at DateTime @default(now()) @db.Timestamp(6)
 
-  pets_name               String  @db.VarChar(255)
-  pets_photo_url          String  @db.VarChar(255)
-  pets_information        String  @db.Text()
-  uses_owners_information Boolean @default(false)
+  name             String    @db.VarChar(255)
+  photo_url        String?   @db.VarChar(255)
+  bio              String?   @db.Text()
+  birthday         DateTime? @db.Timestamp(6)
+  breed            String?   @db.VarChar(255)
+  gender           String?   @db.VarChar(255)
+  microchip_number String?   @db.VarChar(255)
+  neutered_spayed  Boolean?  @default(false)
+  behaviour        String?   @db.Text()
+  allergies        String?   @db.Text()
 
-  tag_owners_name   String? @db.VarChar(255)
-  tag_email         String? @db.VarChar(255)
-  tag_phone_number  String? @db.VarChar(255)
-  tag_phone_number2 String? @db.VarChar(255)
-  tag_address_line1 String? @db.VarChar(255)
-  tag_address_line2 String? @db.VarChar(255)
-  tag_address_zip   String? @db.VarChar(255)
-
-  pet_bio              String?   @db.Text()
-  pet_birthday         DateTime? @db.Timestamp(6)
-  pet_breed            String?   @db.VarChar(255)
-  pet_gender           String?   @db.VarChar(255)
-  pet_microchip_number String?   @db.VarChar(255)
-  pet_spayed_neutered  Boolean?  @default(false)
-  pet_behavior         String?   @db.Text()
-  pet_allergies        String?   @db.Text()
+  uses_owners_information          Boolean @default(true)
+  parent_name                      String  @db.VarChar(255)
+  parent_phone_number              String  @db.VarChar(255)
+  parent_phone_number_additional_1 String? @db.VarChar(255)
+  parent_phone_number_additional_2 String? @db.VarChar(255)
+  parent_email                     String  @db.VarChar(255)
+  parent_email_additional          String? @db.VarChar(255)
+  parent_street_address            String? @db.VarChar(255)
+  parent_apt_suite_unit            String? @db.VarChar(255)
+  parent_city                      String? @db.VarChar(255)
+  parent_state                     String? @db.VarChar(255)
+  parent_zipcode                   String? @db.VarChar(255)
 
   tag tags?
 }
@@ -91,5 +96,3 @@ model zip_download_urls {
 
   tags tags[]
 }
-
-// LEFT(md5(random()::text), 3)
