@@ -178,37 +178,52 @@ export default function ViewPage({ params }: { params: { token: string } }) {
         <>
             <Navbar />
 
-            <div className="flex h-[calc(100vh-64px)] overflow-auto justify-center items-center">
+            <div className="flex h-[calc(100vh-64px)] items-center justify-center overflow-auto">
                 <div className="text-center">
-                    <div className="flex justify-center items-center">
+                    <div className="flex items-center justify-center">
                         <div className="absolute top-[96px]">
-                            <h1 className="text-2xl underline text-black-400 text-center">
+                            <h1 className="text-black-400 text-center text-2xl underline">
                                 Verify QR
                             </h1>
                         </div>
-                        <div className="flex flex-col justify-center items-center">
+                        <div className="flex flex-col items-center justify-center">
                             <span className="text-black-300  text-baseCustom p-[16px]">
                                 Please enter the setup key shown below your QR
                                 tag
                             </span>
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] rounded-[5px] bg-cream w-[calc(100vw-72px)] text-center  text-base text-[rgba(0,0,0,0.75)]-400"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 w-[calc(100vw-72px)] rounded-[5px] bg-cream  text-center text-base uppercase"
                                 placeholder="AAA-####"
                                 pattern="[A-Za-z]{3}-[0-9]{4}"
-                                onChange={(e) => setSetupKey(e.target.value)}
+                                value={setupKey}
+                                maxLength={8}
+                                onChange={(e) => {
+                                    setSetupKey(e.target.value);
+                                    if (
+                                        e.target.value.length === 4 &&
+                                        e.target.value.includes("-")
+                                    ) {
+                                        setSetupKey(
+                                            e.target.value.replace("-", "")
+                                        );
+                                    }
+                                    if (e.target.value.length === 3) {
+                                        setSetupKey(e.target.value + "-");
+                                    }
+                                }}
                             />
                         </div>
                         {/* Show error if showError is true */}
                         {showError && (
                             <div className="absolute bottom-[96px]">
-                                <span className="text-red-400 text-baseCustom">
+                                <span className="text-baseCustom text-red-400">
                                     Setup key does not match!
                                 </span>
                             </div>
                         )}
                         <button
-                            className="absolute bottom-[36px] w-[calc(100%-72px)] bg-dark-purple text-cream h-[48px]"
+                            className="absolute bottom-[36px] h-[48px] w-[calc(100%-72px)] bg-dark-purple text-cream"
                             onClick={(e) => verifySetupKey(e)}
                         >
                             CONTINUE
