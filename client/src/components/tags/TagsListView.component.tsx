@@ -3,7 +3,6 @@ import { useState } from "react";
 import styles from "./page.module.css";
 import { RedirectToSignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
-import TagAddDetailsView from "./TagAddDetailsView.component";
 import { TagType } from "../../models/types";
 
 interface TagsListViewProps {

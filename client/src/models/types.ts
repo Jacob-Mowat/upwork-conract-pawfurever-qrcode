@@ -15,7 +15,7 @@ export interface TagDetailsType {
     name: String;
     photo_url: String;
     bio: String;
-    birthday: Datetime;
+    birthday: String;
     breed: String;
     gender: String;
     microchip_number: String;

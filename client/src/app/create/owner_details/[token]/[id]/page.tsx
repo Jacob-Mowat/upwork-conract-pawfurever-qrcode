@@ -4,7 +4,6 @@ import { LoadingSpinner } from "@/src/components/LoadingSpinner.component";
 import { useEffect, useState } from "react";
 import { OwnerDetailsType, TagType } from "../../../../../models/types";
 import { Navbar } from "@/src/components/NavBar.component";
-import TagAddDetailsView from "@/src/components/tags/TagAddDetailsView.component";
 import { RedirectToSignIn, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { s3Client } from "@/lib/s3bucket";

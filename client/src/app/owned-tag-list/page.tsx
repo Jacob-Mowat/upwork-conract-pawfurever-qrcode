@@ -4,7 +4,6 @@ import { LoadingSpinner } from "@/src/components/LoadingSpinner.component";
 import { Key, useEffect, useState } from "react";
 import { OwnerDetailsType, TagType } from "../../models/types";
 import { Navbar } from "@/src/components/NavBar.component";
-import TagAddDetailsView from "@/src/components/tags/TagAddDetailsView.component";
 import { RedirectToSignIn, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { s3Client } from "@/lib/s3bucket";
@@ -63,10 +62,10 @@ export default function CreateOwnerDetailsPage() {
     return (
         <>
             <Navbar page="mytags" />
-            <div className="flex overflow-auto justify-center items-center">
-                <div className="flex flex-col w-full justify-center items-center p-4">
-                    <div className="text-center p-4">
-                        <h1 className="text-4xl underline text-black-400 text-center">
+            <div className="flex items-center justify-center overflow-auto">
+                <div className="flex w-full flex-col items-center justify-center p-4">
+                    <div className="p-4 text-center">
+                        <h1 className="text-black-400 text-center text-4xl underline">
                             Your Tags
                         </h1>
                     </div>

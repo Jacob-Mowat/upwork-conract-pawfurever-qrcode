@@ -150,15 +150,18 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         </div>
                                         <div>
                                             {new Date(
-                                                data?.tag_details.birthday
+                                                data?.tag_details
+                                                    .birthday as string
                                             ).getMonth() + 1}
                                             /
                                             {new Date(
-                                                data?.tag_details.birthday
+                                                data?.tag_details
+                                                    .birthday as string
                                             ).getDate()}
                                             /
                                             {new Date(
-                                                data?.tag_details.birthday
+                                                data?.tag_details
+                                                    .birthday as string
                                             ).getFullYear()}
                                         </div>
                                     </div>

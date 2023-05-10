@@ -58,11 +58,11 @@ export default function TagView({ tag }: TagViewProps) {
             {data == null ? (
                 <LoadingSpinner />
             ) : (
-                <div className="flex justify-center items-center">
+                <div className="flex items-center justify-center">
                     <div className="text-center">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src={data.body.tag_details.pets_photo_url as string}
+                            src={data.body.tag_details.photo_url as string}
                             width="100%"
                             alt="Pet Photo"
                         />
@@ -71,25 +71,23 @@ export default function TagView({ tag }: TagViewProps) {
                                 Hi! my name is,
                             </h1>
                             <h2 className="text-dogName mb-[25px]">
-                                {data.body.tag_details.pets_name}
+                                {data.body.tag_details.name}
                             </h2>
                             <p>Thank you for finding me!</p>
                             <p className="mb-[25px]">
                                 My owners name is,{" "}
-                                <span>
-                                    {data.body.tag_details.tag_owners_name}
-                                </span>
+                                <span>{data.body.tag_details.parent_name}</span>
                             </p>
                             <p className="mb-[25px]">
                                 please return me to them :)
                             </p>
-                            {data.body.tag_details.pets_information}
+                            {/* {data.body.tag_details.pets_information}
                             <p>{data.body.tag_details.tag_address_line1}</p>
                             <p>{data.body.tag_details.tag_address_line2}</p>
                             <p className="mb-[25px]">
                                 {data.body.tag_details.tag_address_zip}
                             </p>
-                            <p>{data.body.tag_details.tag_phone_number}</p>
+                            <p>{data.body.tag_details.tag_phone_number}</p> */}
                             <span></span>
                         </div>
                     </div>

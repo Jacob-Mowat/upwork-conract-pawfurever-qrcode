@@ -3,7 +3,6 @@ import { useState } from "react";
 import styles from "./page.module.css";
 import { RedirectToSignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import TagAddDetailsView from "../tags/TagAddDetailsView.component";
 import { OwnerType, TagType } from "@/src/models/types";
 
 interface OwnerAddDetailsViewProps {
@@ -85,62 +84,62 @@ export default function OwnerAddDetailsView({
     return (
         <>
             <div className="">
-                <h1 className="top-0 text-headingCustom underline  text-black-400 text-center mb-[25px]">
+                <h1 className="text-headingCustom text-black-400 top-0  mb-[25px] text-center underline">
                     Account Details
                 </h1>
 
                 <input
                     type="text"
-                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                    className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
                     placeholder="Firstname"
                     onChange={(e) => setFirstname(e.target.value)}
                     required={true}
                 />
                 <input
                     type="text"
-                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                    className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
                     placeholder="Lastname"
                     onChange={(e) => setLastname(e.target.value)}
                     required={true}
                 />
                 <input
                     type="text"
-                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                    className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
                     placeholder="Phone number"
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     required={true}
                 />
                 <input
                     type="text"
-                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                    className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
                     placeholder="Phone number 2 (optional)"
                     onChange={(e) => setPhoneNumber2(e.target.value)}
                     required={false}
                 />
                 <input
                     type="text"
-                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                    className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
                     placeholder="Address line 1"
                     onChange={(e) => setAddressline1(e.target.value)}
                     required={true}
                 />
                 <input
                     type="text"
-                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                    className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
                     placeholder="Address line 2 (optional)"
                     onChange={(e) => setAddressline2(e.target.value)}
                     required={false}
                 />
                 <input
                     type="text"
-                    className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)]  text-base text-[rgba(0,0,0,0.75)]-400 mb-[25px]"
+                    className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
                     placeholder="Zipcode"
                     onChange={(e) => setZipcode(e.target.value)}
                     required={true}
                 />
 
                 <button
-                    className="bottom-[36px] w-[calc(100%-72px)] bg-dark-purple text-cream h-[48px]"
+                    className="bottom-[36px] h-[48px] w-[calc(100%-72px)] bg-dark-purple text-cream"
                     onClick={(e) => verifyForm(e)}
                 >
                     CONTINUE

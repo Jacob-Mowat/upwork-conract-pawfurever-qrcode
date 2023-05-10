@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import TagAddDetailsView from "./TagAddDetailsView.component";
 import { OwnerType, TagType } from "@/src/models/types";
 import { useRouter } from "next/navigation";
 
@@ -52,26 +51,26 @@ export default function TagSetupKeyView({ tag, owner }: TagSetupKeyViewProps) {
 
     return (
         <>
-            <div className="flex justify-center items-center">
+            <div className="flex items-center justify-center">
                 <div className="absolute top-[96px]">
-                    <h1 className="text-headingCustom underline  text-black-400 text-center">
+                    <h1 className="text-headingCustom text-black-400  text-center underline">
                         Verify QR
                     </h1>
                 </div>
-                <div className="flex flex-col justify-center items-center">
+                <div className="flex flex-col items-center justify-center">
                     <span className="text-black-300  text-baseCustom p-[16px]">
                         Please enter the setup key shown below your QR tag
                     </span>
                     <input
                         type="text"
-                        className="border-1 border-black-400 bg-cream shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)] w-[calc(100vw-72px)] text-center  text-base text-[rgba(0,0,0,0.75)]-400"
+                        className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 w-[calc(100vw-72px)] bg-cream text-center  text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
                         placeholder="AAAA-###"
                         pattern="[A-Za-z]{4}-[0-9]{3}"
                         onChange={(e) => setSetupKey(e.target.value)}
                     />
                 </div>
                 <button
-                    className="absolute bottom-[36px] w-[calc(100%-72px)] bg-dark-purple text-cream h-[48px]"
+                    className="absolute bottom-[36px] h-[48px] w-[calc(100%-72px)] bg-dark-purple text-cream"
                     onClick={(e) => verifySetupKey(e)}
                 >
                     CONTINUE

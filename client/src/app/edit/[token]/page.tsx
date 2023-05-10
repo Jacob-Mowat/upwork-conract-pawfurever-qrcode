@@ -1,6 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
-import { OwnerDetailsType, OwnerType, TagType } from "../../../models/types";
+import {
+    OwnerDetailsType,
+    OwnerType,
+    TagDetailsType,
+    TagType,
+} from "../../../models/types";
 import { RedirectToSignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import { LoadingSpinner } from "@/src/components/LoadingSpinner.component";
 import { Navbar } from "@/src/components/NavBar.component";
@@ -391,7 +396,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             placeholder="Pet's Name"
                             onChange={(e) => setName(e.target.value)}
                             required={true}
-                            value={tagDetails.name ? tagDetails.name : ""}
+                            value={
+                                tagDetails?.name
+                                    ? (tagDetails.name as string)
+                                    : ""
+                            }
                         />
                         <div className="mb-[25px] w-[calc(100vw-72px)]">
                             <span className="text-left">
@@ -412,7 +421,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
                             placeholder="Pet Bio (optional)"
                             onChange={(e) => setBio(e.target.value)}
-                            value={tagDetails.bio ? tagDetails.bio : ""}
+                            value={
+                                tagDetails?.bio
+                                    ? (tagDetails.bio as string)
+                                    : ""
+                            }
                         />
 
                         {/* Toggle Additional Information fields */}
@@ -471,7 +484,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         }
                                         value={
                                             tagDetails?.birthday
-                                                ? tagDetails.birthday
+                                                ? (tagDetails.birthday as string)
                                                 : ""
                                         }
                                     />
@@ -484,7 +497,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     onChange={(e) => setBreed(e.target.value)}
                                     value={
                                         tagDetails?.breed
-                                            ? tagDetails.breed
+                                            ? (tagDetails.breed as string)
                                             : ""
                                     }
                                 />
@@ -562,7 +575,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     }
                                     value={
                                         tagDetails?.microchip_number
-                                            ? tagDetails.microchip_number
+                                            ? (tagDetails.microchip_number as string)
                                             : ""
                                     }
                                 />
@@ -583,8 +596,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         }
                                         required={false}
                                     >
-                                        {(tagDetails?.neutered_spayed as string) ==
-                                        "" ? (
+                                        {tagDetails?.neutered_spayed == null ? (
                                             <>
                                                 <option value="" selected>
                                                     Select (optional)
@@ -640,7 +652,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     required={false}
                                     value={
                                         tagDetails?.behaviour
-                                            ? tagDetails.behaviour
+                                            ? (tagDetails.behaviour as string)
                                             : ""
                                     }
                                 />
@@ -655,7 +667,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     required={false}
                                     value={
                                         tagDetails?.allergies
-                                            ? tagDetails.allergies
+                                            ? (tagDetails.allergies as string)
                                             : ""
                                     }
                                 />
@@ -718,8 +730,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         }
                                         required={true}
                                         checked={
-                                            tagDetails?.useOwnerDetails ==
-                                            "true"
+                                            tagDetails?.uses_owners_information
                                                 ? true
                                                 : false
                                         }
@@ -746,7 +757,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     required={!useOwnerDetails}
                                     value={
                                         tagDetails?.parent_name
-                                            ? tagDetails.parent_name
+                                            ? (tagDetails.parent_name as string)
                                             : ""
                                     }
                                 />
@@ -765,7 +776,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     required={!useOwnerDetails}
                                     value={
                                         tagDetails?.parent_phone_number
-                                            ? tagDetails.parent_phone_number
+                                            ? (tagDetails.parent_phone_number as string)
                                             : ""
                                     }
                                 />
@@ -785,7 +796,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     required={false}
                                     value={
                                         tagDetails?.parent_phone_number_additional_1
-                                            ? tagDetails.parent_phone_number_additional_1
+                                            ? (tagDetails.parent_phone_number_additional_1 as string)
                                             : ""
                                     }
                                 />
@@ -805,7 +816,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     required={false}
                                     value={
                                         tagDetails?.parent_phone_number_additional_2
-                                            ? tagDetails.parent_phone_number_additional_2
+                                            ? (tagDetails.parent_phone_number_additional_2 as string)
                                             : ""
                                     }
                                 />
@@ -823,7 +834,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     required={true}
                                     value={
                                         tagDetails?.parent_email
-                                            ? tagDetails.parent_email
+                                            ? (tagDetails.parent_email as string)
                                             : ""
                                     }
                                 />
@@ -841,7 +852,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     required={false}
                                     value={
                                         tagDetails?.parent_email_additional
-                                            ? tagDetails.parent_email_additional
+                                            ? (tagDetails.parent_email_additional as string)
                                             : ""
                                     }
                                 />
@@ -860,7 +871,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     required={false}
                                     value={
                                         tagDetails?.parent_street_address
-                                            ? tagDetails.parent_street_address
+                                            ? (tagDetails.parent_street_address as string)
                                             : ""
                                     }
                                 />
@@ -878,7 +889,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     required={false}
                                     value={
                                         tagDetails?.parent_apt_suite_unit
-                                            ? tagDetails.parent_apt_suite_unit
+                                            ? (tagDetails.parent_apt_suite_unit as string)
                                             : ""
                                     }
                                 />
@@ -896,7 +907,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     required={false}
                                     value={
                                         tagDetails?.parent_city
-                                            ? tagDetails.parent_city
+                                            ? (tagDetails.parent_city as string)
                                             : ""
                                     }
                                 />
@@ -914,7 +925,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     required={false}
                                     value={
                                         tagDetails?.parent_state
-                                            ? tagDetails.parent_state
+                                            ? (tagDetails.parent_state as string)
                                             : ""
                                     }
                                 />
@@ -932,7 +943,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     required={false}
                                     value={
                                         tagDetails?.parent_zipcode
-                                            ? tagDetails.parent_zipcode
+                                            ? (tagDetails.parent_zipcode as string)
                                             : ""
                                     }
                                 />

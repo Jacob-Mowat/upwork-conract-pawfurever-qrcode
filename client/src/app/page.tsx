@@ -7,7 +7,6 @@ import { useState, useEffect, useCallback, use } from "react";
 // Import the components
 import TagSetupKeyView from "../components/tags/TagSetupKeyView.component";
 import TagView from "../components/tags/TagView.component";
-import TagAddDetailsView from "../components/tags/TagAddDetailsView.component";
 import TagsListView from "../components/tags/TagsListView.component";
 import OwnerAddDetailsView from "../components/owner/OwnerAddDetailsView.component";
 
@@ -176,7 +175,7 @@ export default function Home() {
     return (
         <>
             <Navbar page="home" />
-            <div className="flex h-[calc(100vh-72px)] overflow-auto justify-center items-center">
+            <div className="flex h-[calc(100vh-72px)] items-center justify-center overflow-auto">
                 <div className="text-center">
                     <div>
                         <div className="flex flex-col items-center">
@@ -187,7 +186,7 @@ export default function Home() {
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                                 src="/qr-tag-example.svg"
-                                className="w-1/2 h-1/2"
+                                className="h-1/2 w-1/2"
                                 alt="QR Tag Example"
                             />
                         </div>
