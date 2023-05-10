@@ -381,7 +381,7 @@ export default function CreateTagDetailsPage({
                                     required={false}
                                 >
                                     <option value="" selected>
-                                        Select a value (optional)
+                                        Select (optional)
                                     </option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
@@ -415,7 +415,7 @@ export default function CreateTagDetailsPage({
                                     required={false}
                                 >
                                     <option value="" selected>
-                                        Please select a value (optional)
+                                        Select (optional)
                                     </option>
                                     <option value="yes">Yes</option>
                                     <option value="no">No</option>

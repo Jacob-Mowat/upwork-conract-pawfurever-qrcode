@@ -10,6 +10,7 @@ import { s3Client } from "@/lib/s3bucket";
 
 export default function EditTagPage({ params }: { params: { token: string } }) {
     const [tag, setTag] = useState<TagType>();
+    const [tagDetails, setTagDetails] = useState<TagDetailsType>();
 
     const [checkedIfOwner, setCheckedIfOwner] = useState(false);
 
@@ -76,6 +77,21 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
             return response;
         };
 
+        const getViewData = async (token: string) => {
+            const request = await fetch(`/api/tags/view/?token=${token}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const response = await request.json();
+
+            console.log(response);
+
+            return response;
+        };
+
         const getOwnedTags = async (uID: string) => {
             const request = await fetch(`/api/tags/owned?uID=${uID}`, {
                 method: "GET",
@@ -91,23 +107,49 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
             return response;
         };
 
+        const doesUserOwnTag = async (uID: string, token: string) => {
+            const request = await fetch(
+                `/api/isOwnerOfTag?uID=${uID}&token=${token}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            const response = await request.json();
+
+            console.log(response);
+
+            return response;
+        };
+
         if (!checkedIfOwner && user.isSignedIn) {
-            getOwnedTags(user.user.id).then((data) => {
-                if (data.status === 200) {
-                    const ownedTags = data.body.tags;
+            // getOwnedTags(user.user.id).then((data) => {
+            //     if (data.status === 200) {
+            //         const ownedTags = data.body.tags;
 
-                    ownedTags.forEach((ownedTag: TagType) => {
-                        if (ownedTag.TAG_TOKEN === params.token) {
-                            setCheckedIfOwner(true);
-                            return;
-                        }
-                    });
+            //         ownedTags.forEach((ownedTag: TagType) => {
+            //             if (ownedTag.TAG_TOKEN === params.token) {
+            //                 setCheckedIfOwner(true);
+            //                 return;
+            //             }
+            //         });
 
-                    if (!checkedIfOwner) {
+            //         if (!checkedIfOwner) {
+            //             router.push("/notOwner");
+            //         }
+            //     } else {
+            //         return;
+            //     }
+            // });
+
+            doesUserOwnTag(user.user.id, params.token).then((data) => {
+                if (data.status == 200) {
+                    if (data.body.owns_tag == false) {
                         router.push("/notOwner");
                     }
-                } else {
-                    return;
                 }
             });
         }
@@ -119,6 +161,12 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                     setLoadingData(true);
                 } else {
                     return;
+                }
+            });
+
+            getViewData(params.token).then((data) => {
+                if (data.status === 200) {
+                    setTagDetails(data.body.tag_details);
                 }
             });
         } else {
@@ -332,7 +380,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                         Add Tag Details
                     </h1> */}
                         <div className="flex-0 top-[96px] mt-[25px] w-full text-center">
-                            <h1 className="text-black-400 text-2xl  underline">
+                            <h1 className="text-black-400 text-4xl">
                                 Edit Tag Details
                             </h1>
                         </div>
@@ -343,6 +391,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             placeholder="Pet's Name"
                             onChange={(e) => setName(e.target.value)}
                             required={true}
+                            value={tagDetails.name ? tagDetails.name : ""}
                         />
                         <div className="mb-[25px] w-[calc(100vw-72px)]">
                             <span className="text-left">
@@ -363,6 +412,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
                             placeholder="Pet Bio (optional)"
                             onChange={(e) => setBio(e.target.value)}
+                            value={tagDetails.bio ? tagDetails.bio : ""}
                         />
 
                         {/* Toggle Additional Information fields */}
@@ -419,6 +469,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         onChange={(e) =>
                                             setBirthday(e.target.value)
                                         }
+                                        value={
+                                            tagDetails?.birthday
+                                                ? tagDetails.birthday
+                                                : ""
+                                        }
                                     />
                                 </div>
 
@@ -427,6 +482,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                                     placeholder="Pet's Breed (optional)"
                                     onChange={(e) => setBreed(e.target.value)}
+                                    value={
+                                        tagDetails?.breed
+                                            ? tagDetails.breed
+                                            : ""
+                                    }
                                 />
 
                                 <div className="flex flex-col">
@@ -440,11 +500,55 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         }
                                         required={false}
                                     >
-                                        <option value="" selected>
-                                            Select a value (optional)
-                                        </option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
+                                        {(tagDetails?.gender as string) ==
+                                        "" ? (
+                                            <>
+                                                <option value="" selected>
+                                                    Select (optional)
+                                                </option>
+                                                <option value="male">
+                                                    Male
+                                                </option>
+                                                <option value="female">
+                                                    Female
+                                                </option>
+                                            </>
+                                        ) : (
+                                            <>
+                                                {tagDetails?.gender ==
+                                                "male" ? (
+                                                    <>
+                                                        <option value="">
+                                                            Select (optional)
+                                                        </option>
+                                                        <option
+                                                            value="male"
+                                                            selected
+                                                        >
+                                                            Male
+                                                        </option>
+                                                        <option value="female">
+                                                            Female
+                                                        </option>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <option value="">
+                                                            Select (optional)
+                                                        </option>
+                                                        <option value="male">
+                                                            Male
+                                                        </option>
+                                                        <option
+                                                            value="female"
+                                                            selected
+                                                        >
+                                                            Female
+                                                        </option>
+                                                    </>
+                                                )}
+                                            </>
+                                        )}
                                     </select>
                                 </div>
 
@@ -455,6 +559,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     placeholder="Pet's Microchip Number (optional)"
                                     onChange={(e) =>
                                         setMicrochipNumber(e.target.value)
+                                    }
+                                    value={
+                                        tagDetails?.microchip_number
+                                            ? tagDetails.microchip_number
+                                            : ""
                                     }
                                 />
 
@@ -474,11 +583,50 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         }
                                         required={false}
                                     >
-                                        <option value="" selected>
-                                            Please select a value (optional)
-                                        </option>
-                                        <option value="yes">Yes</option>
-                                        <option value="no">No</option>
+                                        {(tagDetails?.neutered_spayed as string) ==
+                                        "" ? (
+                                            <>
+                                                <option value="" selected>
+                                                    Select (optional)
+                                                </option>
+                                                <option value="yes">Yes</option>
+                                                <option value="no">No</option>
+                                            </>
+                                        ) : (
+                                            <>
+                                                {tagDetails?.neutered_spayed ? (
+                                                    <>
+                                                        <option value="">
+                                                            Select (optional)
+                                                        </option>
+                                                        <option
+                                                            value="yes"
+                                                            selected
+                                                        >
+                                                            Yes
+                                                        </option>
+                                                        <option value="no">
+                                                            No
+                                                        </option>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <option value="">
+                                                            Select (optional)
+                                                        </option>
+                                                        <option value="yes">
+                                                            Yes
+                                                        </option>
+                                                        <option
+                                                            value="no"
+                                                            selected
+                                                        >
+                                                            No
+                                                        </option>
+                                                    </>
+                                                )}
+                                            </>
+                                        )}
                                     </select>
                                 </div>
 
@@ -490,6 +638,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setBehaviour(e.target.value)
                                     }
                                     required={false}
+                                    value={
+                                        tagDetails?.behaviour
+                                            ? tagDetails.behaviour
+                                            : ""
+                                    }
                                 />
 
                                 {/* Pet Allergies */}
@@ -500,6 +653,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setAllergies(e.target.value)
                                     }
                                     required={false}
+                                    value={
+                                        tagDetails?.allergies
+                                            ? tagDetails.allergies
+                                            : ""
+                                    }
                                 />
                             </>
                         ) : (
@@ -559,6 +717,12 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                             handleUseOwnerDetails(e)
                                         }
                                         required={true}
+                                        checked={
+                                            tagDetails?.useOwnerDetails ==
+                                            "true"
+                                                ? true
+                                                : false
+                                        }
                                     />
                                     {/* eslint-disable-next-line react/no-unescaped-entities */}
                                     <span>
@@ -580,6 +744,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     }
                                     disabled={useOwnerDetails}
                                     required={!useOwnerDetails}
+                                    value={
+                                        tagDetails?.parent_name
+                                            ? tagDetails.parent_name
+                                            : ""
+                                    }
                                 />
                                 <input
                                     type="text"
@@ -594,6 +763,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     }
                                     disabled={useOwnerDetails}
                                     required={!useOwnerDetails}
+                                    value={
+                                        tagDetails?.parent_phone_number
+                                            ? tagDetails.parent_phone_number
+                                            : ""
+                                    }
                                 />
                                 <input
                                     type="text"
@@ -609,6 +783,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         )
                                     }
                                     required={false}
+                                    value={
+                                        tagDetails?.parent_phone_number_additional_1
+                                            ? tagDetails.parent_phone_number_additional_1
+                                            : ""
+                                    }
                                 />
                                 <input
                                     type="text"
@@ -624,6 +803,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         )
                                     }
                                     required={false}
+                                    value={
+                                        tagDetails?.parent_phone_number_additional_2
+                                            ? tagDetails.parent_phone_number_additional_2
+                                            : ""
+                                    }
                                 />
                                 <input
                                     type="text"
@@ -637,6 +821,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setParentEmail(e.target.value)
                                     }
                                     required={true}
+                                    value={
+                                        tagDetails?.parent_email
+                                            ? tagDetails.parent_email
+                                            : ""
+                                    }
                                 />
                                 <input
                                     type="text"
@@ -650,6 +839,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setParentEmailAdditional(e.target.value)
                                     }
                                     required={false}
+                                    value={
+                                        tagDetails?.parent_email_additional
+                                            ? tagDetails.parent_email_additional
+                                            : ""
+                                    }
                                 />
 
                                 <input
@@ -664,6 +858,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setParentStreetAddress(e.target.value)
                                     }
                                     required={false}
+                                    value={
+                                        tagDetails?.parent_street_address
+                                            ? tagDetails.parent_street_address
+                                            : ""
+                                    }
                                 />
                                 <input
                                     type="text"
@@ -677,6 +876,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setParentApartmentSuite(e.target.value)
                                     }
                                     required={false}
+                                    value={
+                                        tagDetails?.parent_apt_suite_unit
+                                            ? tagDetails.parent_apt_suite_unit
+                                            : ""
+                                    }
                                 />
                                 <input
                                     type="text"
@@ -690,6 +894,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setParentCity(e.target.value)
                                     }
                                     required={false}
+                                    value={
+                                        tagDetails?.parent_city
+                                            ? tagDetails.parent_city
+                                            : ""
+                                    }
                                 />
                                 <input
                                     type="text"
@@ -703,6 +912,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setParentState(e.target.value)
                                     }
                                     required={false}
+                                    value={
+                                        tagDetails?.parent_state
+                                            ? tagDetails.parent_state
+                                            : ""
+                                    }
                                 />
                                 <input
                                     type="text"
@@ -716,6 +930,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setParentZipcode(e.target.value)
                                     }
                                     required={false}
+                                    value={
+                                        tagDetails?.parent_zipcode
+                                            ? tagDetails.parent_zipcode
+                                            : ""
+                                    }
                                 />
                             </>
                         ) : (
