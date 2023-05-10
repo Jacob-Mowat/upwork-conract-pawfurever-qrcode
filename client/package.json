@@ -11,7 +11,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.317.0",
     "@aws-sdk/signature-v4-crt": "^3.310.0",
-    "@clerk/nextjs": "^4.13.0",
+    "@clerk/nextjs": "^4.17.3",
     "@prisma/client": "^4.13.0",
     "@tailwindcss/forms": "^0.5.3",
     "@types/node": "18.15.11",
