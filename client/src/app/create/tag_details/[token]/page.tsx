@@ -211,7 +211,7 @@ export default function CreateTagDetailsPage({
 
         console.log(tagDetails);
 
-        const response = await fetch("/api/tags/addDetails", {
+        const response = await fetch("/api/tags/edit", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
