@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
     const newOwnerDetails = await prisma.owner_details.create({
         data: {
-            name: data.name,
+            name: data.name as string,
             phone_number: data.phone_number,
             phone_number_additional_1: data.phone_number_additional_1,
             phone_number_additional_2: data.phone_number_additional_2,
