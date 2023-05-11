@@ -24,7 +24,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
 
     const [creatingTag, setCreatingTag] = useState<boolean>(false);
 
-    const [showParentFields, setShowParentFields] = useState<boolean>(true);
+    const [showParentFields, setShowParentFields] = useState<boolean>(false);
     const [showAdditionalFields, setShowAdditionalFields] =
         useState<boolean>(false);
 
@@ -560,10 +560,10 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                                 <option value="" selected>
                                                     Select (optional)
                                                 </option>
-                                                <option value="male">
+                                                <option value="Male">
                                                     Male
                                                 </option>
-                                                <option value="female">
+                                                <option value="Female">
                                                     Female
                                                 </option>
                                             </>

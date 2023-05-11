@@ -8,16 +8,8 @@ import {
     TagDetailsType,
     TagType,
 } from "../../../models/types";
-import { Navbar } from "@/src/components/NavBar.component";
 import { useRouter } from "next/navigation";
-import { SideBar } from "@/src/components/SideBar.component";
-import { MailtrapClient } from "mailtrap";
 import Link from "next/link";
-import { BsFillTelephoneFill } from "react-icons/bs";
-
-interface TagViewProps {
-    tag: any;
-}
 
 interface ExpectedDataType {
     tag: TagType;
@@ -240,10 +232,9 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                             Phone Number
                                         </div>
                                         <div>
-                                            {
-                                                data?.tag_details
-                                                    .parent_phone_number
-                                            }
+                                            <a className="hover:bg-lightest-purple hover:text-purple" href={`tel:${data?.tag_details.parent_phone_number}`}>
+                                                {data?.tag_details.parent_phone_number}
+                                            </a>
                                         </div>
                                     </div>
                                 )}
@@ -254,10 +245,8 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                             Additional Phone Number
                                         </div>
                                         <div>
-                                            {
-                                                data?.tag_details
-                                                    .parent_phone_number_additional_1
-                                            }
+                                        <a className="hover:bg-lightest-purple hover:text-purple" href={`tel:${data?.tag_details.parent_phone_number_additional_1}`}>
+                                            {data?.tag_details.parent_phone_number_additional_1}</a>
                                         </div>
                                     </div>
                                 )}
@@ -268,10 +257,9 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                             Additional Phone Number
                                         </div>
                                         <div>
-                                            {
-                                                data?.tag_details
-                                                    .parent_phone_number_additional_2
-                                            }
+                                            <a className="hover:bg-lightest-purple hover:text-purple" href={`tel:${data?.tag_details.parent_phone_number_additional_2}`}>
+                                                {data?.tag_details.parent_phone_number_additional_2}
+                                            </a>
                                         </div>
                                     </div>
                                 )}
@@ -281,7 +269,9 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                             Email
                                         </div>
                                         <div>
-                                            {data?.tag_details.parent_email}
+                                            <a className="hover:bg-lightest-purple hover:text-purple" href={`mailto:${data?.tag_details.parent_email}`}>
+                                                {data?.tag_details.parent_email}
+                                            </a>
                                         </div>
                                     </div>
                                 )}
@@ -291,10 +281,9 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                             Additional Email
                                         </div>
                                         <div>
-                                            {
-                                                data?.tag_details
-                                                    .parent_email_additional
-                                            }
+                                            <a className="hover:bg-lightest-purple hover:text-purple" href={`mailto:${data?.tag_details.parent_email_additional}`}>
+                                                {data?.tag_details.parent_email_additional}
+                                            </a>
                                         </div>
                                     </div>
                                 )}

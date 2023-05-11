@@ -4,12 +4,10 @@ import { LoadingSpinner } from "@/src/components/LoadingSpinner.component";
 import { useEffect, useState } from "react";
 import { OwnerDetailsType, TagType } from "../../../../models/types";
 import { Navbar } from "@/src/components/NavBar.component";
-// import TagAddDetailsView from "@/src/components/tags/TagAddDetailsView.component";
 import { RedirectToSignIn, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { s3Client } from "@/lib/s3bucket";
 import { FileUploader } from "react-drag-drop-files";
-import { BsFillCaretLeftSquareFill } from "react-icons/bs";
 
 export default function CreateTagDetailsPage({
     params,
@@ -23,7 +21,7 @@ export default function CreateTagDetailsPage({
 
     const [creatingTag, setCreatingTag] = useState<boolean>(false);
 
-    const [showParentFields, setShowParentFields] = useState<boolean>(true);
+    const [showParentFields, setShowParentFields] = useState<boolean>(false);
     const [showAdditionalFields, setShowAdditionalFields] =
         useState<boolean>(false);
 
@@ -384,8 +382,8 @@ export default function CreateTagDetailsPage({
                                     <option value="" selected>
                                         Select (optional)
                                     </option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
                                 </select>
                             </div>
 
