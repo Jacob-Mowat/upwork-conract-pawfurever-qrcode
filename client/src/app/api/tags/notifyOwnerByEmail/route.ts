@@ -31,19 +31,8 @@ export async function GET(request: Request) {
         }
     });
 
-    // // Get the owner from the owners table using the owner_id
-    // const owner = await prisma.owners.findUnique({
-    //     where: {
-    //         id: parseInt(tag?.owner_id?.toString() ?? "0")
-    //     }
-    // });
-
-    // // Get the owner_details from the owner_details table using the owner_details_id
-    // const owner_details = await prisma.owner_details.findUnique({
-    //     where: {
-    //         id: parseInt(owner?.owner_details_id?.toString() ?? "0")
-    //     }
-    // });
+    // Disconnect from the database
+    await prisma.$disconnect();
 
     // Notify owner tag has been viewed/scanned
 
@@ -58,22 +47,26 @@ export async function GET(request: Request) {
 
     const sender = { name: "Mailtrap Test", email: SENDER_EMAIL };
 
-    client
-        .send({
-            from: sender,
-            to: [{ email: tag_details?.parent_email as string || tag_details?.parent_email_additional as string }],
-            subject: "Hello from Mailtrap!",
-            text: "Welcome to Mailtrap Sending!",
-        })
-        .then(console.log, console.error);
-
-    // Disconnect from the database
-    await prisma.$disconnect();
+    client.send({
+        from: sender,
+        to: [{ email: tag_details?.parent_email as string || tag_details?.parent_email_additional as string }],
+        subject: "Hello from Mailtrap!",
+        text: "Welcome to Mailtrap Sending!",
+    }).then((response) => {
+        console.log(response);
+        return NextResponse.json({
+            status: 200,
+            body: {
+                notified: true,
+                response_from_mailtrap: response
+            }
+        });
+    }, console.error);
 
     return NextResponse.json({
         status: 200,
         body: {
-            notified: true
+            notified: false
         }
     });
 };
