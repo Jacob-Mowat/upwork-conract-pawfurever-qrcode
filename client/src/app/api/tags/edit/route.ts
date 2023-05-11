@@ -41,6 +41,8 @@ export async function POST(request: Request) {
         }
     });
 
+    console.log("[Edit Tag Details] tag: ", tag);
+
     // Then get the owner, incase use_owner_details is true
     // const owner = await prisma.owners.findUnique({
     //     where: {
@@ -49,7 +51,10 @@ export async function POST(request: Request) {
     // });
 
     // Then create the tag_details 
-    const tag_details = await prisma.tag_details.create({
+    const tag_details = await prisma.tag_details.update({
+        where: {
+            id: parseInt(tag?.tag_details_id?.toString() ?? "0")
+        },
         data: {
             name: name,
             photo_url: photo_url,
@@ -77,13 +82,13 @@ export async function POST(request: Request) {
     });
 
     // Remove the old tag_details using the tag_details_id from the tag
-    const deleted_tag_details = await prisma.tag_details.delete({
-        where: {
-            id: parseInt(tag?.tag_details_id?.toString() ?? "0")
-        }
-    });
+    // const deleted_tag_details = await prisma.tag_details.delete({
+    //     where: {
+    //         id: parseInt(tag?.tag_details_id?.toString() ?? "0")
+    //     }
+    // });
 
-    console.log("Deleted tag_details: ", deleted_tag_details);
+    // console.log("Deleted tag_details: ", deleted_tag_details);
 
     // Then update the tag with the tag_details_id
     const updated_tag = await prisma.tags.update({
