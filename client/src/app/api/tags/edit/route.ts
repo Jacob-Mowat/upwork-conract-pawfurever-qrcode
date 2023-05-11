@@ -35,11 +35,11 @@ export async function POST(request: Request) {
     } = await request.json();
 
     // First get the tag
-    // const tag = await prisma.tags.findUnique({
-    //     where: {
-    //         id: parseInt(tagID)
-    //     }
-    // });
+    const tag = await prisma.tags.findUnique({
+        where: {
+            id: parseInt(tagID)
+        }
+    });
 
     // Then get the owner, incase use_owner_details is true
     // const owner = await prisma.owners.findUnique({
@@ -75,6 +75,15 @@ export async function POST(request: Request) {
             parent_zipcode: parent_zipcode
         }
     });
+
+    // Remove the old tag_details using the tag_details_id from the tag
+    const deleted_tag_details = await prisma.tag_details.delete({
+        where: {
+            id: parseInt(tag?.tag_details_id?.toString() ?? "0")
+        }
+    });
+
+    console.log("Deleted tag_details: ", deleted_tag_details);
 
     // Then update the tag with the tag_details_id
     const updated_tag = await prisma.tags.update({
