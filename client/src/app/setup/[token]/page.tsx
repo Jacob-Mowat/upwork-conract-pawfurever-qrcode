@@ -5,8 +5,6 @@ import { useEffect, useState } from "react";
 import { OwnerType, TagType } from "../../../models/types";
 import { Navbar } from "@/src/components/NavBar.component";
 import { RedirectToSignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
-import TagSetupKeyView from "@/src/components/tags/TagSetupKeyView.component";
-import OwnerAddDetailsView from "@/src/components/owner/OwnerAddDetailsView.component";
 import { useRouter } from "next/navigation";
 
 export default function SetupView({ params }: { params: { token: string } }) {
@@ -117,6 +115,10 @@ export default function SetupView({ params }: { params: { token: string } }) {
             console.log("Tag is set");
         }
     }, [clerkAuth, owner, params, router, tag]);
+
+    if (clerkAuth.isSignedIn === false) {
+        return <RedirectToSignIn />;
+    }
 
     return (
         <>
