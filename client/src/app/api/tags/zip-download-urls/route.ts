@@ -1,4 +1,3 @@
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -23,8 +22,11 @@ export async function GET(request: Request) {
 
     console.log(zip_download_urls);
 
+    // Disconnect from the database
+    await prisma.$disconnect();
+
     return NextResponse.json({
-        status:200,
+        status: 200,
         body: {
             zip_download_urls: zip_download_urls
         }
