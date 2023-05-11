@@ -64,7 +64,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
     const user = useUser();
     const router = useRouter();
 
-    const fileTypes = ["JPG", "PNG", "GIF"];
+    const fileTypes = ["JPG", "PNG", "GIF", "HEIC", "HEIF", "JPEG"];
 
     useEffect(() => {
         const getTagData = async (token: string) => {

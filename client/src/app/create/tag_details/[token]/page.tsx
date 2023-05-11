@@ -61,7 +61,7 @@ export default function CreateTagDetailsPage({
     const user = useUser();
     const router = useRouter();
 
-    const fileTypes = ["JPG", "PNG", "GIF"];
+    const fileTypes = ["JPG", "PNG", "GIF", "HEIC", "HEIF", "JPEG"];
 
     useEffect(() => {
         const getTagData = async (token: string) => {
