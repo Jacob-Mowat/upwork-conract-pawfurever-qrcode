@@ -82,29 +82,24 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                 }
             });
         } else {
-            console.log("Data has been loaded");
+            const notifyOwner = async (token: string) => {
+                const request = await fetch(`/api/tags/notifyOwnerByEmail?token=${token}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
 
-            const { MailtrapClient } = require("mailtrap");
+                const response = await request.json();
 
-            const ENDPOINT = "https://send.api.mailtrap.io/";
-            const SENDER_EMAIL = "mailtrap@qr.mowat.dev";
+                console.log(response);
 
-            // Send email to owner to notify them the tag has been viewed/scanned.
-            const client = new MailtrapClient({
-                endpoint: ENDPOINT,
-                token: process.env.NEXT_PUBLIC_MAILTRAP_API_TOKEN as string,
+                return response;
+            };
+            
+            notifyOwner(params.token).then((data) => {
+                console.log(data);
             });
-
-            const sender = { name: "Mailtrap Test", email: SENDER_EMAIL };
-
-            client
-                .send({
-                    from: sender,
-                    to: [{ email: data?.tag_details.parent_email as string }],
-                    subject: "Hello from Mailtrap!",
-                    text: "Welcome to Mailtrap Sending!",
-                })
-                .then(console.log, console.error);
         }
     }, [data?.tag_details.parent_email, isLoading, params, router]);
 

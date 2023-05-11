@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-    const  { searchParams } = new URL(request.url);
+    const { searchParams } = new URL(request.url);
     const token = searchParams.get('token');
 
     if (token == "") {
@@ -49,7 +49,7 @@ export async function GET(request: Request) {
     await prisma.$disconnect();
 
     return NextResponse.json({
-        status:200,
+        status: 200,
         body: {
             tag: tag,
             tag_details: tag_details,
