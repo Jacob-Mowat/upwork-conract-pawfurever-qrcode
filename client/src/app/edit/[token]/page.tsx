@@ -130,6 +130,34 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
             return response;
         };
 
+        const setInitialValues = (tag_details: TagDetailsType) => {
+            console.log(tagDetails);
+            console.log(tag_details?.name);
+
+            setName(tag_details?.name as string);
+            setPhotoUrl(tag_details?.photo_url as string)
+            setBio(tag_details?.bio as string);
+            setBirthday(tag_details?.birthday as string);
+            setBreed(tag_details?.breed as string);
+            setGender(tag_details?.gender as string);
+            setMicrochipNumber(tag_details?.microchip_number as string);
+            setSpayedOrNeutered(tag_details?.neutered_spayed as boolean);
+            setBehaviour(tag_details?.behaviour as string);
+            setAllergies(tag_details?.allergies as string);
+            setUseOwnerDetails(tag_details?.uses_owners_information as boolean);
+            setParentName(tag_details?.parent_name as string);
+            setParentPhoneNumber(tag_details?.parent_phone_number as string);
+            setParentPhoneNumberAdditional1(tag_details?.parent_phone_number_additional_1 as string);
+            setParentPhoneNumberAdditional2(tag_details?.parent_phone_number_additional_2 as string);
+            setParentEmail(tag_details?.parent_email as string);
+            setParentEmailAdditional(tag_details?.parent_email_additional as string);
+            setParentStreetAddress(tag_details?.parent_street_address as string);
+            setParentApartmentSuite(tag_details?.parent_apt_suite_unit as string);
+            setParentCity(tag_details?.parent_city as string);
+            setParentState(tag_details?.parent_state as string);
+            setParentZipcode(tag_details?.parent_zipcode as string);
+        };
+
         if (!checkedIfOwner && user.isSignedIn) {
             // getOwnedTags(user.user.id).then((data) => {
             //     if (data.status === 200) {
@@ -172,6 +200,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
             getViewData(params.token).then((data) => {
                 if (data.status === 200) {
                     setTagDetails(data.body.tag_details);
+                    setInitialValues(data.body.tag_details);
                 }
             });
         } else {
@@ -189,7 +218,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                 });
             }
         }
-    }, [checkedIfOwner, loadingData, params, router, tag, user]);
+    }, [checkedIfOwner, loadingData, params, router, tag, tagDetails, user]);
 
     const getOwnerDetails = async (oID: string) => {
         const request = await fetch(`/api/owner-details/?ownerID=${oID}`, {
@@ -277,7 +306,8 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
 
             // check email is valid using regex
             const emailRegex = /\S+@\S+\.\S+/;
-            if (parentEmail != "" && !emailRegex.test(parentEmail as string)) {
+            if (parentEmail != "" && !parentEmail?.includes("@")) {
+                console.log(parentEmail);
                 setErrors(["Parent's email is invalid"]);
                 return;
             }
@@ -381,7 +411,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
     }
 
     if (creatingTag) {
-        return <LoadingSpinner display_text="Creating Tag..." />;
+        return <LoadingSpinner display_text="Saving Tag..." />;
     }
 
     return (
@@ -405,7 +435,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             placeholder="Pet's Name"
                             onChange={(e) => setName(e.target.value)}
                             required={true}
-                            value={
+                            defaultValue={
                                 tagDetails?.name
                                     ? (tagDetails.name as string)
                                     : ""
@@ -430,7 +460,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
                             placeholder="Pet Bio (optional)"
                             onChange={(e) => setBio(e.target.value)}
-                            value={
+                            defaultValue={
                                 tagDetails?.bio
                                     ? (tagDetails.bio as string)
                                     : ""
@@ -506,7 +536,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                                     placeholder="Pet's Breed (optional)"
                                     onChange={(e) => setBreed(e.target.value)}
-                                    value={
+                                    defaultValue={
                                         tagDetails?.breed
                                             ? (tagDetails.breed as string)
                                             : ""
@@ -584,7 +614,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     onChange={(e) =>
                                         setMicrochipNumber(e.target.value)
                                     }
-                                    value={
+                                    defaultValue={
                                         tagDetails?.microchip_number
                                             ? (tagDetails.microchip_number as string)
                                             : ""
@@ -661,7 +691,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setBehaviour(e.target.value)
                                     }
                                     required={false}
-                                    value={
+                                    defaultValue={
                                         tagDetails?.behaviour
                                             ? (tagDetails.behaviour as string)
                                             : ""
@@ -676,7 +706,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setAllergies(e.target.value)
                                     }
                                     required={false}
-                                    value={
+                                    defaultValue={
                                         tagDetails?.allergies
                                             ? (tagDetails.allergies as string)
                                             : ""
@@ -735,16 +765,15 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         type="checkbox"
                                         className="mb-[5px] rounded-[50%] bg-cream"
                                         name="use_owner_information"
-                                        defaultChecked={useOwnerDetails}
-                                        onChange={(e) =>
-                                            handleUseOwnerDetails(e)
-                                        }
-                                        required={true}
-                                        checked={
+                                        defaultChecked={
                                             tagDetails?.uses_owners_information
                                                 ? true
                                                 : false
                                         }
+                                        onChange={(e) =>
+                                            handleUseOwnerDetails(e)
+                                        }
+                                        required={true}
                                     />
                                     {/* eslint-disable-next-line react/no-unescaped-entities */}
                                     <span>
@@ -766,7 +795,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     }
                                     disabled={useOwnerDetails}
                                     required={!useOwnerDetails}
-                                    value={
+                                    defaultValue={
                                         tagDetails?.parent_name
                                             ? (tagDetails.parent_name as string)
                                             : ""
@@ -785,7 +814,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     }
                                     disabled={useOwnerDetails}
                                     required={!useOwnerDetails}
-                                    value={
+                                    defaultValue={
                                         tagDetails?.parent_phone_number
                                             ? (tagDetails.parent_phone_number as string)
                                             : ""
@@ -805,7 +834,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         )
                                     }
                                     required={false}
-                                    value={
+                                    defaultValue={
                                         tagDetails?.parent_phone_number_additional_1
                                             ? (tagDetails.parent_phone_number_additional_1 as string)
                                             : ""
@@ -825,7 +854,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         )
                                     }
                                     required={false}
-                                    value={
+                                    defaultValue={
                                         tagDetails?.parent_phone_number_additional_2
                                             ? (tagDetails.parent_phone_number_additional_2 as string)
                                             : ""
@@ -843,7 +872,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setParentEmail(e.target.value)
                                     }
                                     required={true}
-                                    value={
+                                    defaultValue={
                                         tagDetails?.parent_email
                                             ? (tagDetails.parent_email as string)
                                             : ""
@@ -861,7 +890,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setParentEmailAdditional(e.target.value)
                                     }
                                     required={false}
-                                    value={
+                                    defaultValue={
                                         tagDetails?.parent_email_additional
                                             ? (tagDetails.parent_email_additional as string)
                                             : ""
@@ -880,7 +909,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setParentStreetAddress(e.target.value)
                                     }
                                     required={false}
-                                    value={
+                                    defaultValue={
                                         tagDetails?.parent_street_address
                                             ? (tagDetails.parent_street_address as string)
                                             : ""
@@ -898,7 +927,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setParentApartmentSuite(e.target.value)
                                     }
                                     required={false}
-                                    value={
+                                    defaultValue={
                                         tagDetails?.parent_apt_suite_unit
                                             ? (tagDetails.parent_apt_suite_unit as string)
                                             : ""
@@ -916,7 +945,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setParentCity(e.target.value)
                                     }
                                     required={false}
-                                    value={
+                                    defaultValue={
                                         tagDetails?.parent_city
                                             ? (tagDetails.parent_city as string)
                                             : ""
@@ -934,7 +963,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setParentState(e.target.value)
                                     }
                                     required={false}
-                                    value={
+                                    defaultValue={
                                         tagDetails?.parent_state
                                             ? (tagDetails.parent_state as string)
                                             : ""
@@ -952,7 +981,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         setParentZipcode(e.target.value)
                                     }
                                     required={false}
-                                    value={
+                                    defaultValue={
                                         tagDetails?.parent_zipcode
                                             ? (tagDetails.parent_zipcode as string)
                                             : ""
