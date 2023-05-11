@@ -61,12 +61,14 @@ export async function GET(request: Request) {
                 response_from_mailtrap: response
             }
         });
-    }, console.error);
-
-    return NextResponse.json({
-        status: 200,
-        body: {
-            notified: false
-        }
+    }, (error) => {
+        console.log(error);
+        return NextResponse.json({
+            status: 200,
+            body: {
+                notified: false,
+                response_from_mailtrap: error
+            }
+        });
     });
 };
