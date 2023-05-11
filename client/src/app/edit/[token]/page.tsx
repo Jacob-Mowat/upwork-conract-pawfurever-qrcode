@@ -393,7 +393,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                         {/* <h1 className="top-0 text-headingCustom underline text-black text-center mb-[25px]">
                         Add Tag Details
                     </h1> */}
-                        <div className="flex-0 top-[96px] mt-[25px] w-full text-center">
+                        <div className="flex-0 top-[96px] mb-[25px] mt-[25px] w-full text-center">
                             <h1 className="text-black-400 text-4xl">
                                 Edit Tag Details
                             </h1>
