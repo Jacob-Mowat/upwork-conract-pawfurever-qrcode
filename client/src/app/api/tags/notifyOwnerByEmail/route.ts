@@ -66,7 +66,10 @@ export async function GET(request: Request) {
                 Hello ${tag_details?.name} has been viewed/scanned!
 
                 You can view the details of ${tag_details?.name} by clicking the link below:
-                https://qr.mowat.dev/tags/view?token=${tag?.TAG_TOKEN}
+                ${process.env.DOMAIN_ADDRESS}/view/${tag?.TAG_TOKEN}
+
+                If you wish to edit the details of ${tag_details?.name} you can do so by clicking the link below:
+                ${process.env.DOMAIN_ADDRESS}/edit/${tag?.TAG_TOKEN}
 
                 Thank you for using QR Pet Tags!
 
