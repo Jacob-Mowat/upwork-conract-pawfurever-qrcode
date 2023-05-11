@@ -91,14 +91,14 @@ export async function POST(request: Request) {
     // console.log("Deleted tag_details: ", deleted_tag_details);
 
     // Then update the tag with the tag_details_id
-    const updated_tag = await prisma.tags.update({
-        where: {
-            id: parseInt(tagID)
-        },
-        data: {
-            tag_details_id: tag_details.id
-        }
-    });
+    // const updated_tag = await prisma.tags.update({
+    //     where: {
+    //         id: parseInt(tagID)
+    //     },
+    //     data: {
+    //         tag_details_id: tag_details.id
+    //     }
+    // });
 
     // Disconnect from the database
     await prisma.$disconnect();
@@ -109,7 +109,6 @@ export async function POST(request: Request) {
         body: {
             tag_details_id: tag_details.id,
             updated_tag_details: tag_details,
-            updated_tag: updated_tag
         }
     });
 
