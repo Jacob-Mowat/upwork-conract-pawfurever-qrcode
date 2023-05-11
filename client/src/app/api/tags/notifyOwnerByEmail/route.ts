@@ -47,28 +47,79 @@ export async function GET(request: Request) {
 
     const sender = { name: "Mailtrap Test", email: SENDER_EMAIL };
 
-    client.send({
-        from: sender,
-        to: [{ email: tag_details?.parent_email as string || tag_details?.parent_email_additional as string }],
-        subject: "Hello from Mailtrap!",
-        text: "Welcome to Mailtrap Sending!",
-    }).then((response) => {
-        console.log(response);
-        return NextResponse.json({
-            status: 200,
-            body: {
-                notified: true,
-                response_from_mailtrap: response
-            }
-        });
-    }, (error) => {
-        console.log(error);
+    if (tag_details?.parent_email == "" && tag_details?.parent_email_additional == "") {
         return NextResponse.json({
             status: 200,
             body: {
                 notified: false,
-                response_from_mailtrap: error
+                response_from_mailtrap: "No email address to notify!"
             }
         });
-    });
+    }
+
+    if (tag_details?.parent_email != "" && tag_details?.parent_email_additional == "") {
+        client.send({
+            from: sender,
+            to: [{ email: tag_details?.parent_email as string }],
+            subject: `${tag_details?.name} has been viewed/scanned!`,
+            text: `
+                Hello ${tag_details?.name} has been viewed/scanned!
+
+                You can view the details of ${tag_details?.name} by clicking the link below:
+                https://qr.mowat.dev/tags/view?token=${tag?.TAG_TOKEN}
+
+                Thank you for using QR Pet Tags!
+
+                - QR Pet Tags
+
+                This is an automated message, please do not reply to this email.
+            `
+        }).then((response) => {
+            console.log(response);
+            return NextResponse.json({
+                status: 200,
+                body: {
+                    notified: true,
+                    response_from_mailtrap: response
+                }
+            });
+        }, (error) => {
+            console.log(error);
+            return NextResponse.json({
+                status: 200,
+                body: {
+                    notified: false,
+                    response_from_mailtrap: error
+                }
+            });
+        });
+    }
+
+    if (tag_details?.parent_email != "" && tag_details?.parent_email_additional != "") {
+        client.send({
+            from: sender,
+            to: [{ email: tag_details?.parent_email as string }, { email: tag_details?.parent_email_additional as string }],
+            subject: "Hello from Mailtrap!",
+            text: "Welcome to Mailtrap Sending!",
+        }).then((response) => {
+            console.log(response);
+            return NextResponse.json({
+                status: 200,
+                body: {
+                    notified: true,
+                    response_from_mailtrap: response
+                }
+            });
+        }, (error) => {
+            console.log(error);
+            return NextResponse.json({
+                status: 200,
+                body: {
+                    notified: false,
+                    response_from_mailtrap: error
+                }
+            });
+        });
+    }
+
 };
