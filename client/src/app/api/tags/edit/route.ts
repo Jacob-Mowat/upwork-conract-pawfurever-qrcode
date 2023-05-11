@@ -1,4 +1,3 @@
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -36,25 +35,18 @@ export async function POST(request: Request) {
     } = await request.json();
 
     // First get the tag
-    const tag = await prisma.tags.findUnique({
-        where: {
-            id: parseInt(tagID)
-        }
-    });
+    // const tag = await prisma.tags.findUnique({
+    //     where: {
+    //         id: parseInt(tagID)
+    //     }
+    // });
 
     // Then get the owner, incase use_owner_details is true
-    const owner = await prisma.owners.findUnique({
-        where: {
-            id: parseInt(tag?.owner_id?.toString() ?? "0")
-        }
-    });
-
-    // get the owner_details, incase use_owner_details is true
-    const owner_details = await prisma.owner_details.findUnique({
-        where: {
-            id: parseInt(owner?.owner_details_id?.toString() ?? "0")
-        }
-    });
+    // const owner = await prisma.owners.findUnique({
+    //     where: {
+    //         id: parseInt(tag?.owner_id?.toString() ?? "0")
+    //     }
+    // });
 
     // Then create the tag_details 
     const tag_details = await prisma.tag_details.create({
@@ -98,10 +90,12 @@ export async function POST(request: Request) {
     await prisma.$disconnect();
 
     // respond with the tag_details_id
-    return NextResponse.json({ 
+    return NextResponse.json({
         status: 200,
         body: {
-            tag_details_id: tag_details.id 
+            tag_details_id: tag_details.id,
+            updated_tag_details: tag_details,
+            updated_tag: updated_tag
         }
     });
 
