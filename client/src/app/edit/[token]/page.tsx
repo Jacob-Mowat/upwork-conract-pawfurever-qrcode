@@ -363,6 +363,15 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
         }
     };
 
+    const convertDate = (date: string) => {
+        const temp_date: Date = new Date(date);
+        const year = temp_date.getFullYear();
+        const month = temp_date.getMonth() + 1;
+        const days = temp_date.getDate();
+
+        return `${year}-${month}-${days}`;
+    };
+
     if (!tag) {
         return <LoadingSpinner display_text="Loading Tag Details..." />;
     }
@@ -482,9 +491,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         onChange={(e) =>
                                             setBirthday(e.target.value)
                                         }
-                                        value={
+                                        defaultValue={
                                             tagDetails?.birthday
-                                                ? (tagDetails.birthday as string)
+                                                ? convertDate(
+                                                      tagDetails.birthday as string
+                                                  )
                                                 : ""
                                         }
                                     />
