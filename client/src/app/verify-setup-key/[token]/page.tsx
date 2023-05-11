@@ -181,8 +181,8 @@ export default function ViewPage({ params }: { params: { token: string } }) {
             <div className="flex h-[calc(100vh-64px)] items-center justify-center overflow-auto">
                 <div className="text-center">
                     <div className="flex items-center justify-center">
-                        <div className="absolute top-[96px]">
-                            <h1 className="text-black-400 text-center text-2xl underline">
+                        <div className="absolute top-[96px] mb-[25px] mt-[25px]">
+                            <h1 className="text-black-400 text-center text-4xl">
                                 Verify QR
                             </h1>
                         </div>
