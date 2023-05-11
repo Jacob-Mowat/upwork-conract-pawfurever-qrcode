@@ -354,7 +354,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
 
         console.log(tagDetails);
 
-        const response = await fetch("/api/tags/addDetails", {
+        const response = await fetch("/api/tags/edit", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
