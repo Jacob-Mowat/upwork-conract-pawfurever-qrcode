@@ -117,9 +117,9 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                 "https://media.istockphoto.com/id/1222357475/vector/image-preview-icon-picture-placeholder-for-website-or-ui-ux-design-vector-illustration.jpg?s=612x612&w=0&k=20&c=KuCo-dRBYV7nz2gbk4J9w1WtTAgpTdznHu55W9FjimE="
                             }
                             alt="Pet Photo"
-                            className="absolute z-40 ml-[15%] mt-[5%] h-[150px] w-[150px] shrink-0 grow-0 rounded-full object-cover md:h-[225px] md:w-[225px] lg:h-[300px] lg:w-[300px]"
+                            className="absolute z-40 ml-[10%] mt-[5%] h-[150px] w-[150px] shrink-0 grow-0 rounded-full object-cover md:h-[225px] md:w-[225px] lg:h-[300px] lg:w-[300px]"
                         />
-                        <div className="absolute right-0 mr-[15%] mt-[15%] text-4xl font-bold">
+                        <div className="absolute right-0 mr-[10%] mt-[15%] text-4xl font-bold">
                             {data?.tag_details.name.toUpperCase()}
                         </div>
                     </div>
