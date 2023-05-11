@@ -187,7 +187,7 @@ export default function CreateTagDetailsPage({
             name: name,
             photo_url: photoUrl,
             bio: bio,
-            birthday: birthday,
+            birthday: birthday ? new Date(birthday).toISOString() : null,
             breed: breed,
             gender: gender,
             microchip_number: microchipNumber,
@@ -211,7 +211,7 @@ export default function CreateTagDetailsPage({
 
         console.log(tagDetails);
 
-        const response = await fetch("/api/tags/edit", {
+        const response = await fetch("/api/tags/addDetails", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -268,6 +268,7 @@ export default function CreateTagDetailsPage({
 
     return (
         <>
+            <Navbar />
             <div className="flex items-center justify-center overflow-auto">
                 <div className="flex flex-col">
                     {/* <h1 className="top-0 text-headingCustom underline text-black text-center mb-[25px]">

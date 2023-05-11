@@ -109,28 +109,28 @@ export default function CreateOwnerDetailsPage({
             <div className="flex items-center justify-center overflow-auto">
                 <div className="flex flex-col items-center justify-center">
                     <div className="flex-0 top-[96px] mb-[25px] mt-[25px] w-full text-center">
-                        <div className="text-black-400 text-4xl underline">
+                        <div className="text-black-400 text-4xl">
                             Parent&apos;s Details
                         </div>
                     </div>
 
                     <input
                         type="text"
-                        className="border-1 border-black-300 text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                         placeholder="Name"
                         onChange={(e) => setName(e.target.value)}
                         required={true}
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-300 text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                         placeholder="Phone Number"
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         required={true}
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-300 text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                         placeholder="Additional Phone Number (optional)"
                         onChange={(e) =>
                             setPhoneNumberAdditional1(e.target.value)
@@ -139,7 +139,7 @@ export default function CreateOwnerDetailsPage({
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-300 text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                         placeholder="Second Additional Phone Number (optional)"
                         onChange={(e) =>
                             setPhoneNumberAdditional2(e.target.value)
@@ -148,14 +148,14 @@ export default function CreateOwnerDetailsPage({
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-300 text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                         placeholder="Email"
                         onChange={(e) => setEmail(e.target.value)}
                         required={true}
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-300 text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                         placeholder="Additional Email (optional)"
                         onChange={(e) => setEmailAdditional(e.target.value)}
                         required={false}
@@ -163,35 +163,35 @@ export default function CreateOwnerDetailsPage({
 
                     <input
                         type="text"
-                        className="border-1 border-black-300 text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                         placeholder="Street Address (optional)"
                         onChange={(e) => setStreetAddress(e.target.value)}
                         required={false}
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-300 text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                         placeholder="Apartment, suite, etc. (optional)"
                         onChange={(e) => setApartmentSuite(e.target.value)}
                         required={false}
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-300 text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                         placeholder="City (optional)"
                         onChange={(e) => setCity(e.target.value)}
                         required={false}
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-300 text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                         placeholder="State (optional)"
                         onChange={(e) => setState(e.target.value)}
                         required={false}
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-300 text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
                         placeholder="Zip Code (optional)"
                         onChange={(e) => setZipcode(e.target.value)}
                         required={false}

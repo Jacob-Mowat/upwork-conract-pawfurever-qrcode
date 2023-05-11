@@ -9,7 +9,7 @@ BigIntProto.toJSON = function () {
 };
 
 export async function POST(request: Request) {
-    const { 
+    const {
         name,
         photo_url,
         bio,
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
             name: name,
             photo_url: photo_url,
             bio: bio,
-            birthday: new Date(birthday).toISOString(),
+            birthday: birthday,
             breed: breed,
             gender: gender,
             microchip_number: microchip_number,
@@ -98,10 +98,10 @@ export async function POST(request: Request) {
     await prisma.$disconnect();
 
     // respond with the tag_details_id
-    return NextResponse.json({ 
+    return NextResponse.json({
         status: 200,
         body: {
-            tag_details_id: tag_details.id 
+            tag_details_id: tag_details.id
         }
     });
 

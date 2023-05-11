@@ -330,7 +330,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
             name: name,
             photo_url: photoUrl,
             bio: bio,
-            birthday: birthday,
+            birthday: birthday ? new Date(birthday).toISOString() : null,
             breed: breed,
             gender: gender,
             microchip_number: microchipNumber,

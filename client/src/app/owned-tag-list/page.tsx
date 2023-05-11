@@ -65,7 +65,7 @@ export default function CreateOwnerDetailsPage() {
             <div className="flex items-center justify-center overflow-auto">
                 <div className="flex w-full flex-col items-center justify-center p-4">
                     <div className="p-4 text-center">
-                        <h1 className="text-black-400 text-center text-4xl underline">
+                        <h1 className="text-black-400 text-center text-4xl">
                             Your Tags
                         </h1>
                     </div>
