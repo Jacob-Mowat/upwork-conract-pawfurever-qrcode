@@ -134,11 +134,13 @@ export default function ViewPage({ params }: { params: { token: string } }) {
     const verifySetupKey = (e: any) => {
         e.preventDefault();
 
-        if (setupKey === tag?.setup_key) {
-            registerTag();
-        } else {
-            console.log("Setup key does not match!");
-            setShowError(true);
+        if (tag) {
+            if (setupKey === tag.setup_key) {
+                registerTag();
+            } else {
+                console.log("Setup key does not match!");
+                setShowError(true);
+            }
         }
     };
 
@@ -170,8 +172,12 @@ export default function ViewPage({ params }: { params: { token: string } }) {
         return <RedirectToSignIn />;
     }
 
-    if (!owner || !tag) {
-        return <LoadingSpinner display_text="Loading Owner & Tag data..." />;
+    if (!owner) {
+        return <LoadingSpinner display_text="Loading Owner data..." />;
+    }
+
+    if (!tag) {
+        return <LoadingSpinner display_text="Loading Tag data..." />;
     }
 
     return (
@@ -219,6 +225,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                             <div className="absolute bottom-[96px]">
                                 <span className="text-baseCustom text-red-400">
                                     Setup key does not match!
+                                    {tag?.setup_key}
                                 </span>
                             </div>
                         )}
