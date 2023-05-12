@@ -101,7 +101,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                 <LoadingSpinner display_text="Loading Tag..." />
             ) : (
                 <div className="h-full items-center justify-center bg-white">
-                    <div className="flex h-[20%] flex-row justify-between align-middle">
+                    <div className="flex flex-row justify-between items-center align-middle bg-pink px-[10%] py-[5%]">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={
@@ -109,13 +109,13 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                 "https://media.istockphoto.com/id/1222357475/vector/image-preview-icon-picture-placeholder-for-website-or-ui-ux-design-vector-illustration.jpg?s=612x612&w=0&k=20&c=KuCo-dRBYV7nz2gbk4J9w1WtTAgpTdznHu55W9FjimE="
                             }
                             alt="Pet Photo"
-                            className="absolute z-40 ml-[10%] mt-[5%] h-[150px] w-[150px] shrink-0 grow-0 rounded-full object-cover md:h-[225px] md:w-[225px] lg:h-[300px] lg:w-[300px]"
+                            className="z-40 h-[150px] w-[150px] shrink-0 grow-0 rounded-full object-cover md:h-[225px] md:w-[225px] lg:h-[300px] lg:w-[300px]"
                         />
-                        <div className="absolute right-0 mr-[10%] mt-[15%] text-4xl font-bold">
+                        <div className="flex text-4xl font-bold h-[100%] justify-center align-middle z-40">
                             {data?.tag_details.name.toUpperCase()}
                         </div>
                     </div>
-                    <div className="mt-[25%] flex h-[90%] flex-col items-center justify-center bg-cream p-10">
+                    <div className="flex h-[90%] flex-col items-center justify-center bg-cream p-10 mt-[-10%]">
                         {/* <div className="overflow-x-hidden">
                             <div className="absolute bottom-0 ml-[-50%] mt-[25px] h-[90%] w-[200%] rounded-t-[50%] bg-cream px-10">
                             </div>
@@ -135,7 +135,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             Pet Birthday
                                         </div>
-                                        <div className="text-right pl-2">
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
                                             {new Date(
                                                 data?.tag_details
                                                     .birthday as string
@@ -158,7 +158,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             Breed
                                         </div>
-                                        <div className="text-right pl-2">{data?.tag_details.breed}</div>
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>{data?.tag_details.breed}</div>
                                     </div>
                                 )}
                                 {data?.tag_details.gender && (
@@ -166,7 +166,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             Gender
                                         </div>
-                                        <div className="text-right pl-2">{data?.tag_details.gender}</div>
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>{data?.tag_details.gender}</div>
                                     </div>
                                 )}
                                 {data?.tag_details.microchip_number && (
@@ -174,7 +174,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             Microchip
                                         </div>
-                                        <div  className="text-right pl-2">
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
                                             {data?.tag_details.microchip_number}
                                         </div>
                                     </div>
@@ -184,7 +184,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             Neutered/Spayed
                                         </div>
-                                        <div className="text-right pl-2">
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
                                             {data?.tag_details.neutered_spayed
                                                 ? "Yes"
                                                 : "No"}
@@ -196,7 +196,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             Behaviour
                                         </div>
-                                        <div  className="text-right pl-2">{data?.tag_details.behaviour}</div>
+                                        <div  className="text-right pl-2" style={{ wordBreak: 'break-word' }}>{data?.tag_details.behaviour}</div>
                                     </div>
                                 )}
                                 {data?.tag_details.allergies && (
@@ -204,7 +204,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             Allergies
                                         </div>
-                                        <div className="text-right pl-2">{data?.tag_details.allergies}</div>
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>{data?.tag_details.allergies}</div>
                                     </div>
                                 )}
                             </div>
@@ -221,7 +221,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             Name
                                         </div>
-                                        <div className="text-right pl-2">
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
                                             {data?.tag_details.parent_name}
                                         </div>
                                     </div>
@@ -231,7 +231,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             Phone Number
                                         </div>
-                                        <div className="text-right pl-2">
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
                                             <a className="hover:bg-lightest-purple hover:text-purple" href={`tel:${data?.tag_details.parent_phone_number}`}>
                                                 {data?.tag_details.parent_phone_number}
                                             </a>
@@ -244,7 +244,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             Additional Phone Number
                                         </div>
-                                        <div className="text-right pl-2">
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
                                         <a className="hover:bg-lightest-purple hover:text-purple" href={`tel:${data?.tag_details.parent_phone_number_additional_1}`}>
                                             {data?.tag_details.parent_phone_number_additional_1}</a>
                                         </div>
@@ -256,7 +256,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             Additional Phone Number
                                         </div>
-                                        <div className="text-right pl-2">
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
                                             <a className="hover:bg-lightest-purple hover:text-purple" href={`tel:${data?.tag_details.parent_phone_number_additional_2}`}>
                                                 {data?.tag_details.parent_phone_number_additional_2}
                                             </a>
@@ -268,7 +268,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             Email
                                         </div>
-                                        <div className="text-right pl-2">
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
                                             <a className="hover:bg-lightest-purple hover:text-purple" href={`mailto:${data?.tag_details.parent_email}`}>
                                                 {data?.tag_details.parent_email}
                                             </a>
@@ -292,7 +292,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             Street Address
                                         </div>
-                                        <div className="text-right pl-2">
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
                                             {
                                                 data?.tag_details
                                                     .parent_street_address
@@ -305,7 +305,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             Apt, Suite, etc.
                                         </div>
-                                        <div className="text-right pl-2">
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
                                             {
                                                 data?.tag_details
                                                     .parent_apt_suite_unit
@@ -318,7 +318,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             City
                                         </div>
-                                        <div className="text-right pl-2">
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
                                             {data?.tag_details.parent_city}
                                         </div>
                                     </div>
@@ -328,7 +328,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             State
                                         </div>
-                                        <div className="text-right pl-2">
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
                                             {data?.tag_details.parent_state}
                                         </div>
                                     </div>
@@ -338,7 +338,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                         <div className="text-[#CAB7B7] pr-2">
                                             Zip Code
                                         </div>
-                                        <div className="text-right pl-2">
+                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
                                             {data?.tag_details.parent_zipcode}
                                         </div>
                                     </div>
