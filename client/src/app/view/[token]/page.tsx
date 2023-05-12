@@ -109,7 +109,9 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                 "https://media.istockphoto.com/id/1222357475/vector/image-preview-icon-picture-placeholder-for-website-or-ui-ux-design-vector-illustration.jpg?s=612x612&w=0&k=20&c=KuCo-dRBYV7nz2gbk4J9w1WtTAgpTdznHu55W9FjimE="
                             }
                             alt="Pet Photo"
-                            className="z-40 h-[150px] w-[150px] shrink-0 grow-0 rounded-full object-cover md:h-[225px] md:w-[225px] lg:h-[300px] lg:w-[300px]"
+                            className="z-40 h-36 w-36
+                            md:h-56 md:w-56 lg:h-72 lg:w-72 rounded-full object-cover
+                            "
                         />
                         <div className="flex text-4xl font-bold h-[100%] justify-center align-middle z-40">
                             {data?.tag_details.name.toUpperCase()}
