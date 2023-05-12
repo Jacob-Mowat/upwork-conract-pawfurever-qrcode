@@ -132,10 +132,10 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                             <div className="flex flex-col px-1 py-2">
                                 {data?.tag_details.birthday && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7]">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Pet Birthday
                                         </div>
-                                        <div>
+                                        <div className="text-right pl-2">
                                             {new Date(
                                                 data?.tag_details
                                                     .birthday as string
@@ -155,36 +155,36 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                 )}
                                 {data?.tag_details.breed && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Breed
                                         </div>
-                                        <div>{data?.tag_details.breed}</div>
+                                        <div className="text-right pl-2">{data?.tag_details.breed}</div>
                                     </div>
                                 )}
                                 {data?.tag_details.gender && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Gender
                                         </div>
-                                        <div>{data?.tag_details.gender}</div>
+                                        <div className="text-right pl-2">{data?.tag_details.gender}</div>
                                     </div>
                                 )}
                                 {data?.tag_details.microchip_number && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Microchip
                                         </div>
-                                        <div>
+                                        <div  className="text-right pl-2">
                                             {data?.tag_details.microchip_number}
                                         </div>
                                     </div>
                                 )}
                                 {data?.tag_details.neutered_spayed && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Neutered/Spayed
                                         </div>
-                                        <div>
+                                        <div className="text-right pl-2">
                                             {data?.tag_details.neutered_spayed
                                                 ? "Yes"
                                                 : "No"}
@@ -193,18 +193,18 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                 )}
                                 {data?.tag_details.behaviour && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Behaviour
                                         </div>
-                                        <div>{data?.tag_details.behaviour}</div>
+                                        <div  className="text-right pl-2">{data?.tag_details.behaviour}</div>
                                     </div>
                                 )}
                                 {data?.tag_details.allergies && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Allergies
                                         </div>
-                                        <div>{data?.tag_details.allergies}</div>
+                                        <div className="text-right pl-2">{data?.tag_details.allergies}</div>
                                     </div>
                                 )}
                             </div>
@@ -218,20 +218,20 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                             <div className="flex flex-col px-1 py-2">
                                 {data?.tag_details.parent_name && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7]">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Name
                                         </div>
-                                        <div>
+                                        <div className="text-right pl-2">
                                             {data?.tag_details.parent_name}
                                         </div>
                                     </div>
                                 )}
                                 {data?.tag_details.parent_phone_number && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Phone Number
                                         </div>
-                                        <div>
+                                        <div className="text-right pl-2">
                                             <a className="hover:bg-lightest-purple hover:text-purple" href={`tel:${data?.tag_details.parent_phone_number}`}>
                                                 {data?.tag_details.parent_phone_number}
                                             </a>
@@ -241,10 +241,10 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                 {data?.tag_details
                                     .parent_phone_number_additional_1 && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Additional Phone Number
                                         </div>
-                                        <div>
+                                        <div className="text-right pl-2">
                                         <a className="hover:bg-lightest-purple hover:text-purple" href={`tel:${data?.tag_details.parent_phone_number_additional_1}`}>
                                             {data?.tag_details.parent_phone_number_additional_1}</a>
                                         </div>
@@ -253,10 +253,10 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                 {data?.tag_details
                                     .parent_phone_number_additional_2 && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Additional Phone Number
                                         </div>
-                                        <div>
+                                        <div className="text-right pl-2">
                                             <a className="hover:bg-lightest-purple hover:text-purple" href={`tel:${data?.tag_details.parent_phone_number_additional_2}`}>
                                                 {data?.tag_details.parent_phone_number_additional_2}
                                             </a>
@@ -265,10 +265,10 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                 )}
                                 {data?.tag_details.parent_email && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Email
                                         </div>
-                                        <div>
+                                        <div className="text-right pl-2">
                                             <a className="hover:bg-lightest-purple hover:text-purple" href={`mailto:${data?.tag_details.parent_email}`}>
                                                 {data?.tag_details.parent_email}
                                             </a>
@@ -277,10 +277,10 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                 )}
                                 {data?.tag_details.parent_email_additional && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Additional Email
                                         </div>
-                                        <div>
+                                        <div className="text-right pl-2">
                                             <a className="hover:bg-lightest-purple hover:text-purple" href={`mailto:${data?.tag_details.parent_email_additional}`}>
                                                 {data?.tag_details.parent_email_additional}
                                             </a>
@@ -289,10 +289,10 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                 )}
                                 {data?.tag_details.parent_street_address && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Street Address
                                         </div>
-                                        <div>
+                                        <div className="text-right pl-2">
                                             {
                                                 data?.tag_details
                                                     .parent_street_address
@@ -302,10 +302,10 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                 )}
                                 {data?.tag_details.parent_apt_suite_unit && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Apt, Suite, etc.
                                         </div>
-                                        <div>
+                                        <div className="text-right pl-2">
                                             {
                                                 data?.tag_details
                                                     .parent_apt_suite_unit
@@ -315,30 +315,30 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                 )}
                                 {data?.tag_details.parent_city && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             City
                                         </div>
-                                        <div>
+                                        <div className="text-right pl-2">
                                             {data?.tag_details.parent_city}
                                         </div>
                                     </div>
                                 )}
                                 {data?.tag_details.parent_state && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             State
                                         </div>
-                                        <div>
+                                        <div className="text-right pl-2">
                                             {data?.tag_details.parent_state}
                                         </div>
                                     </div>
                                 )}
                                 {data?.tag_details.parent_zipcode && (
                                     <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7]">
+                                        <div className="text-[#CAB7B7] pr-2">
                                             Zip Code
                                         </div>
-                                        <div>
+                                        <div className="text-right pl-2">
                                             {data?.tag_details.parent_zipcode}
                                         </div>
                                     </div>
