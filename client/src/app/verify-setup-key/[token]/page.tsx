@@ -205,17 +205,18 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                 value={setupKey}
                                 maxLength={8}
                                 onChange={(e) => {
-                                    setSetupKey((e.target.value).toUpperCase());
-                                    if (
-                                        e.target.value.length === 4 &&
-                                        e.target.value.includes("-")
-                                    ) {
-                                        setSetupKey(
-                                            e.target.value.replace("-", "").toUpperCase()
-                                        );
-                                    }
-                                    if (e.target.value.length === 3) {
-                                        setSetupKey((e.target.value).toUpperCase() + "-");
+                                    const inputValue = (e.target.value).toUpperCase();
+                                    if (inputValue.length <= 8) { // check if input value length is less than or equal to 7
+                                        let newInputValue = inputValue;
+                                        if (newInputValue.length > setupKey.length) {
+                                            if (inputValue.length === 4 && inputValue.charAt(3) === "-") {
+                                            newInputValue = inputValue.substring(0, 3);
+                                            }
+                                            if (inputValue.length === 3 && !inputValue.includes("-")) {
+                                            newInputValue = inputValue + "-";
+                                            }
+                                        }
+                                        setSetupKey(newInputValue);
                                     }
                                 }}
                             />
