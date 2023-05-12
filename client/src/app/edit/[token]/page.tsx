@@ -696,6 +696,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                             ? (tagDetails.behaviour as string)
                                             : ""
                                     }
+                                    maxLength={100}
                                 />
 
                                 {/* Pet Allergies */}
@@ -711,6 +712,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                             ? (tagDetails.allergies as string)
                                             : ""
                                     }
+                                    maxLength={100}
                                 />
                             </>
                         ) : (
@@ -1002,7 +1004,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             className="bottom-[36px] mb-[25px] h-[48px] w-[100%] bg-dark-purple text-cream"
                             onClick={(e) => verifyForm(e)}
                         >
-                            EDIT TAG
+                            SAVE TAG
                         </button>
                     </div>
                 </div>

@@ -427,6 +427,7 @@ export default function CreateTagDetailsPage({
                                 placeholder="Pet Behaviour (optional)"
                                 onChange={(e) => setBehaviour(e.target.value)}
                                 required={false}
+                                maxLength={100}
                             />
 
                             {/* Pet Allergies */}
@@ -435,6 +436,7 @@ export default function CreateTagDetailsPage({
                                 placeholder="Pet Allergies (optional)"
                                 onChange={(e) => setAllergies(e.target.value)}
                                 required={false}
+                                maxLength={100}
                             />
                         </>
                     ) : (
