@@ -59,7 +59,7 @@ export async function POST(request: Request) {
             name: name,
             photo_url: photo_url,
             bio: bio,
-            birthday: new Date(birthday).toISOString(),
+            birthday: birthday,
             breed: breed,
             gender: gender,
             microchip_number: microchip_number,

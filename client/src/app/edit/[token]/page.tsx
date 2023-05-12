@@ -526,9 +526,10 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                                 ? convertDate(
                                                       tagDetails.birthday as string
                                                   )
-                                                : ""
+                                                : undefined
                                         }
                                     />
+                                    {birthday}
                                 </div>
 
                                 <input
