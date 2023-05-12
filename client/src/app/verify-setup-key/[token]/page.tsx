@@ -205,17 +205,17 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                                 value={setupKey}
                                 maxLength={8}
                                 onChange={(e) => {
-                                    setSetupKey(e.target.value);
+                                    setSetupKey((e.target.value).toUpperCase());
                                     if (
                                         e.target.value.length === 4 &&
                                         e.target.value.includes("-")
                                     ) {
                                         setSetupKey(
-                                            e.target.value.replace("-", "")
+                                            e.target.value.replace("-", "").toUpperCase()
                                         );
                                     }
                                     if (e.target.value.length === 3) {
-                                        setSetupKey(e.target.value + "-");
+                                        setSetupKey((e.target.value).toUpperCase() + "-");
                                     }
                                 }}
                             />
