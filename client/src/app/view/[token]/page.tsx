@@ -125,92 +125,96 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                         <div className="w-[90%] py-10 text-center text-lg md:w-[70%] lg:w-[50%]">
                             {data?.tag_details.bio}
                         </div>
+                        
+                        {(data?.tag_details.birthday || data?.tag_details.breed || data?.tag_details.gender || data?.tag_details.microchip_number || data?.tag_details.neutered_spayed || data?.tag_details.behaviour || data?.tag_details.allergies) && (
+                            <>
+                                <div className="w-[90%] py-10 md:w-[70%] lg:w-[50%]">
+                                    <div className="text-2xl font-bold">
+                                        {data?.tag_details.name}&apos;s Information:
+                                    </div>
 
-                        <div className="w-[90%] py-10 md:w-[70%] lg:w-[50%]">
-                            <div className="text-2xl font-bold">
-                                {data?.tag_details.name}&apos;s Information:
-                            </div>
-
-                            <div className="flex flex-col px-1 py-2">
-                                {data?.tag_details.birthday && (
-                                    <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7]">
-                                        <div className="text-[#CAB7B7] pr-2">
-                                            Pet Birthday
-                                        </div>
-                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
-                                            {new Date(
-                                                data?.tag_details
-                                                    .birthday as string
-                                            ).getMonth() + 1}
-                                            /
-                                            {new Date(
-                                                data?.tag_details
-                                                    .birthday as string
-                                            ).getDate()}
-                                            /
-                                            {new Date(
-                                                data?.tag_details
-                                                    .birthday as string
-                                            ).getFullYear()}
-                                        </div>
+                                    <div className="flex flex-col px-1 py-2">
+                                        {data?.tag_details.birthday && (
+                                            <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7]">
+                                                <div className="text-[#CAB7B7] pr-2">
+                                                    Pet Birthday
+                                                </div>
+                                                <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
+                                                    {new Date(
+                                                        data?.tag_details
+                                                            .birthday as string
+                                                    ).getMonth() + 1}
+                                                    /
+                                                    {new Date(
+                                                        data?.tag_details
+                                                            .birthday as string
+                                                    ).getDate()}
+                                                    /
+                                                    {new Date(
+                                                        data?.tag_details
+                                                            .birthday as string
+                                                    ).getFullYear()}
+                                                </div>
+                                            </div>
+                                        )}
+                                        {data?.tag_details.breed && (
+                                            <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
+                                                <div className="text-[#CAB7B7] pr-2">
+                                                    Breed
+                                                </div>
+                                                <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>{data?.tag_details.breed}</div>
+                                            </div>
+                                        )}
+                                        {data?.tag_details.gender && (
+                                            <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
+                                                <div className="text-[#CAB7B7] pr-2">
+                                                    Gender
+                                                </div>
+                                                <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>{data?.tag_details.gender}</div>
+                                            </div>
+                                        )}
+                                        {data?.tag_details.microchip_number && (
+                                            <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
+                                                <div className="text-[#CAB7B7] pr-2">
+                                                    Microchip
+                                                </div>
+                                                <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
+                                                    {data?.tag_details.microchip_number}
+                                                </div>
+                                            </div>
+                                        )}
+                                        {data?.tag_details.neutered_spayed && (
+                                            <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
+                                                <div className="text-[#CAB7B7] pr-2">
+                                                    Neutered/Spayed
+                                                </div>
+                                                <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
+                                                    {data?.tag_details.neutered_spayed
+                                                        ? "Yes"
+                                                        : "No"}
+                                                </div>
+                                            </div>
+                                        )}
+                                        {data?.tag_details.behaviour && (
+                                            <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
+                                                <div className="text-[#CAB7B7] pr-2">
+                                                    Behaviour
+                                                </div>
+                                                <div  className="text-right pl-2" style={{ wordBreak: 'break-word' }}>{data?.tag_details.behaviour}</div>
+                                            </div>
+                                        )}
+                                        {data?.tag_details.allergies && (
+                                            <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
+                                                <div className="text-[#CAB7B7] pr-2">
+                                                    Allergies
+                                                </div>
+                                                <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>{data?.tag_details.allergies}</div>
+                                            </div>
+                                        )}
                                     </div>
-                                )}
-                                {data?.tag_details.breed && (
-                                    <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7] pr-2">
-                                            Breed
-                                        </div>
-                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>{data?.tag_details.breed}</div>
-                                    </div>
-                                )}
-                                {data?.tag_details.gender && (
-                                    <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7] pr-2">
-                                            Gender
-                                        </div>
-                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>{data?.tag_details.gender}</div>
-                                    </div>
-                                )}
-                                {data?.tag_details.microchip_number && (
-                                    <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7] pr-2">
-                                            Microchip
-                                        </div>
-                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
-                                            {data?.tag_details.microchip_number}
-                                        </div>
-                                    </div>
-                                )}
-                                {data?.tag_details.neutered_spayed && (
-                                    <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7] pr-2">
-                                            Neutered/Spayed
-                                        </div>
-                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>
-                                            {data?.tag_details.neutered_spayed
-                                                ? "Yes"
-                                                : "No"}
-                                        </div>
-                                    </div>
-                                )}
-                                {data?.tag_details.behaviour && (
-                                    <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7] pr-2">
-                                            Behaviour
-                                        </div>
-                                        <div  className="text-right pl-2" style={{ wordBreak: 'break-word' }}>{data?.tag_details.behaviour}</div>
-                                    </div>
-                                )}
-                                {data?.tag_details.allergies && (
-                                    <div className="flex flex-row justify-between border-b-2 border-[#CAB7B7] pt-1">
-                                        <div className="text-[#CAB7B7] pr-2">
-                                            Allergies
-                                        </div>
-                                        <div className="text-right pl-2" style={{ wordBreak: 'break-word' }}>{data?.tag_details.allergies}</div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
+                                </div>
+                            </>
+                        )}
 
                         <div className="w-[90%] py-10 md:w-[70%] lg:w-[50%]">
                             <div className="text-2xl font-bold">
