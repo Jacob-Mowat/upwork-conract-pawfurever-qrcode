@@ -66,7 +66,7 @@ model tag_details {
   breed            String?   @db.VarChar(255)
   gender           String?   @db.VarChar(255)
   microchip_number String?   @db.VarChar(255)
-  neutered_spayed  Boolean?  @default(false)
+  neutered_spayed  Boolean?
   behaviour        String?   @db.Text()
   allergies        String?   @db.Text()
 
