@@ -225,7 +225,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                             <div className="absolute bottom-[96px]">
                                 <span className="text-baseCustom text-red-400">
                                     Setup key does not match!
-                                    {tag?.setup_key}
+                                    {tag?.setup_key} ?= {setupKey}
                                 </span>
                             </div>
                         )}
