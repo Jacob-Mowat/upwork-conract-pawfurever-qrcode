@@ -9,8 +9,11 @@ BigIntProto.toJSON = function () {
 };
 
 export async function GET(request: Request) {
-    const  { searchParams } = new URL(request.url);
+    const { searchParams } = new URL(request.url);
     const uID = searchParams.get('uID');
+
+    // Log the token and uID
+    console.log("[getOwnedTags] uID: ", uID);
 
     // First get the owner
     const owner = await prisma.owners.findUnique({
@@ -48,7 +51,7 @@ export async function GET(request: Request) {
     });
 
     return NextResponse.json({
-        status:200,
+        status: 200,
         body: {
             tags: tags,
             tag_details: tag_details

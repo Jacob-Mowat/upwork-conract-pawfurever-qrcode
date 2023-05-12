@@ -10,6 +10,9 @@ BigIntProto.toJSON = function () {
 export async function POST(request: Request) {
     const { user_id } = await request.json();
 
+    // Log the token and uID
+    console.log("[Create Owner] user_id: ", user_id);
+
     if (user_id == "") {
         await prisma.$disconnect();
 
@@ -20,7 +23,7 @@ export async function POST(request: Request) {
             }
         });
     }
-    
+
     try {
         // Create the owner if it doesn't exist
         const owner = await prisma.owners.create({

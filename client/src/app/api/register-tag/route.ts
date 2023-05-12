@@ -9,9 +9,24 @@ BigIntProto.toJSON = function () {
 };
 
 export async function GET(request: Request) {
-    const  { searchParams } = new URL(request.url);
+    const { searchParams } = new URL(request.url);
     const token = searchParams.get('token');
     const ownerID = searchParams.get('ownerID');
+
+    // Log the token and uID
+    console.log("[registerTag] token: ", token);
+    console.log("[registerTag] ownerID: ", ownerID);
+
+    if (token == "") {
+        await prisma.$disconnect();
+
+        return NextResponse.json({
+            status: 500,
+            body: {
+                error: "No token was supplied!"
+            }
+        });
+    }
 
     const tag = await prisma.tags.update({
         where: {
@@ -27,10 +42,9 @@ export async function GET(request: Request) {
     await prisma.$disconnect();
 
     return NextResponse.json({
-        status:200,
+        status: 200,
         body: {
             tag: tag
         }
     });
 }
-  

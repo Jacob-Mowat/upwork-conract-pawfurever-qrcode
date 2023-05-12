@@ -15,8 +15,10 @@ BigIntProto.toJSON = function () {
 export async function POST(request: Request) {
     const { uuid, svg_list } = await request.json();
 
-    console.log(uuid);
-    console.log(svg_list);
+    // Log that we got a request to zip svg files with the uuid and svg_list
+    console.log("[zipSvgFiles] Got a request to zip svg files with the uuid and svg_list");
+    console.log("[zipSvgFiles] uuid: ", uuid);
+    console.log("[zipSvgFiles] svg_list: ", svg_list);
 
     // Create a zip file
     const zip = new JSZip();
@@ -34,7 +36,7 @@ export async function POST(request: Request) {
     }
 
     // Create a zip file    
-    const zipFile: any = await zip.generateAsync({type:"nodebuffer"}).then(async function(content) {
+    const zipFile: any = await zip.generateAsync({ type: "nodebuffer" }).then(async function (content) {
         // fs.writeFileSync(`./uploads/${uuid}.zip`, content);
 
         try {
@@ -61,7 +63,7 @@ export async function POST(request: Request) {
             });
 
             return {
-                status:200,
+                status: 200,
                 body: {
                     zip_file_url: response.Location,
                     zip_file_name: `${uuid}.zip`
@@ -71,7 +73,7 @@ export async function POST(request: Request) {
             console.log(error);
 
             return {
-                status:500,
+                status: 500,
                 body: {
                     error: error
                 }
@@ -84,4 +86,3 @@ export async function POST(request: Request) {
 
     return NextResponse.json(zipFile);
 }
-  

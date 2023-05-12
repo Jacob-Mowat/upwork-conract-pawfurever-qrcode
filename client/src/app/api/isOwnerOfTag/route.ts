@@ -14,6 +14,10 @@ export async function GET(request: Request) {
     const token = searchParams.get('token');
     const uID = searchParams.get('uID');
 
+    // Log the token and uID
+    console.log("[isOwnerOfTag] token: ", token);
+    console.log("[isOwnerOfTag] uID: ", uID);
+
     if (token == "") {
         await prisma.$disconnect();
 
@@ -35,7 +39,7 @@ export async function GET(request: Request) {
             }
         });
     }
-    
+
     const owner = await prisma.owners.findUnique({
         where: {
             user_id: uID as string
@@ -74,7 +78,7 @@ export async function GET(request: Request) {
         await prisma.$disconnect();
 
         return NextResponse.json({
-            status:200,
+            status: 200,
             body: {
                 owns_tag: true
             }
@@ -83,11 +87,10 @@ export async function GET(request: Request) {
         await prisma.$disconnect();
 
         return NextResponse.json({
-            status:200,
+            status: 200,
             body: {
                 owns_tag: false
             }
         });
     }
 }
-  

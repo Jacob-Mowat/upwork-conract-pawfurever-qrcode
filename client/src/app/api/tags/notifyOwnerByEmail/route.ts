@@ -6,6 +6,9 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const token = searchParams.get('token');
 
+    // Log the token and uID
+    console.log("[notifyOwnerByEmail] token: ", token);
+
     if (token == "") {
         await prisma.$disconnect();
 
@@ -48,6 +51,9 @@ export async function GET(request: Request) {
     const sender = { name: "PawFurEver QR Tag", email: SENDER_EMAIL };
 
     if (tag_details?.parent_email == "" && tag_details?.parent_email_additional == "") {
+        // Log the error
+        console.log("[notifyOwnerByEmail] No email address to notify!");
+
         return NextResponse.json({
             status: 200,
             body: {
@@ -58,6 +64,9 @@ export async function GET(request: Request) {
     }
 
     if (tag_details?.parent_email != "" && tag_details?.parent_email_additional == "") {
+        // Log that we are sending an email to the owner
+        console.log("[notifyOwnerByEmail] Sending email to: ", tag_details?.parent_email);
+
         client.send({
             from: sender,
             to: [{ email: tag_details?.parent_email as string }],
@@ -99,6 +108,10 @@ export async function GET(request: Request) {
     }
 
     if (tag_details?.parent_email != "" && tag_details?.parent_email_additional != "") {
+        // Log that we are sending an email to the owner
+        console.log("[notifyOwnerByEmail] Sending email to: ", tag_details?.parent_email);
+        console.log("[notifyOwnerByEmail] Sending email to: ", tag_details?.parent_email_additional);
+
         client.send({
             from: sender,
             to: [{ email: tag_details?.parent_email as string }, { email: tag_details?.parent_email_additional as string }],

@@ -34,6 +34,31 @@ export async function POST(request: Request) {
         tagID
     } = await request.json();
 
+    // Log the the data extraplulated from the request
+    console.log("[Edit Tag Details] name: ", name);
+    console.log("[Edit Tag Details] photo_url: ", photo_url);
+    console.log("[Edit Tag Details] bio: ", bio);
+    console.log("[Edit Tag Details] birthday: ", birthday);
+    console.log("[Edit Tag Details] breed: ", breed);
+    console.log("[Edit Tag Details] gender: ", gender);
+    console.log("[Edit Tag Details] microchip_number: ", microchip_number);
+    console.log("[Edit Tag Details] neutered_spayed: ", neutered_spayed);
+    console.log("[Edit Tag Details] behaviour: ", behaviour);
+    console.log("[Edit Tag Details] allergies: ", allergies);
+    console.log("[Edit Tag Details] uses_owners_information: ", uses_owners_information);
+    console.log("[Edit Tag Details] parent_name: ", parent_name);
+    console.log("[Edit Tag Details] parent_phone_number: ", parent_phone_number);
+    console.log("[Edit Tag Details] parent_phone_number_additional_1: ", parent_phone_number_additional_1);
+    console.log("[Edit Tag Details] parent_phone_number_additional_2: ", parent_phone_number_additional_2);
+    console.log("[Edit Tag Details] parent_email: ", parent_email);
+    console.log("[Edit Tag Details] parent_email_additional: ", parent_email_additional);
+    console.log("[Edit Tag Details] parent_street_address: ", parent_street_address);
+    console.log("[Edit Tag Details] parent_apt_suite_unit: ", parent_apt_suite_unit);
+    console.log("[Edit Tag Details] parent_city: ", parent_city);
+    console.log("[Edit Tag Details] parent_state: ", parent_state);
+    console.log("[Edit Tag Details] parent_zipcode: ", parent_zipcode);
+    console.log("[Edit Tag Details] tagID: ", tagID);
+
     // First get the tag
     const tag = await prisma.tags.findUnique({
         where: {

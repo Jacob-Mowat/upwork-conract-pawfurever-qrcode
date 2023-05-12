@@ -13,6 +13,9 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const token = searchParams.get('token');
 
+    // Log the token and uID
+    console.log("[isTokenRegistered] token: ", token);
+
     if (token == "") {
         await prisma.$disconnect();
 
@@ -33,10 +36,9 @@ export async function GET(request: Request) {
     await prisma.$disconnect();
 
     return NextResponse.json({
-        status:200,
+        status: 200,
         body: {
             tag: tag
         }
     });
 }
-  

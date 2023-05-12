@@ -2,8 +2,11 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-    const  { searchParams } = new URL(request.url);
+    const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
+
+    // Log the token and uID
+    console.log("[Get Owner By ID] id: ", id);
 
     if (id == "") {
         await prisma.$disconnect();
@@ -36,7 +39,7 @@ export async function GET(request: Request) {
     } else {
         console.log(`Found owner with ID: ${owner.user_id}`);
         return NextResponse.json({
-            status: 200, 
+            status: 200,
             body: {
                 owner: owner
             }

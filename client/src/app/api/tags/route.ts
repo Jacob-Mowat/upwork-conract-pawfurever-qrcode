@@ -11,10 +11,13 @@ BigIntProto.toJSON = function () {
 export async function POST(request: Request) {
     const { numOfTagsToGenerate } = await request.json();
 
+    // Log the token and uID
+    console.log("[Generate Tags] numOfTagsToGenerate: ", numOfTagsToGenerate);
+
     var tags: any = [];
 
     // Create numOfTagsToGenerate number of tags and add them to the tags array
-    const tagsData = Array.from({length: numOfTagsToGenerate}).map(() => ({}));
+    const tagsData = Array.from({ length: numOfTagsToGenerate }).map(() => ({}));
     console.log(tagsData);
 
     const tagsCreated = await prisma.$transaction(
@@ -27,7 +30,7 @@ export async function POST(request: Request) {
     await prisma.$disconnect();
 
     return NextResponse.json({
-        status:200,
+        status: 200,
         body: {
             tags: tagsCreated
         }
@@ -35,7 +38,7 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
-    const  { searchParams } = new URL(request.url);
+    const { searchParams } = new URL(request.url);
     const token = searchParams.get('token');
 
     try {
@@ -44,10 +47,10 @@ export async function GET(request: Request) {
                 TAG_TOKEN: token as string
             }
         });
-    
+
         // Disconnect from the database
         await prisma.$disconnect();
-    
+
         return NextResponse.json({
             status: 200,
             body: {
@@ -66,4 +69,3 @@ export async function GET(request: Request) {
 }
 
 
-  

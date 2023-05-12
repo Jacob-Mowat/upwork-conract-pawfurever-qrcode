@@ -6,6 +6,9 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const token = searchParams.get('token');
 
+    // Log the token and uID
+    console.log("[viewTag] token: ", token);
+
     if (token == "") {
         await prisma.$disconnect();
 

@@ -11,6 +11,9 @@ export async function GET(request: Request) {
     // const  { searchParams } = new URL(request.url);
     // const uID = searchParams.get('uID');
 
+    // Log that we got a request to get all zip_download_urls
+    console.log("[getZipDownloadURLs] Got a request to get all zip_download_urls");
+
     // Get all zip_download_urls from the database descending by created_at
     const zip_download_urls = await prisma.zip_download_urls.findMany(
         {

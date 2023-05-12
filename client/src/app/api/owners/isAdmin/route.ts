@@ -9,8 +9,11 @@ BigIntProto.toJSON = function () {
 };
 
 export async function GET(request: Request) {
-    const  { searchParams } = new URL(request.url);
+    const { searchParams } = new URL(request.url);
     const uID = searchParams.get('uID');
+
+    // Log the token and uID
+    console.log("[isAdmin] uID: ", uID);
 
     const owner = await prisma.owners.findUnique({
         where: {
@@ -40,11 +43,10 @@ export async function GET(request: Request) {
         });
     } else {
         return NextResponse.json({
-            status:200,
+            status: 200,
             body: {
                 admin: true
             }
         });
     }
 }
-  

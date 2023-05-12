@@ -8,7 +8,7 @@ BigIntProto.toJSON = function () {
 };
 
 export async function GET(request: Request) {
-    const  { searchParams } = new URL(request.url);
+    const { searchParams } = new URL(request.url);
     const ownerID = searchParams.get('ownerID');
 
     try {
@@ -25,10 +25,10 @@ export async function GET(request: Request) {
                     error: "No owner found for this user!"
                 }
             });
-        } else { 
+        } else {
             if (owner.owner_details_id == null) {
                 await prisma.$disconnect();
-        
+
                 return NextResponse.json({
                     status: 500,
                     body: {
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
                 await prisma.$disconnect();
 
                 return NextResponse.json({
-                    status:200,
+                    status: 200,
                     body: {
                         ownerDetails: ownerDetails
                     }
@@ -68,6 +68,9 @@ export async function POST(request: Request) {
         data,
         ownerID
     } = await request.json();
+
+    // Log the token and uID
+    console.log("[Create Owner Details] data: ", data);
 
     const newOwnerDetails = await prisma.owner_details.create({
         data: {
@@ -103,7 +106,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({
-        status:200,
+        status: 200,
         body: {
             ownerDetails: newOwnerDetails
         }

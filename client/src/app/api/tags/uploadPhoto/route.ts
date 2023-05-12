@@ -10,11 +10,16 @@ BigIntProto.toJSON = function () {
 };
 
 export async function POST(request: Request) {
-    const { 
+    const {
         token,
         photo_data,
         photo_extension
     } = await request.json();
+
+    // Log the token and uID
+    console.log("[uploadTagPhoto] token: ", token);
+    console.log("[uploadTagPhoto] photo_data: ", photo_data);
+    console.log("[uploadTagPhoto] photo_extension: ", photo_extension);
 
     if (token == "") {
         return NextResponse.json({
@@ -49,7 +54,7 @@ export async function POST(request: Request) {
         console.log("Uploaded tag photo: ", response);
 
         return {
-            status:200,
+            status: 200,
             body: {
                 photo_url: response.Location,
             }
@@ -58,7 +63,7 @@ export async function POST(request: Request) {
         console.log(error);
 
         return {
-            status:500,
+            status: 500,
             body: {
                 error: error
             }

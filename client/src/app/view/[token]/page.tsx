@@ -101,7 +101,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                 <LoadingSpinner display_text="Loading Tag..." />
             ) : (
                 <div className="h-full items-center justify-center bg-white">
-                    <div className="flex flex-row justify-between items-center align-middle bg-pink px-[10%] py-[5%]">
+                    <div className="flex flex-row justify-between items-center align-middle bg-pink px-[5%] py-[5%]">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={
@@ -117,7 +117,7 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                             {data?.tag_details.name.toUpperCase()}
                         </div>
                     </div>
-                    <div className="flex h-[90%] flex-col items-center justify-center bg-cream p-10 mt-[-10%]">
+                    <div className="flex h-[90%] flex-col items-center justify-center bg-cream mt-[-10%] px-[2.5%]">
                         {/* <div className="overflow-x-hidden">
                             <div className="absolute bottom-0 ml-[-50%] mt-[25px] h-[90%] w-[200%] rounded-t-[50%] bg-cream px-10">
                             </div>
