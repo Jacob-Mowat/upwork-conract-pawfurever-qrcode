@@ -273,14 +273,40 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
         };
 
         // Send the upload to S3
-        s3Client.upload(uploadParams, {}, (err, data) => {
+        s3Client.upload(uploadParams, {}, async (err, data) => {
             if (err) {
-                setUploadResponse(err.message);
+                setUploadResponse(err.message); 
+
+                const uploadError = await fetch("/api/notifyError", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        message: err.message
+                    })
+                });
+
+                console.log(uploadError.json());
+
                 console.log(err);
             }
 
             console.log(data);
             setUploadResponse(`Photo uploaded successfully: ${data.Location}`);
+
+            const uploadResult = await fetch("/api/notifyError", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    message: `Photo uploaded successfully: ${data.Location}`
+                })
+            });
+
+            console.log(uploadResult.json());
+
             setPhotoUrl(data.Location);
         });
     };
