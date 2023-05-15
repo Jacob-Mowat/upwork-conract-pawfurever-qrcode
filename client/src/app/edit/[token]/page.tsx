@@ -29,7 +29,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
         useState<boolean>(false);
 
     const [petPhotoFile, setPetPhotoFile] = useState<File>();
-    const [uploadResponse, setUploadResponse] = useState<string>();
+    const [isUploading, setIsUploading] = useState<boolean>(false);
 
     // Pet Information
     const [name, setName] = useState<string>();
@@ -136,7 +136,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
             console.log(tag_details?.name);
 
             setName(tag_details?.name as string);
-            setPhotoUrl(tag_details?.photo_url as string)
+            setPhotoUrl(tag_details?.photo_url as string);
             setBio(tag_details?.bio as string);
             setBirthday(tag_details?.birthday as string);
             setBreed(tag_details?.breed as string);
@@ -148,12 +148,22 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
             setUseOwnerDetails(tag_details?.uses_owners_information as boolean);
             setParentName(tag_details?.parent_name as string);
             setParentPhoneNumber(tag_details?.parent_phone_number as string);
-            setParentPhoneNumberAdditional1(tag_details?.parent_phone_number_additional_1 as string);
-            setParentPhoneNumberAdditional2(tag_details?.parent_phone_number_additional_2 as string);
+            setParentPhoneNumberAdditional1(
+                tag_details?.parent_phone_number_additional_1 as string
+            );
+            setParentPhoneNumberAdditional2(
+                tag_details?.parent_phone_number_additional_2 as string
+            );
             setParentEmail(tag_details?.parent_email as string);
-            setParentEmailAdditional(tag_details?.parent_email_additional as string);
-            setParentStreetAddress(tag_details?.parent_street_address as string);
-            setParentApartmentSuite(tag_details?.parent_apt_suite_unit as string);
+            setParentEmailAdditional(
+                tag_details?.parent_email_additional as string
+            );
+            setParentStreetAddress(
+                tag_details?.parent_street_address as string
+            );
+            setParentApartmentSuite(
+                tag_details?.parent_apt_suite_unit as string
+            );
             setParentCity(tag_details?.parent_city as string);
             setParentState(tag_details?.parent_state as string);
             setParentZipcode(tag_details?.parent_zipcode as string);
@@ -237,6 +247,8 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
     const uploadPhoto = async (file: File) => {
         console.log(file);
 
+        setIsUploading(true);
+
         // const formData = new FormData();
 
         // // Check if file is HEIC format
@@ -275,7 +287,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
         // Send the upload to S3
         s3Client.upload(uploadParams, {}, async (err, data) => {
             if (err) {
-                setUploadResponse(err.message); 
+                console.log(err.message);
 
                 const uploadError = await fetch("/api/notifyError", {
                     method: "POST",
@@ -283,17 +295,18 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        message: err.message
-                    })
+                        message: err.message,
+                    }),
                 });
 
                 console.log(uploadError.json());
 
                 console.log(err);
+
+                setIsUploading(false);
             }
 
-            console.log(data);
-            setUploadResponse(`Photo uploaded successfully: ${data.Location}`);
+            console.log(`Photo uploaded successfully: ${data.Location}`);
 
             const uploadResult = await fetch("/api/notifyError", {
                 method: "POST",
@@ -301,13 +314,14 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    message: `Photo uploaded successfully: ${data.Location}`
-                })
+                    message: `Photo uploaded successfully: ${data.Location}`,
+                }),
             });
 
             console.log(uploadResult.json());
 
             setPhotoUrl(data.Location);
+            setIsUploading(false);
         });
     };
 
@@ -470,42 +484,52 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                         onChange={(e) => setName(e.target.value)}
                         required={true}
                         defaultValue={
-                            tagDetails?.name
-                                ? (tagDetails.name as string)
-                                : ""
+                            tagDetails?.name ? (tagDetails.name as string) : ""
                         }
                     />
                     <div className="mb-[25px] w-[calc(100vw-72px)]">
                         <span className="text-left">
                             Upload a photo of your pet (optional)
                         </span>
-                        <FileUploader
-                            className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 max-width mb-[25px] bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
-                            name="file"
-                            handleChange={(file: any) => uploadPhoto(file)}
-                            types={fileTypes}
-                            onSizeError={(e: any) => errors.push(e)}
-                            maxSize={60}
-                            onTypeError={(e: any) => errors.push(e)}
-                        />
-                    </div>
-
-                    {uploadResponse ? (
-                        <div className="mb-[25px] w-[calc(100vw-72px)]">
-                            {uploadResponse}
+                        <div className="flex flex-row">
+                            <FileUploader
+                                className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 max-width mb-[25px] bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
+                                name="file"
+                                handleChange={(file: any) => uploadPhoto(file)}
+                                types={fileTypes}
+                                onSizeError={(e: any) => errors.push(e)}
+                                maxSize={60}
+                                onTypeError={(e: any) => errors.push(e)}
+                            />
+                            {isUploading ? (
+                                <svg
+                                    aria-hidden="true"
+                                    className="mr-2 h-8 w-8 animate-spin fill-light-purple text-cream dark:text-black"
+                                    viewBox="0 0 100 101"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                        fill="currentColor"
+                                    />
+                                    <path
+                                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                        fill="currentFill"
+                                    />
+                                </svg>
+                            ) : (
+                                <></>
+                            )}
                         </div>
-                    ) : (
-                        <></>
-                    )}
+                    </div>
 
                     <textarea
                         className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
                         placeholder="Pet Bio (optional)"
                         onChange={(e) => setBio(e.target.value)}
                         defaultValue={
-                            tagDetails?.bio
-                                ? (tagDetails.bio as string)
-                                : ""
+                            tagDetails?.bio ? (tagDetails.bio as string) : ""
                         }
                     />
 
@@ -566,8 +590,8 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     defaultValue={
                                         tagDetails?.birthday
                                             ? convertDate(
-                                                    tagDetails.birthday as string
-                                                )
+                                                  tagDetails.birthday as string
+                                              )
                                             : undefined
                                     }
                                 />
@@ -592,9 +616,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                 </div>
                                 <select
                                     className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
-                                    onChange={(e) =>
-                                        setGender(e.target.value)
-                                    }
+                                    onChange={(e) => setGender(e.target.value)}
                                     required={false}
                                 >
                                     {tagDetails?.gender == null ? (
@@ -602,17 +624,14 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                             <option value="" selected>
                                                 Select (optional)
                                             </option>
-                                            <option value="Male">
-                                                Male
-                                            </option>
+                                            <option value="Male">Male</option>
                                             <option value="Female">
                                                 Female
                                             </option>
                                         </>
                                     ) : (
                                         <>
-                                            {tagDetails?.gender ==
-                                            "Male" ? (
+                                            {tagDetails?.gender == "Male" ? (
                                                 <>
                                                     <option value="">
                                                         Select (optional)
@@ -679,7 +698,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     }
                                     required={false}
                                 >
-                                    {tagDetails?.neutered_spayed == null? (
+                                    {tagDetails?.neutered_spayed == null ? (
                                         <>
                                             <option value="" selected>
                                                 Select (optional)
@@ -712,10 +731,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                                     <option value="yes">
                                                         Yes
                                                     </option>
-                                                    <option
-                                                        value="no"
-                                                        selected
-                                                    >
+                                                    <option value="no" selected>
                                                         No
                                                     </option>
                                                 </>
@@ -729,9 +745,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             <textarea
                                 className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
                                 placeholder="Pet Behaviour (optional)"
-                                onChange={(e) =>
-                                    setBehaviour(e.target.value)
-                                }
+                                onChange={(e) => setBehaviour(e.target.value)}
                                 required={false}
                                 defaultValue={
                                     tagDetails?.behaviour
@@ -745,9 +759,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             <textarea
                                 className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
                                 placeholder="Pet Allergies (optional)"
-                                onChange={(e) =>
-                                    setAllergies(e.target.value)
-                                }
+                                onChange={(e) => setAllergies(e.target.value)}
                                 required={false}
                                 defaultValue={
                                     tagDetails?.allergies
@@ -764,9 +776,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                     {/* Toggle Parent Information fields */}
                     <div
                         className="flex w-full flex-row "
-                        onClick={(e) =>
-                            setShowParentFields(!showParentFields)
-                        }
+                        onClick={(e) => setShowParentFields(!showParentFields)}
                     >
                         <div className="mb-[25px] grow text-left">
                             {showParentFields
@@ -814,16 +824,11 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                             ? true
                                             : false
                                     }
-                                    onChange={(e) =>
-                                        handleUseOwnerDetails(e)
-                                    }
+                                    onChange={(e) => handleUseOwnerDetails(e)}
                                     required={true}
                                 />
                                 {/* eslint-disable-next-line react/no-unescaped-entities */}
-                                <span>
-                                    {" "}
-                                    Use my information as the Parent?
-                                </span>
+                                <span> Use my information as the Parent?</span>
                             </div>
 
                             <input
@@ -834,9 +839,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         ? (ownerDetails?.name as string)
                                         : "Parent's Name"
                                 }
-                                onChange={(e) =>
-                                    setParentName(e.target.value)
-                                }
+                                onChange={(e) => setParentName(e.target.value)}
                                 disabled={useOwnerDetails}
                                 required={!useOwnerDetails}
                                 defaultValue={
@@ -912,9 +915,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         ? (ownerDetails?.email as string)
                                         : "Parent's Email"
                                 }
-                                onChange={(e) =>
-                                    setParentEmail(e.target.value)
-                                }
+                                onChange={(e) => setParentEmail(e.target.value)}
                                 required={true}
                                 defaultValue={
                                     tagDetails?.parent_email
@@ -985,9 +986,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         ? (ownerDetails?.city as string)
                                         : "Parent's City (optional)"
                                 }
-                                onChange={(e) =>
-                                    setParentCity(e.target.value)
-                                }
+                                onChange={(e) => setParentCity(e.target.value)}
                                 required={false}
                                 defaultValue={
                                     tagDetails?.parent_city
@@ -1003,9 +1002,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                         ? (ownerDetails?.state as string)
                                         : "Parent's State (optional)"
                                 }
-                                onChange={(e) =>
-                                    setParentState(e.target.value)
-                                }
+                                onChange={(e) => setParentState(e.target.value)}
                                 required={false}
                                 defaultValue={
                                     tagDetails?.parent_state
@@ -1045,6 +1042,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                     <button
                         className="bottom-[36px] mb-[25px] h-[48px] w-[100%] bg-dark-purple text-cream"
                         onClick={(e) => verifyForm(e)}
+                        disabled={isUploading}
                     >
                         SAVE TAG
                     </button>

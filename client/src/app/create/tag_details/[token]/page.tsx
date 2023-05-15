@@ -26,6 +26,7 @@ export default function CreateTagDetailsPage({
         useState<boolean>(false);
 
     const [petPhotoFile, setPetPhotoFile] = useState<File>();
+    const [isUploading, setIsUploading] = useState<boolean>(false);
 
     // Pet Information
     const [name, setName] = useState<string>();
@@ -121,6 +122,35 @@ export default function CreateTagDetailsPage({
     const uploadPhoto = async (file: File) => {
         console.log(file);
 
+        setIsUploading(true);
+
+        // const formData = new FormData();
+
+        // // Check if file is HEIC format
+        // if (file.type === "image/heic") {
+        //     // Convert HEIC to JPEG
+        //     const jpegFile = await heic2any({
+        //         blob: file,
+        //         toType: "image/jpeg",
+        //     });
+        //     if (Array.isArray(jpegFile)) {
+        //         // If jpegFile is an array, append each Blob object to formData
+        //         jpegFile.forEach((blob, index) => {
+        //             formData.append(
+        //                 `image${index}`,
+        //                 blob,
+        //                 `image${index}.jpeg`
+        //             );
+        //         });
+        //     } else {
+        //         // If jpegFile is a single Blob object, append it to formData
+        //         formData.append("image", jpegFile, "image.jpeg");
+        //     }
+        // } else {
+        //     // Add file to formData as is
+        //     formData.append("image", file);
+        // }
+
         // Upload to S3
         const uploadParams = {
             Bucket: "ar-t-cacher-app-s3",
@@ -130,12 +160,44 @@ export default function CreateTagDetailsPage({
         };
 
         // Send the upload to S3
-        const response = await s3Client.upload(uploadParams).promise();
+        s3Client.upload(uploadParams, {}, async (err, data) => {
+            if (err) {
+                console.log(err.message);
 
-        setPhotoUrl(response.Location);
-        console.log(response.Location);
+                const uploadError = await fetch("/api/notifyError", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        message: err.message,
+                    }),
+                });
 
-        return;
+                console.log(uploadError.json());
+
+                console.log(err);
+
+                setIsUploading(false);
+            }
+
+            console.log(`Photo uploaded successfully: ${data.Location}`);
+
+            const uploadResult = await fetch("/api/notifyError", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    message: `Photo uploaded successfully: ${data.Location}`,
+                }),
+            });
+
+            console.log(uploadResult.json());
+
+            setPhotoUrl(data.Location);
+            setIsUploading(false);
+        });
     };
 
     const verifyForm = (e: any) => {
@@ -289,15 +351,37 @@ export default function CreateTagDetailsPage({
                         <span className="text-left">
                             Upload a photo of your pet (optional)
                         </span>
-                        <FileUploader
-                            className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 max-width mb-[25px] bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
-                            name="file"
-                            handleChange={(file: any) => uploadPhoto(file)}
-                            types={fileTypes}
-                            onSizeError={(e: any) => errors.push(e)}
-                            maxSize={60}
-                            onTypeError={(e: any) => errors.push(e)}
-                        />
+                        <div className="flex flex-row">
+                            <FileUploader
+                                className="border-1 border-black-400 text-[rgba(0,0,0,0.75)]-400 max-width mb-[25px] bg-cream text-base shadow-[inset_0_4px_10px_5px_rgba(0,0,0,0.1)]"
+                                name="file"
+                                handleChange={(file: any) => uploadPhoto(file)}
+                                types={fileTypes}
+                                onSizeError={(e: any) => errors.push(e)}
+                                maxSize={60}
+                                onTypeError={(e: any) => errors.push(e)}
+                            />
+                            {isUploading ? (
+                                <svg
+                                    aria-hidden="true"
+                                    className="mr-2 h-8 w-8 animate-spin fill-light-purple text-cream dark:text-black"
+                                    viewBox="0 0 100 101"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                        fill="currentColor"
+                                    />
+                                    <path
+                                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                        fill="currentFill"
+                                    />
+                                </svg>
+                            ) : (
+                                <></>
+                            )}
+                        </div>
                     </div>
 
                     <textarea
@@ -653,6 +737,7 @@ export default function CreateTagDetailsPage({
                     <button
                         className="bottom-[36px] mb-[25px] h-[48px] w-[100%] bg-dark-purple text-cream"
                         onClick={(e) => verifyForm(e)}
+                        disabled={isUploading}
                     >
                         ADD TAG
                     </button>
