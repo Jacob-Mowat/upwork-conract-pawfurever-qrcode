@@ -29,6 +29,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
         useState<boolean>(false);
 
     const [petPhotoFile, setPetPhotoFile] = useState<File>();
+    const [uploadResponse, setUploadResponse] = useState<string>();
 
     // Pet Information
     const [name, setName] = useState<string>();
@@ -264,20 +265,30 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
         // }
 
         // Upload to S3
-        const uploadParams = {
-            Bucket: "ar-t-cacher-app-s3",
-            Key: `PawFurEver/tag/${tag?.TAG_TOKEN}/${file.name}{f}`,
-            ACL: "public-read",
-            Body: file as File,
-        };
+        try {
+            const uploadParams = {
+                Bucket: "ar-t-cacher-app-s3",
+                Key: `PawFurEver/tag/${tag?.TAG_TOKEN}/${file.name}{f}`,
+                ACL: "public-read",
+                Body: file as File,
+            };
 
-        // Send the upload to S3
-        const response = await s3Client.upload(uploadParams).promise();
+            // Send the upload to S3
+            const response = await s3Client.upload(uploadParams).promise();
 
-        setPhotoUrl(response.Location);
-        console.log(response.Location);
+            setUploadResponse(`Upload Successful: ${response.Location}`);
 
-        return;
+            setPhotoUrl(response.Location);
+            console.log(response.Location);
+
+            return;
+        } catch (error) {
+            console.log(error);
+
+            setUploadResponse(error as string);
+
+            return;
+        }
     };
 
     const verifyForm = (e: any) => {
@@ -458,6 +469,14 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             onTypeError={(e: any) => errors.push(e)}
                         />
                     </div>
+
+                    {uploadResponse ? (
+                        <div className="mb-[25px] w-[calc(100vw-72px)]">
+                            {uploadResponse}
+                        </div>
+                    ) : (
+                        <></>
+                    )}
 
                     <textarea
                         className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
