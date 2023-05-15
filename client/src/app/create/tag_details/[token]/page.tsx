@@ -124,7 +124,7 @@ export default function CreateTagDetailsPage({
         // Upload to S3
         const uploadParams = {
             Bucket: "ar-t-cacher-app-s3",
-            Key: `PawFurEver/tag/${tag?.TAG_TOKEN}/${file.name}{f}`,
+            Key: `PawFurEver/tag/${tag?.TAG_TOKEN}/${file.name}`,
             ACL: "public-read",
             Body: file as File,
         };

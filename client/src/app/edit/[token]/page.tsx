@@ -265,30 +265,24 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
         // }
 
         // Upload to S3
-        try {
-            const uploadParams = {
-                Bucket: "ar-t-cacher-app-s3",
-                Key: `PawFurEver/tag/${tag?.TAG_TOKEN}/${file.name}{f}`,
-                ACL: "public-read",
-                Body: file as File,
-            };
+        const uploadParams = {
+            Bucket: "ar-t-cacher-app-s3",
+            Key: `PawFurEver/tag/${tag?.TAG_TOKEN}/${file.name}`,
+            ACL: "public-read",
+            Body: file as File,
+        };
 
-            // Send the upload to S3
-            const response = await s3Client.upload(uploadParams).promise();
+        // Send the upload to S3
+        s3Client.upload(uploadParams, {}, (err, data) => {
+            if (err) {
+                setUploadResponse(err.message);
+                console.log(err);
+            }
 
-            setUploadResponse(`Upload Successful: ${response.Location}`);
-
-            setPhotoUrl(response.Location);
-            console.log(response.Location);
-
-            return;
-        } catch (error) {
-            console.log(error);
-
-            setUploadResponse(error as string);
-
-            return;
-        }
+            console.log(data);
+            setUploadResponse(`Photo uploaded successfully: ${data.Location}`);
+            setPhotoUrl(data.Location);
+        });
     };
 
     const verifyForm = (e: any) => {
