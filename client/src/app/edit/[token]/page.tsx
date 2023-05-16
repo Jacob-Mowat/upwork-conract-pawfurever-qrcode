@@ -12,6 +12,7 @@ import { Navbar } from "@/src/components/NavBar.component";
 import { FileUploader } from "react-drag-drop-files";
 import { useRouter } from "next/navigation";
 import { s3Client } from "@/lib/s3bucket";
+import { v4 } from "uuid";
 
 export default function EditTagPage({ params }: { params: { token: string } }) {
     const [tag, setTag] = useState<TagType>();
@@ -170,25 +171,6 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
         };
 
         if (!checkedIfOwner && user.isSignedIn) {
-            // getOwnedTags(user.user.id).then((data) => {
-            //     if (data.status === 200) {
-            //         const ownedTags = data.body.tags;
-
-            //         ownedTags.forEach((ownedTag: TagType) => {
-            //             if (ownedTag.TAG_TOKEN === params.token) {
-            //                 setCheckedIfOwner(true);
-            //                 return;
-            //             }
-            //         });
-
-            //         if (!checkedIfOwner) {
-            //             router.push("/notOwner");
-            //         }
-            //     } else {
-            //         return;
-            //     }
-            // });
-
             doesUserOwnTag(user.user.id, params.token).then((data) => {
                 if (data.status == 200) {
                     if (data.body.owns_tag == false) {
@@ -249,37 +231,10 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
 
         setIsUploading(true);
 
-        // const formData = new FormData();
-
-        // // Check if file is HEIC format
-        // if (file.type === "image/heic") {
-        //     // Convert HEIC to JPEG
-        //     const jpegFile = await heic2any({
-        //         blob: file,
-        //         toType: "image/jpeg",
-        //     });
-        //     if (Array.isArray(jpegFile)) {
-        //         // If jpegFile is an array, append each Blob object to formData
-        //         jpegFile.forEach((blob, index) => {
-        //             formData.append(
-        //                 `image${index}`,
-        //                 blob,
-        //                 `image${index}.jpeg`
-        //             );
-        //         });
-        //     } else {
-        //         // If jpegFile is a single Blob object, append it to formData
-        //         formData.append("image", jpegFile, "image.jpeg");
-        //     }
-        // } else {
-        //     // Add file to formData as is
-        //     formData.append("image", file);
-        // }
-
-        // Upload to S3
+        // Upload new photo to S3
         const uploadParams = {
             Bucket: "ar-t-cacher-app-s3",
-            Key: `PawFurEver/tag/${tag?.TAG_TOKEN}/${file.name}`,
+            Key: `PawFurEver/tag/${tag?.TAG_TOKEN}/${v4()}/${file.name}`,
             ACL: "public-read",
             Body: file as File,
         };
@@ -332,11 +287,6 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
             setErrors(["Pet name is empty"]);
             return;
         }
-
-        // if (petPhotoFile == null) {
-        //     setErrors(["Pet photo is empty"]);
-        //     return;
-        // }
 
         if (!useOwnerDetails) {
             if (parentName == "") {
