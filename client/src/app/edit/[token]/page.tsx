@@ -261,7 +261,15 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                 setIsUploading(false);
             }
 
-            console.log(`Photo uploaded successfully: ${data.Location}`);
+            // HOTFIX - S3 returns a location without https://
+            var trueLocation = "";
+            if (data.Location.includes("https://")) {
+                trueLocation = data.Location;
+            } else {
+                trueLocation = `https://${data.Location}`;
+            }
+
+            console.log(`Photo uploaded successfully: ${trueLocation}`);
 
             const uploadResult = await fetch("/api/notifyError", {
                 method: "POST",
@@ -269,13 +277,13 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    message: `Photo uploaded successfully: ${data.Location}`,
+                    message: `Photo uploaded successfully: ${trueLocation}`,
                 }),
             });
 
             console.log(uploadResult.json());
 
-            setPhotoUrl(data.Location);
+            setPhotoUrl(trueLocation);
             setIsUploading(false);
         });
     };
