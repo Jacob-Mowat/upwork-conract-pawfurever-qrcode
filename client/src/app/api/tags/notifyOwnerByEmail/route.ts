@@ -64,7 +64,7 @@ export async function GET(request: Request) {
     }
 
     if (tag_details?.parent_email != "" && tag_details?.parent_email_additional == "") {
-        // Log that we are sending an email to the owner
+        console.log("[notifyOwnerByEmail] additional email is empty, and parent email is not empty!");
         console.log("[notifyOwnerByEmail] Sending email to: ", tag_details?.parent_email);
 
         client.send({
@@ -107,8 +107,7 @@ export async function GET(request: Request) {
         });
     } else {
         if (tag_details?.parent_email == tag_details?.parent_email_additional) {
-            // Send to just the parent email
-            // Log that we are sending an email to the owner
+            console.log("[notifyOwnerByEmail] additional email is the same as parent email!");
             console.log("[notifyOwnerByEmail] Sending email to: ", tag_details?.parent_email);
     
             client.send({
@@ -150,7 +149,7 @@ export async function GET(request: Request) {
                 });
             });
         } else if (tag_details?.parent_email != "" && tag_details?.parent_email_additional != "" && (tag_details?.parent_email != tag_details?.parent_email_additional)) {
-            // Log that we are sending an email to the owner
+            console.log("[notifyOwnerByEmail] additional email is not empty, and parent email is not empty!");
             console.log("[notifyOwnerByEmail] Sending email to: ", tag_details?.parent_email);
             console.log("[notifyOwnerByEmail] Sending email to: ", tag_details?.parent_email_additional);
     
