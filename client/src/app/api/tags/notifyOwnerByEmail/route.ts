@@ -55,7 +55,7 @@ export async function GET(request: Request) {
         console.log("[notifyOwnerByEmail] No email address to notify!");
 
         return NextResponse.json({
-            status: 200,
+            status: 500,
             body: {
                 notified: false,
                 response_from_mailtrap: "No email address to notify!"
@@ -149,7 +149,7 @@ export async function GET(request: Request) {
                     }
                 });
             });
-        } else if (tag_details?.parent_email != "" && tag_details?.parent_email_additional != "") {
+        } else if (tag_details?.parent_email != "" && tag_details?.parent_email_additional != "" && (tag_details?.parent_email != tag_details?.parent_email_additional)) {
             // Log that we are sending an email to the owner
             console.log("[notifyOwnerByEmail] Sending email to: ", tag_details?.parent_email);
             console.log("[notifyOwnerByEmail] Sending email to: ", tag_details?.parent_email_additional);
