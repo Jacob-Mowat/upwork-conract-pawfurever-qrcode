@@ -63,6 +63,52 @@ export async function GET(request: Request) {
         });
     }
 
+    // check parent_email and parent_email_additional aren't the same
+    if (tag_details?.parent_email == tag_details?.parent_email_additional) {
+        // Send to just the parent email
+        // Log that we are sending an email to the owner
+        console.log("[notifyOwnerByEmail] Sending email to: ", tag_details?.parent_email);
+
+        client.send({
+            from: sender,
+            to: [{ email: tag_details?.parent_email as string }],
+            subject: `${tag_details?.name} has been viewed/scanned!`,
+            text: `
+                Hello ${tag_details?.name}'s qr tag has been viewed/scanned!
+
+                You can view the details of ${tag_details?.name} by clicking the link below:
+                ${process.env.DOMAIN_ADDRESS}view/${tag?.TAG_TOKEN}
+
+                If you wish to edit the details of ${tag_details?.name} you can do so by clicking the link below:
+                ${process.env.DOMAIN_ADDRESS}edit/${tag?.TAG_TOKEN}
+
+                Thank you for using QR Pet Tags!
+
+                - QR Pet Tags
+
+                This is an automated message, please do not reply to this email.
+            `
+        }).then((response) => {
+            console.log(response);
+            return NextResponse.json({
+                status: 200,
+                body: {
+                    notified: true,
+                    response_from_mailtrap: response
+                }
+            });
+        }, (error) => {
+            console.log(error);
+            return NextResponse.json({
+                status: 200,
+                body: {
+                    notified: false,
+                    response_from_mailtrap: error
+                }
+            });
+        });
+    }
+
     if (tag_details?.parent_email != "" && tag_details?.parent_email_additional == "") {
         // Log that we are sending an email to the owner
         console.log("[notifyOwnerByEmail] Sending email to: ", tag_details?.parent_email);
