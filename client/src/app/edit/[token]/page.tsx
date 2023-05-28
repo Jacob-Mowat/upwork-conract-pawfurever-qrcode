@@ -437,7 +437,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
 
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base text-[rgb(20,20,20)] placeholder:text-slate-700"
                         placeholder="Pet's Name"
                         onChange={(e) => setName(e.target.value)}
                         required={true}
@@ -483,7 +483,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                     </div>
 
                     <textarea
-                        className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px]  bg-cream text-base placeholder:text-slate-700"
                         placeholder="Pet Bio (optional)"
                         onChange={(e) => setBio(e.target.value)}
                         defaultValue={
@@ -540,7 +540,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                 </div>
                                 <input
                                     type="date"
-                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px]  bg-cream text-base placeholder:text-slate-700"
                                     placeholder="Date of Birth (optional)"
                                     onChange={(e) =>
                                         setBirthday(e.target.value)
@@ -558,7 +558,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
 
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder="Pet's Breed (optional)"
                                 onChange={(e) => setBreed(e.target.value)}
                                 defaultValue={
@@ -573,7 +573,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                                     Gender
                                 </div>
                                 <select
-                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                    className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                     onChange={(e) => setGender(e.target.value)}
                                     required={false}
                                 >
@@ -628,7 +628,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             {/* Pet Microchip number */}
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder="Pet's Microchip Number (optional)"
                                 onChange={(e) =>
                                     setMicrochipNumber(e.target.value)
@@ -701,7 +701,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
 
                             {/* Pet Behaviour */}
                             <textarea
-                                className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px]  bg-cream text-base placeholder:text-slate-700"
                                 placeholder="Pet Behaviour (optional)"
                                 onChange={(e) => setBehaviour(e.target.value)}
                                 required={false}
@@ -715,7 +715,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
 
                             {/* Pet Allergies */}
                             <textarea
-                                className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px]  bg-cream text-base placeholder:text-slate-700"
                                 placeholder="Pet Allergies (optional)"
                                 onChange={(e) => setAllergies(e.target.value)}
                                 required={false}
@@ -775,7 +775,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             <div className="mb-[25px] text-left">
                                 <input
                                     type="checkbox"
-                                    className="mb-[5px] rounded-[50%] bg-cream"
+                                    className="mb-[5px] rounded-[50%] bg-cream placeholder:text-slate-700"
                                     name="use_owner_information"
                                     defaultChecked={
                                         tagDetails?.uses_owners_information
@@ -791,7 +791,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
 
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px]  bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.name as string)
@@ -808,7 +808,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             />
                             <input
                                 type="text"
-                                className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px]  bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.phone_number as string)
@@ -827,7 +827,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.phone_number_additional_1 as string)
@@ -847,7 +847,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.phone_number_additional_2 as string)
@@ -867,7 +867,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.email as string)
@@ -883,7 +883,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.email_additional as string)
@@ -902,7 +902,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
 
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.street_address as string)
@@ -920,7 +920,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.apt_suite_unit as string)
@@ -938,7 +938,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.city as string)
@@ -954,7 +954,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.state as string)
@@ -970,7 +970,7 @@ export default function EditTagPage({ params }: { params: { token: string } }) {
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.zipcode as string)

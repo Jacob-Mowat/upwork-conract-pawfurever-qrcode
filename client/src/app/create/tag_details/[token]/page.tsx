@@ -239,6 +239,23 @@ export default function CreateTagDetailsPage({
                 return;
             }
 
+            // Check emails are the same
+            if (parentEmail == parentEmailAdditional) {
+                setErrors([
+                    "Parent's emails match, these must be unique or provide one.",
+                ]);
+                return;
+            }
+
+            // Check additional email is valid using regex
+            if (
+                parentEmailAdditional != "" &&
+                !emailRegex.test(parentEmailAdditional as string)
+            ) {
+                setErrors(["Parent's additional email is invalid"]);
+                return;
+            }
+
             if (parentPhoneNumber == "") {
                 setErrors(["Phone number is empty"]);
                 return;
@@ -350,7 +367,7 @@ export default function CreateTagDetailsPage({
 
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                         placeholder="Pet's Name"
                         onChange={(e) => setName(e.target.value)}
                         required={true}
@@ -393,7 +410,7 @@ export default function CreateTagDetailsPage({
                     </div>
 
                     <textarea
-                        className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                        className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px]  bg-cream text-base placeholder:text-slate-700"
                         placeholder="Pet Bio (optional)"
                         onChange={(e) => setBio(e.target.value)}
                     />
@@ -457,7 +474,7 @@ export default function CreateTagDetailsPage({
 
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder="Pet's Breed (optional)"
                                 onChange={(e) => setBreed(e.target.value)}
                             />
@@ -482,7 +499,7 @@ export default function CreateTagDetailsPage({
                             {/* Pet Microchip number */}
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder="Pet's Microchip Number (optional)"
                                 onChange={(e) =>
                                     setMicrochipNumber(e.target.value)
@@ -515,7 +532,7 @@ export default function CreateTagDetailsPage({
 
                             {/* Pet Behaviour */}
                             <textarea
-                                className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)]  text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px]  bg-cream text-base placeholder:text-slate-700"
                                 placeholder="Pet Behaviour (optional)"
                                 onChange={(e) => setBehaviour(e.target.value)}
                                 required={false}
@@ -524,7 +541,7 @@ export default function CreateTagDetailsPage({
 
                             {/* Pet Allergies */}
                             <textarea
-                                className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)]  text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px]  bg-cream text-base placeholder:text-slate-700"
                                 placeholder="Pet Allergies (optional)"
                                 onChange={(e) => setAllergies(e.target.value)}
                                 required={false}
@@ -579,7 +596,7 @@ export default function CreateTagDetailsPage({
                             <div className="mb-[25px] text-left">
                                 <input
                                     type="checkbox"
-                                    className="mb-[5px] rounded-[50%] bg-cream"
+                                    className="mb-[5px] rounded-[50%] bg-cream placeholder:text-slate-700"
                                     name="use_owner_information"
                                     defaultChecked={useOwnerDetails}
                                     onChange={(e) => handleUseOwnerDetails(e)}
@@ -591,7 +608,7 @@ export default function CreateTagDetailsPage({
 
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px]  bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.name as string)
@@ -603,7 +620,7 @@ export default function CreateTagDetailsPage({
                             />
                             <input
                                 type="text"
-                                className="border-1  border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px]  w-[calc(100vw-72px)]  rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)]  text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)]  rounded-[5px]  bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.phone_number as string)
@@ -617,7 +634,7 @@ export default function CreateTagDetailsPage({
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.phone_number_additional_1 as string)
@@ -632,7 +649,7 @@ export default function CreateTagDetailsPage({
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.phone_number_additional_2 as string)
@@ -647,7 +664,7 @@ export default function CreateTagDetailsPage({
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.email as string)
@@ -658,7 +675,7 @@ export default function CreateTagDetailsPage({
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.email_additional as string)
@@ -672,7 +689,7 @@ export default function CreateTagDetailsPage({
 
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.street_address as string)
@@ -685,7 +702,7 @@ export default function CreateTagDetailsPage({
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.apt_suite_unit as string)
@@ -698,7 +715,7 @@ export default function CreateTagDetailsPage({
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.city as string)
@@ -709,7 +726,7 @@ export default function CreateTagDetailsPage({
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.state as string)
@@ -720,7 +737,7 @@ export default function CreateTagDetailsPage({
                             />
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                                 placeholder={
                                     useOwnerDetails
                                         ? (ownerDetails?.zipcode as string)

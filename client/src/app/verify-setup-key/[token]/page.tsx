@@ -199,21 +199,34 @@ export default function ViewPage({ params }: { params: { token: string } }) {
                             </span>
                             <input
                                 type="text"
-                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 w-[calc(100vw-72px)] rounded-[5px] bg-cream  text-center text-base uppercase"
+                                className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 w-[calc(100vw-72px)] rounded-[5px] bg-cream text-center  text-base uppercase placeholder:text-slate-700"
                                 placeholder="AAA-####"
                                 pattern="[A-Za-z]{3}-[0-9]{4}"
                                 value={setupKey}
                                 maxLength={8}
                                 onChange={(e) => {
-                                    const inputValue = (e.target.value).toUpperCase();
-                                    if (inputValue.length <= 8) { // check if input value length is less than or equal to 7
+                                    const inputValue =
+                                        e.target.value.toUpperCase();
+                                    if (inputValue.length <= 8) {
+                                        // check if input value length is less than or equal to 7
                                         let newInputValue = inputValue;
-                                        if (newInputValue.length > setupKey.length) {
-                                            if (inputValue.length === 4 && inputValue.charAt(3) === "-") {
-                                            newInputValue = inputValue.substring(0, 3);
+                                        if (
+                                            newInputValue.length >
+                                            setupKey.length
+                                        ) {
+                                            if (
+                                                inputValue.length === 4 &&
+                                                inputValue.charAt(3) === "-"
+                                            ) {
+                                                newInputValue =
+                                                    inputValue.substring(0, 3);
                                             }
-                                            if (inputValue.length === 3 && !inputValue.includes("-")) {
-                                            newInputValue = inputValue + "-";
+                                            if (
+                                                inputValue.length === 3 &&
+                                                !inputValue.includes("-")
+                                            ) {
+                                                newInputValue =
+                                                    inputValue + "-";
                                             }
                                         }
                                         setSetupKey(newInputValue);

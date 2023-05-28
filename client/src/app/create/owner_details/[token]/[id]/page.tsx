@@ -116,21 +116,21 @@ export default function CreateOwnerDetailsPage({
 
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                         placeholder="Name"
                         onChange={(e) => setName(e.target.value)}
                         required={true}
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                         placeholder="Phone Number"
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         required={true}
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                         placeholder="Additional Phone Number (optional)"
                         onChange={(e) =>
                             setPhoneNumberAdditional1(e.target.value)
@@ -139,7 +139,7 @@ export default function CreateOwnerDetailsPage({
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                         placeholder="Second Additional Phone Number (optional)"
                         onChange={(e) =>
                             setPhoneNumberAdditional2(e.target.value)
@@ -148,14 +148,14 @@ export default function CreateOwnerDetailsPage({
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                         placeholder="Email"
                         onChange={(e) => setEmail(e.target.value)}
                         required={true}
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                         placeholder="Additional Email (optional)"
                         onChange={(e) => setEmailAdditional(e.target.value)}
                         required={false}
@@ -163,35 +163,35 @@ export default function CreateOwnerDetailsPage({
 
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                         placeholder="Street Address (optional)"
                         onChange={(e) => setStreetAddress(e.target.value)}
                         required={false}
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                         placeholder="Apartment, suite, etc. (optional)"
                         onChange={(e) => setApartmentSuite(e.target.value)}
                         required={false}
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                         placeholder="City (optional)"
                         onChange={(e) => setCity(e.target.value)}
                         required={false}
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                         placeholder="State (optional)"
                         onChange={(e) => setState(e.target.value)}
                         required={false}
                     />
                     <input
                         type="text"
-                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base"
+                        className="border-1 border-black-[rgba(0,0,0,0.5)] text-[rgba(0,0,0,0.75)]-400 mb-[25px] w-[calc(100vw-72px)] rounded-[5px] bg-cream text-base placeholder:text-slate-700"
                         placeholder="Zip Code (optional)"
                         onChange={(e) => setZipcode(e.target.value)}
                         required={false}
