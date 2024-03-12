@@ -38,13 +38,12 @@ export async function GET(request: Request) {
     await prisma.$disconnect();
 
     // Notify owner tag has been viewed/scanned
-
     const ENDPOINT = "https://send.api.mailtrap.io/";
     const SENDER_EMAIL = process.env.MAILTRAP_SENDER_EMAIL as string;
 
     // Send email to owner to notify them the tag has been viewed/scanned.
     const client = new MailtrapClient({
-        endpoint: ENDPOINT,
+        //endpoint: ENDPOINT,
         token: process.env.NEXT_PUBLIC_MAILTRAP_API_TOKEN as string,
     });
 

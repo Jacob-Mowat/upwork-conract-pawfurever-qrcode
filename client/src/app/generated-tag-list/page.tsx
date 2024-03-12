@@ -72,7 +72,7 @@ export default function GeneratedTagListPage() {
         }
     }, [clerkAuth.isSignedIn, clerkAuth.user, isLoading, router, verified]);
 
-    if (isLoading) {
+    if (!verified && isLoading) {
         if (!verified) {
             return <LoadingSpinner display_text="Verifying your account" />;
         }

@@ -15,13 +15,7 @@ export async function GET(request: Request) {
     console.log("[getZipDownloadURLs] Got a request to get all zip_download_urls");
 
     // Get all zip_download_urls from the database descending by created_at
-    const zip_download_urls = await prisma.zip_download_urls.findMany(
-        {
-            orderBy: {
-                created_at: "desc"
-            }
-        }
-    );
+    const zip_download_urls = await prisma.zip_download_urls.findMany({});
 
     console.log(zip_download_urls);
 

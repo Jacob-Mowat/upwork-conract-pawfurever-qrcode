@@ -230,7 +230,7 @@ export default function Home() {
                                     generatedTagToken
                                 }
                                 options={{
-                                    level: "H",
+                                    // level: "H",
                                     margin: 3,
                                     scale: 5,
                                     width: qrCodeHeight,
